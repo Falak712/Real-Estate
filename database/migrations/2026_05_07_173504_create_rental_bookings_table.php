@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('realestate_bookings', function (Blueprint $table) {
+        Schema::create('rental_bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('status',50)->default('pending');
+            $table->date('Start date');
+            $table->date('End date');
+            $table->dateTime('Time_period');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
