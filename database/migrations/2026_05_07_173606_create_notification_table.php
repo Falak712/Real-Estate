@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
 
-    Schema::create('notices', function (Blueprint $table) {
+    Schema::create('notification', function (Blueprint $table) {
         $table->id();
         $table->string('notification_message', 255);
         $table->dateTime('date_message');

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('password',255);
             $table->string('phone_number',255);
             $table->boolean('banned')->default(false);
-            $table->enum('userType',['user','admin'])->default('user');
+            $table->enum('userType',['user','admin','owner'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('personal_id',100);
+            $table->string('personal_id',100)->nullable();
            
             $table->rememberToken();
             $table->timestamps();
