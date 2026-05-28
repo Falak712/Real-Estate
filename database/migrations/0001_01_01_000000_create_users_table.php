@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('banned')->default(false);
             $table->enum('userType',['user','admin'])->default('user');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('personal_id',100);
+            $table->string('personal_id',100)->nullable();
            
             $table->rememberToken();
             $table->timestamps();
