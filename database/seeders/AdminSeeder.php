@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         User::create([
@@ -20,6 +17,7 @@ class AdminSeeder extends Seeder
           'password'=>Hash::make('12345678'),
           'userType'=>'admin',
           'phone_number'=>'0999999999',
+
 
         ]);
     }
