@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class OwnerMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
@@ -16,9 +16,9 @@ class AdminMiddleware
             ], 401);
         }
 
-        if (Auth::user()->userType !== 'admin') {
+        if (Auth::user()->userType !== 'owner') {
             return response()->json([
-                'message' => 'غير مصرح لك',
+                'message' => 'غير مصرح لك، هذا القسم للملاك فقط',
             ], 403);
         }
 
