@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
 
         ]);
+
+        $this->call([AreaSeeder::class]);
     }
 }

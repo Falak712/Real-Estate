@@ -6,42 +6,48 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRealEstateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
 
-        'price' => 'nullable|numeric',
+            'price' => 'sometimes|numeric|min:0',
 
-        'description' => 'nullable|string|max:255',
+            'description' => 'sometimes|nullable|string|max:255',
 
-        'size' => 'nullable|numeric',
+            'size' => 'sometimes|numeric|min:1',
 
-        'sides' => 'nullable|numeric',
+            'direction' => 'sometimes|in:north,south,east,west,northeast,northwest,southeast,southwest',
 
-        'address' => 'nullable|string|max:255',
+            'address' => 'sometimes|string|max:255',
 
-        'point_of_length' => 'nullable|numeric',
+            'point_of_length' => 'sometimes|numeric',
 
-        'point_of_width' => 'nullable|numeric',
+            'point_of_width' => 'sometimes|numeric',
 
-        'type_real_estate' => 'nullable|in:apartment,house,land,office',
+            'type_real_estate' => 'sometimes|in:apartment,house,land,office',
 
-        'contract_type' => 'nullable|in:rent,sale',
+            'status_real_estate' => 'sometimes|in:available,booked,sold',
 
-        'area_id' => 'nullable|exists:areas,id',
-    ];
-}
+            'contract_type' => 'sometimes|in:rent,sale',
+
+            'ownership_contract' => 'sometimes|nullable|string|max:255',
+
+            'agency_contract' => 'sometimes|nullable|string|max:255',
+
+            'order_status' => 'sometimes|in:pending,approved,rejected',
+
+            'publication_date' => 'sometimes|date',
+
+            'area_id' => 'sometimes|exists:areas,id',
+
+            'bedrooms' => 'sometimes|integer|min:0',
+
+            'bathrooms' => 'sometimes|integer|min:0',
+        ];
+    }
 }

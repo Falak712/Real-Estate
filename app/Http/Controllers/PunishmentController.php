@@ -2,52 +2,105 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Punishment;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Punishment;
+use App\Http\Requests\BanUserRequest;
 
 class PunishmentController extends Controller
 {
-  
-public function banUser(Request $request,$id)
-{
-    $user = User::findOrFail($id);
-
-    $user->update([
-        'banned' => true
-    ]);
-
-    Punishment::create([
-        'user_id' => $user->id,
-        'reason' => $request->reason,
-        'length_of_punishment' => $request->length_of_punishment,
-        'number_of_times' => 1,
-        'start_date' => now(),
-        'end_date' => now()->addDays($request->length_of_punishment)
-    ]);
-
-    return response()->json(['message' => 'تم الحظر']);
-}
-    public function  unbanUser($id)
+    public function banUser(BanUserRequest $request, $id)
     {
+        $user = User::findOrFail($id);
 
-    $user = User::findOrFail($id);
+        // ❌ ممنوع حظر الأدمن
+        if ($user->userType === 'admin') {
+            return response()->json([
+                'message' => 'لا يمكن حظر الأدمن'
+            ], 403);
+        }
 
-    $user->update([
-        'banned' => false
-    ]);
+        // آخر عقوبة للمستخدم
+        $lastPunishment = Punishment::where('user_id', $user->id)
+            ->latest()
+            ->first();
 
-    return response()->json([
-        'message' => 'تم فك الحظر'
-    ]);
-}
-    
+        $times = $lastPunishment ? $lastPunishment->number_of_times + 1 : 1;
 
-    
-        public function userPunishments($id)
-{
-    $user = User::with('punishments')->findOrFail($id);
+        // إذا وصل 3 مرات → حظر نهائي
+        $isPermanent = ($times >= 3);
 
-    return response()->json($user);
-}
+        // حظر المستخدم
+        $user->update([
+            'banned' => true
+        ]);
+
+        Punishment::create([
+            'user_id' => $user->id,
+            'reason' => $request->reason,
+            'length_of_punishment' => (int)$request->length_of_punishment,
+            'number_of_times' => $times,
+            'is_permanent' => $isPermanent,
+            'start_date' => now(),
+            'end_date' => $isPermanent
+                ? null
+                : now()->addDays((int)$request->length_of_punishment),
+        ]);
+
+        return response()->json([
+            'message' => $isPermanent
+                ? 'تم الحظر النهائي للمستخدم'
+                : 'تم حظر المستخدم بنجاح',
+            'number_of_times' => $times,
+            'is_permanent' => $isPermanent,
+        ], 200);
+    }
+
+    public function unbanUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // ❌ الأدمن أصلاً ما بينحظر
+        if ($user->userType === 'admin') {
+            return response()->json([
+                'message' => 'الأدمن غير محظور ولا يمكن فك الحظر عنه'
+            ], 400);
+        }
+
+        // إذا المستخدم غير محظور
+        if ($user->banned == false) {
+            return response()->json([
+                'message' => 'هذا المستخدم غير محظور'
+            ], 400);
+        }
+
+        // آخر عقوبة
+        $lastPunishment = Punishment::where('user_id', $user->id)
+            ->latest()
+            ->first();
+
+        // إذا الحظر نهائي → ممنوع فك الحظر
+        if ($lastPunishment && $lastPunishment->is_permanent) {
+            return response()->json([
+                'message' => 'هذا المستخدم محظور نهائياً ولا يمكن فك الحظر عنه'
+            ], 403);
+        }
+
+        // فك الحظر
+        $user->update([
+            'banned' => false
+        ]);
+
+        return response()->json([
+            'message' => 'تم فك الحظر بنجاح'
+        ], 200);
+    }
+
+    public function userPunishments($id)
+    {
+        $user = User::with('punishments')->findOrFail($id);
+
+        return response()->json([
+            'user' => $user
+        ], 200);
+    }
 }

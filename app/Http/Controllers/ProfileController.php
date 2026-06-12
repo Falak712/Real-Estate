@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function show(Request $request)
     {
-      return response()->json(['user'=>$request->user]);
+
+    $user = Auth::user();
+    return response()->json(['user' => $user]);
+
     }
 
     public function update(Request $request)

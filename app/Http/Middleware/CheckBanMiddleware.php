@@ -4,19 +4,21 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CheckBanMiddleware
 {
-   public function handle(Request $request, Closure $next)
-{
-    if ($request->user()->banned) {
+    public function handle(Request $request, Closure $next)
+    {
+        $user = Auth::user();
 
-        return response()->json([
-            'message' => 'الحساب محظور'
-        ],403);
+        // إذا المستخدم محظور
+        if ($user && $user->banned) {
+            return response()->json([
+                'message' => 'تم حظر حسابك ولا يمكنك الوصول إلى هذه الصفحة'
+            ], 403);
+        }
+
+        return $next($request);
     }
-
-    return $next($request);
-}
 }

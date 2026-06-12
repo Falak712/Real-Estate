@@ -11,7 +11,9 @@ class RealEstate extends Model
         'price',
         'description',
         'size',
-        'sides',
+        'direction',
+        'bedrooms',
+        'bathrooms',
         'address',
         'point_of_length',
         'point_of_width',
@@ -23,14 +25,13 @@ class RealEstate extends Model
         'order_status',
         'publication_date',
         'user_id',
-        'picture_id',
         'area_id',
         
         
     ];
-         public function owner()
+         public function user()
          {
-            return $this->belongsTo(User::class,'owner_id');
+            return $this->belongsTo(User::class);
 
          }
          public function area()

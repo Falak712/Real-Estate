@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Punishment::class);
     }
+    public function realEstate()
+    {
+        return $this->hasMany(RealEstate::class);
+    }
 }
+
