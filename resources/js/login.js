@@ -1,18 +1,19 @@
 let email = document.querySelector("#email");
 let password = document.querySelector("#password");
 
+function login() {
 
-// عند الضغط على زر إنشاء الحساب
-registerButton.onclick = function(e){
-    // منع إعادة تحميل الصفحة
-    e.preventDefault();
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
 
-    // التحقق من الحقول الفارغة
+    if (email === "" || password === "") {
 
-    if(
-        email.value === "" ||
-        password.value === ""
-    ){
-        alert("الرجاء تعبئة جميع الحقول");
+        alert("الرجاء إدخال البريد الإلكتروني وكلمة المرور");
+
+        return;
     }
+
+    window.location.href = "index.html";
+ // إذا كانت الحقول ممتلئة ينتقل للرئيسية
+window.location.href = "index.html";
 }
