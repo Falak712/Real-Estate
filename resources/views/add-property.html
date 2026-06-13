@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إضافة عقار جديد</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: 'cairo', sans-serif;
+    }
+
+    body{
+      background:#161616;
+      color:#fff;
+      padding: 40px 0;
+      overflow-x: hidden;
+    }
+    .header{
+      width:100%;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:40px;
+  padding:10px 0;
+}
+    .container{
+      width:850px;
+      margin:auto;
+    }
+
+    .loader{
+width:70px;
+height:70px;
+border:5px solid #333;
+border-top:5px solid gold;
+border-radius:50%;
+animation: spin 1s linear infinite;
+margin:auto;
+}
+
+@keyframes spin{
+
+100%{
+  transform:rotate(360deg);
+}
+
+}
+
+    /* LOGO */
+
+    .logo img{
+      animation: floatLogo 3s ease-in-out infinite;
+      width:180px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 15px rgba(212,168,79,.25));
+}
+@keyframes floatLogo{
+
+0%{
+  transform:translateY(0);
+}
+
+50%{
+  transform:translateY(-10px);
+}
+
+100%{
+  transform:translateY(0);
+}
+}
+
+    .logo{
+
+
+      position:absolute;
+left:50%;
+transform:translateX(-50%);
+
+    }
+
+    .logo-box{
+      width:90px;
+      height:90px;
+      border:2px solid #d4a84f;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      box-shadow:0 0 25px rgba(212,168,79,.25);
+    }
+
+    /* BACK BUTTON */
+
+.back-home{
+  position:absolute;
+  right:0;
+  text-decoration:none;
+  color:#000;
+  background:linear-gradient(145deg,#f3d57e,#c8962e);
+  padding:14px 28px;
+  border-radius:16px;
+  font-size:17px;
+  font-weight:700;
+  transition:.3s;
+  box-shadow:0 10px 20px rgba(212,168,79,.18);
+}
+
+.back-home:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 25px rgba(212,168,79,.28);
+}
+
+    /* CARD */
+
+    .card{
+      background:#161616;
+      border:2px solid #d4a84f;
+      border-radius:28px;
+      padding:28px;
+      margin-bottom:30px;
+      box-shadow:
+      0 0 30px rgba(212,168,79,.08),
+      inset 0 0 15px rgba(212,168,79,.04);
+    }
+
+    .card-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:25px;
+      border-bottom:1px solid rgba(212,168,79,.25);
+      padding-bottom:18px;
+    }
+
+    .card-header h3{
+      font-size:20px;
+      color:#e7c16b;
+      font-weight:700;
+    }
+
+    .reveal{
+opacity:0;
+transform:translateY(80px);
+transition:1s;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+
+}
+
+    .icon{
+      width:45px;
+      height:45px;
+      border-radius:14px;
+      background:linear-gradient(145deg,#f3d57e,#c8962e);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#000;
+      font-size:20px;
+      font-weight:bold;
+    }
+
+    /* INPUTS */
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .input-group{
+      margin-bottom:20px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:10px;
+      color:#e7c16b;
+      font-size:15px;
+      font-weight:600;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      background:#101010;
+      border:1.5px solid rgba(212,168,79,.25);
+      height:56px;
+      border-radius:18px;
+      padding:0 18px;
+      color:#fff;
+      outline:none;
+      transition:.3s;
+      font-size:15px;
+    }
+
+    textarea{
+      height:160px;
+      padding-top:18px;
+      resize:none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus{
+      border-color:#d4a84f;
+      box-shadow:0 0 15px rgba(212,168,79,.18);
+    }
+
+    /* BUTTONS */
+
+    button
+    {
+      transition:.3s;
+    }
+    button:hover{
+
+transform:scale(1.05);
+
+}
+    .type-buttons{
+      display:flex;
+      gap:15px;
+    }
+
+    .type-btn{
+      flex:1;
+      height:56px;
+      border-radius:18px;
+      border:2px solid #d4a84f;
+      background:transparent;
+      color:#e7c16b;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .type-btn.active{
+      background:linear-gradient(145deg,#f3d57e,#c8962e);
+      color:#000;
+      box-shadow:0 0 20px rgba(212,168,79,.3);
+    }
+
+
+    /* UPLOAD */
+
+    .upload-box{
+      border:2px dashed rgba(212,168,79,.25);
+      border-radius:25px;
+      padding:60px 20px;
+      text-align:center;
+    }
+
+    .upload-circle{
+      width:85px;
+      height:85px;
+      background:#111;
+      border:2px solid #d4a84f;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:auto;
+      font-size:35px;
+      color:#e7c16b;
+      margin-bottom:18px;
+    }
+
+    .upload-box p{
+      color:#aaa;
+      margin-bottom:20px;
+      line-height:1.9;
+    }
+
+    .upload-btn{
+      background:linear-gradient(145deg,#f3d57e,#c8962e);
+      color:#000;
+      border:none;
+      height:54px;
+      padding:0 35px;
+      border-radius:18px;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer;
+
+      display:block;
+      margin:auto;
+    }
+
+    /* ACTIONS */
+
+    .actions{
+      display:flex;
+      justify-content:flex-start;
+      gap:18px;
+      margin-top:25px;
+    }
+
+    .publish{
+      background:linear-gradient(145deg,#f3d57e,#c8962e);
+      color:#000;
+      border:none;
+      width:220px;
+      height:60px;
+      border-radius:20px;
+      font-size:20px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(212,168,79,.22);
+    }
+
+    .cancel{
+      background:transparent;
+      border:none;
+      color:#d4a84f;
+      font-size:20px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .title-page{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:30px;
+      color:#f0c96c;
+      font-size:35px;
+      font-weight:700;
+    }
+    .identity-preview,
+.ownership-preview{
+
+    width: 250px;
+
+    display: none;
+
+    margin-top: 15px;
+
+    border-radius: 15px;
+
+    border: 2px solid #c9a84c;
+
+    object-fit: cover;
+
+}
+.preview-container{
+
+display: flex;
+
+flex-wrap: wrap;
+
+gap: 15px;
+
+margin-top: 20px;
+
+}
+
+.preview-container img{
+
+width: 150px;
+
+height: 120px;
+
+object-fit: cover;
+
+border-radius: 15px;
+
+border: 2px solid #c9a84c;
+
+}
+
+
+    @media(max-width:900px){
+
+      .container{
+        width:92%;
+      }
+
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+
+      .actions{
+        flex-direction:column;
+      }
+
+      .publish{
+        width:100%;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="loader"></div>
+    <!-- زر الرجوع -->
+    <a href="index.html" class="back-home">
+      ← الرئيسية
+    </a>
+    <div class="logo">
+      <img src="/public/images/magic.jpg" alt="Magic Logo">
+    </div>
+  </header>
+    <div class="container">
+     <!--title-->
+  <div class="title-page">اضافة عقار جديد</div>
+
+    <!-- المعلومات الأساسية -->
+    <div class="card">
+      <div class="card reveal">
+      <div class="card-header">
+        <div class="icon">i</div>
+        <h3>المعلومات الأساسية</h3>
+      </div>
+
+      <div class="input-group">
+        <label>عنوان الإعلان</label>
+        <input type="text" id="title" class="input" placeholder="مثال: شقة للإيجار في الميدان">
+      </div>
+
+      <div class="grid-2">
+        <div class="input-group">
+          <label>النوع</label>
+          <div class="type-buttons">
+            <button class="type-btn active">
+              للبيع
+            </button>
+            <button class="type-btn">
+              للإيجار
+            </button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>نوع العقار</label>
+          <select class="select">
+            <option>اختر النوع</option>
+            <option>شقة</option>
+            <option>فيلا</option>
+            <option>مكتب</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- التفاصيل والسعر -->
+
+    <div class="card">
+
+      <div class="card-header">
+        <div class="icon">$</div>
+        <h3>التفاصيل والسعر</h3>
+      </div>
+
+      <div class="grid-2">
+
+        <div class="input-group">
+          <label>السعر</label>
+          <input type="text" id="price" placeholder="مثال: $5000$">
+        </div>
+
+        <div class="input-group">
+          <label>المساحة</label>
+          <input type="text" placeholder="مثال: 120 متر مربع">
+        </div>
+
+        <div class="input-group">
+          <label>عدد الغرف</label>
+          <input type="number" value="1">
+        </div>
+
+        <div class="input-group">
+          <label>عدد الحمامات</label>
+          <input type="number" value="1">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- الموقع -->
+    <div class="card">
+
+      <div class="card-header">
+        <div class="icon">📍</div>
+        <h3>الموقع</h3>
+      </div>
+
+      <div class="grid-2">
+
+        <div class="input-group">
+          <label>المدينة / المنطقة</label>
+          <input type="text" id="city" placeholder="مثال:....">
+        </div>
+
+        <div class="input-group">
+          <label>العنوان بالتفصيل</label>
+          <input type="text" placeholder="اسم الشارع، رقم المبنى">
+        </div>
+
+        <div class="input-group">
+          <label>الجهة</label>
+          <input type="text" placeholder="شرقي / غربي">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- وصف العقار -->
+
+    <div class="card">
+
+      <div class="card-header">
+        <div class="icon">📝</div>
+        <h3>وصف العقار</h3>
+      </div>
+
+      <div class="input-group">
+        <label>التفاصيل والوصف</label>
+
+        <textarea placeholder="اكتب وصفًا مفصلًا للعقار ومميزاته..."></textarea>
+      </div>
+
+    </div>
+    <!-- الصور -->
+    <div class="card">
+
+      <div class="card-header">
+        <div class="icon">🖼</div>
+        <h3>الصور والوسائط</h3>
+      </div>
+      <input type="file" id="images" hidden multiple>
+
+
+<p class="upload-text">
+  لم يتم اختيار صور بعد
+</p>
+<div class="preview-container">
+
+</div>
+
+      <div class="upload-box">
+
+        <div class="upload-circle">↑</div>
+
+        <p>
+          اسحب وأفلت الصور هنا<br>
+          أو اضغط لاختيار الصور من جهازك (حد أقصى 10 صور)
+        </p>
+
+        <button
+         type="button"
+          class="upload-btn"
+         onclick="document.getElementById('images').click()">
+
+        اختيار الصور
+
+        </button>
+
+      </div>
+
+    </div>
+    <!-- التحقق من الملكية -->
+     <div class="card">
+
+     <div class="card-header">
+    <div class="icon">🛡</div>
+    <h3>التحقق من الملكية</h3>
+  </div>
+
+  <!-- صورة الهوية -->
+  <div class="card">
+  <input type="file" id="identityImage" hidden>
+
+<button class="upload-btn"
+
+onclick="document.getElementById('identityImage').click()">
+
+اختيار صورة الهوية
+</button>
+
+<img class="identity-preview">
+     </div>
+  <br>
+  <div class="card">
+  <input type="file" id="ownershipImage" hidden>
+
+<button class="upload-btn"
+
+onclick="document.getElementById('ownershipImage').click()">
+
+اختيار وثيقة الملكية
+</button>
+
+<img class="ownership-preview">
+</div>
+     </div>
+     </div>
+    <!-- ACTIONS -->
+    <div class="actions">
+
+      <button class="publish">
+        نشر الإعلان
+      </button>
+
+      <button class="cancel">
+        إلغاء
+      </button>
+
+    </div>
+
+  </div>
+  <script src="../js/add-property.js"></script>
+</body>
+</html>
