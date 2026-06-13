@@ -1,6 +1,7 @@
-let email = document.querySelector("#email");
+console.log("Welcome to the login page!");
+/*let email = document.querySelector("#email");
 let password = document.querySelector("#password");
-
+*/
 function login() {
 
     let email = document.getElementById("email").value;
@@ -13,7 +14,7 @@ function login() {
         return;
     }
 
-    window.location.href = "index.html";
+
  // إذا كانت الحقول ممتلئة ينتقل للرئيسية
-window.location.href = "index.html";
+   window.location.href = "../views/index.html";
 }

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic-Estate</title>
+    <link href="C:\Users\DELL\Desktop\مشروع التخرج\مشروع التخرج\Real-Estate\public\p.png" rel="stylesheet">
+    <style>
+        /* عام */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'arial', sans-serif;
+        }
+        body {
+            direction: rtl;
+            background-color: #050505;
+            color: #ffffff;
+            padding-top: 70px;
+        }
+        /* الهيدر */
+        header {
+            /*لون الهيدر مع الخلفية ممكن غيره للابيض*/
+            background-color: white;
+            padding: 0px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            margin-top: 0;
+            z-index: 10;
+        }
+          .logo{
+           font-size: 22px;
+           font-weight: bold;
+           color: #d4af37;
+        }
+        header .logo {
+            font-weight: bold;
+            font-size: 22px;
+            color: #d4af37;
+        }
+
+        nav a {
+            margin:0 15px;
+            text-decoration:none;
+            color: #f3d57e;
+            transition: .3s;
+            font-weight: 500;
+
+        }
+        nav a:hover {
+        color: #ffffff;
+        }
+
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+        nav{
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+        .container{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px ;
+        }
+
+        /* شريط التنقل */
+
+
+        .navbar
+        {
+            background-color: #0b0b0b;
+            border-bottom: 1px solid rgba(201,168,76,.25);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .navbar .container
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+
+        }
+        nav a.nav-links {
+            color: #d4af37;
+        }
+        .header-login, .header-add {
+            background-color: #d4af37;
+            color: #040404;
+            padding: 8px 20px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+         }
+            .header-login:hover {
+                background-color: #ffffff;
+                color: #040404;
+                transform:scale(1.05);
+                transform: translateY(-4px);
+                box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
+            }
+
+            .header-add:hover{
+                background-color: #ffffff;
+                color: #040404;
+                transform:scale(1.05);
+                transform: translateY(-4px);
+                box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
+
+            }
+
+
+        /* القسم الثاني */
+        .hero{
+            background: #0b0b0b;
+            border-top: 1px solid rgba(201,168,76,.15);
+            border-bottom: 1px solid rgba(201,168,76,.15);
+            color: #fff;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .hero h1 {
+            color: #f3d57e;
+            text-shadow:
+            0 0 15px rgba(201,168,76,.3);
+           font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .hero button {
+            border: 2px solid #d4af37;
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            background-color: #d4af37;
+            color: #160808;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .hero button:hover {
+            background-color: #ffffff;
+        }
+
+        /* القسم 1 مع الصورة */
+        .search-section {
+            position: relative;
+            background: linear-gradient(rgba(15, 42, 68, 0.7), rgba(15, 42, 68, 0.7)),  url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: #ffffff;
+
+        }
+        .search-section h2 {
+            color: #f3d57e;
+            text-shadow:
+            0 0 15px rgba(201,168,76,.3);
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .search-section h1 {
+            color: #f3d57e;
+            text-shadow:
+            0 0 15px rgba(201,168,76,.3);
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .search-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+        .search-box {
+            background:  #0f0f0f;
+            border: 1px solid rgba(201,168,76,.2);
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.4);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 900px;
+
+        }
+        .search-box input, .search-box select {
+            background: #161616;
+            border: 1px solid rgba(201,168,76,.2);
+            color: white;
+
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            flex: 1;
+
+        }
+        .search-box button {
+            background-color: #d4af37;
+            color: #080808;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .search-box button:hover {
+            background-color: #d4af37;
+        }
+
+        /* قسم العروض */
+        .properties {
+            padding: 60px 50px;
+        }
+        .properties h3 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .property-card {
+
+            background: #0f0f0f;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            border: 1px solid rgba(201,168,76,.15);
+            color: white;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+        .property-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .property-card .content {
+            padding: 15px;
+        }
+        .property-card .content h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .property-card .content p {
+            font-size: 20px;
+            color: #cfcfcf;
+
+        }
+        .property-card .content .price {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #f3d57e;
+        }
+        .property-card .content .details {
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .property-card:hover {
+
+        transform: translateY(-8px);
+        box-shadow:0 15px 35px rgba(201,168,76,.25);
+        }
+        /* خصائص مخفية لعرض المزيد*/
+        .hidden-property{
+        display:none;
+        }
+
+        .show-more{
+          width:100px;
+          height:40px;
+          background:#d4af37;
+          border-radius: 20PX;
+          animation: spin 1s linear infinite;
+          margin:auto;
+          font-weight:bold;
+    }
+
+    button
+    {
+      transition:.3s;
+       }
+      button:hover{
+
+      transform:scale(1.05);
+
+    }
+
+    .show-more span{
+        transition:.3s;
+     }
+
+     .show-more.active span{
+       transform:rotate(180deg);
+     }
+
+
+        /* الفوتر */
+        footer {
+
+            background: #0b0b0b;
+            border-top:
+            1px solid rgba(201,168,76,.15);
+            padding: 40px 50px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+        }
+        footer h4 {
+            margin-bottom: 15px;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        footer .links, footer .contact {
+            flex: 1;
+            min-width: 200px;
+        }
+        footer .links a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo{
+        width: 100px;
+        margin-bottom: 15px;
+        }
+
+
+        /* لاصقات البيع/الإيجار */
+        .tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            background: #d4af37;
+        }
+        html{
+           scroll-behavior: smooth;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+
+            </div>
+            <nav class="nav-links">
+            <a href="#">الرئيسية</a>
+            <a href="#properties">العقارات</a>
+            <a href="#about">من نحن</a>
+            <a href="#">إدارة النظام</a>
+            <a href="../views/login.html" class="header-login">تسجيل الدخول</a>
+            <a href="add-property.html" class="header-add"> أضف عقارك</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- قسم البحث -->
+    <section class="search-section">
+        <H1> The MAGIC </H1>
+        <h2>وجهتك الذكية لعالم العقارات في سوريا</h2>
+        <p>نوفر لك تشكيلة واسعة من أرقى العقارات التي تلبي جميع تطلعاتك</p>
+        <div class="search-box">
+            <input type="text" placeholder="المدينة أو المنطقة..." id="city">
+            <select id="type">
+                <option value="apartment">شقة</option>
+                <option value="villa">فيلا</option>
+                <option value="house">منزل</option>
+                <option value="land">أرض</option>
+            </select>
+            <select id="price">
+                <option value="any">$ أي سعر</option>
+                <option value="low">أقل من$ 500,000</option>
+                <option value="medium">500,000$ - 2,000,000$</option>
+                <option value="high">أعلى من$ 2,000,000</option>
+            </select>
+            <select id="state">
+                <option value="sale">بيع</option>
+                <option value="rent">ايجار</option>
+            </select>
+            <button onclick="searchProperties()">بحث</button>
+            <p id="result"></p>
+        </div>
+    </section>
+
+    <!-- قسم العقارات -->
+    <section class="properties" id="properties">
+        <h3>أحدث العروض الحصرية</h3>
+        <div class="property-grid">
+            <!--عقار 1-->
+
+            <div class="property-card" data-state="rent">
+                <div style="position: relative;">
+                    <img src="/images/p.png" alt="منزل للإيجار">
+                    <span class="tag">ايجار</span>
+
+                </div>
+                <div class="content">
+                    <div class="price">120,000$</div>
+                    <h4>منزل عائلي مريح وحديث</h4>
+                    <p>المزة</p>
+                    <div class="details">
+                        <span>4 غرف</span>
+                        <span>3 حمامات</span>
+                        <span>320 م²</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--عقار 2-->
+            <div class="property-card" data-state="sale">
+                <div style="position: relative;">
+                    <img src="/images/q.jpg" alt="فيلا للبيع">
+                    <span class="tag">بيع</span>
+
+                </div>
+                <div class="content">
+                    <div class="price">5,500,000$</div>
+                    <h4>فيلا عصرية مع مسبح خاص</h4>
+                    <p>مزة</p>
+                    <div class="details">
+                        <span>5 غرف</span>
+                        <span>6 حمامات</span>
+                        <span>450 م²</span>
+                    </div>
+                </div>
+            </div>
+            <!-- عقار 3-->
+            <div class="property-card" data-state="sale">
+                <div style="position: relative;">
+                    <img src="C:\Users\DELL\Desktop\مشروع التخرج\مشروع التخرج\Real-Estate\public\f.jpg" alt="شقة للبيع">
+                    <span class="tag">بيع</span>
+
+                </div>
+                <div class="content">
+                    <div class="price">2,400,000$</div>
+                    <h4>شقة فاخرة بإطلالة بحرية</h4>
+                    <p>طرطوس</p>
+                    <div class="details">
+                        <span>3 غرف</span>
+                        <span>2 حمامات</span>
+                        <span>180 م²</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- عقارات مخفية -->
+             <!--العقار4-->
+        <div class="property-card hidden-property" data-state="sale">
+           <div style="position: relative;">
+            <img src="C:\Users\DELL\Desktop\مشروع التخرج\مشروع التخرج\Real-Estate\public\f.jpg" alt="شقة للبيع">
+            <span class="tag">بيع</span>
+
+           </div>
+         <div class="content">
+            <div class="price">2,400,000$</div>
+            <h4>شقة فاخرة بإطلالة بحرية</h4>
+            <p>طرطوس</p>
+            <div class="details">
+                <span>3 غرف</span>
+                <span>2 حمامات</span>
+                <span>180 م²</span>
+            </div>
+         </div>
+        </div>
+
+        <!--العقار 5-->
+        <div class="property-card hidden-property" data-state="sale">
+            <div style="position: relative;">
+             <img src="C:\Users\DELL\Desktop\مشروع التخرج\مشروع التخرج\Real-Estate\public\f.jpg" alt="شقة للبيع">
+             <span class="tag">بيع</span>
+
+            </div>
+          <div class="content">
+             <div class="price">2,400,000$</div>
+             <h4>شقة فاخرة بإطلالة بحرية</h4>
+             <p>طرطوس</p>
+             <div class="details">
+                 <span>3 غرف</span>
+                 <span>2 حمامات</span>
+                 <span>180 م²</span>
+             </div>
+          </div>
+         </div>
+
+
+        <!-- زر السهم-->
+        <button id="showMoreBtn" class="show-more">
+            عرض المزيد←
+
+        </button>
+    </section>
+
+    <!-- قسم 3 -->
+    <section class="hero">
+        <h1>هل تبحث عن بيع أو تأجير عقارك؟</h1>
+        <p>انضم إلى آلاف الملاك الذين يثقون بمنصتنا لعرض عقاراتهم. تواصل مع مشترين محتملين بكل سهولة وموثوقية.</p>
+        <a href="add-property.html"><button>أضف عقارك الآن</button></a>
+    </section>
+
+    <!-- الفوتر -->
+    <footer id="about">
+        <div class="contact">
+            <h4>تواصل معنا</h4>
+            <p>دمشق،الجمهورية العربية السورية</p>
+            <p>magic@gmail.com</p>
+            <p>+963 937 874 215</p>
+        </div>
+
+        <div class="links">
+            <h2>روابط سريعة</h2>
+
+            <a href="#" onclick="showSale()">العقارات للبيع</a>
+            <a href="#" onclick="showRent()">العقارات للإيجار</a>
+            <a href="#" onclick="showAll()">جميع العقارات</a>
+
+        </div>
+        <div class="about">
+
+              <h4>Magic-Estate</h4>
+
+              <p>
+                 منصتك الأولى للبحث عن العقارات الفاخرة
+             </p>
+        </div>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>
