@@ -1,6 +1,6 @@
 // ==========================
 //صفحة اضافة عقار
-//نوع العقار
+//اختيار نوع العقار
 let typeButtons = document.querySelectorAll(".type-btn");
 
 typeButtons.forEach(function(button){
@@ -11,13 +11,9 @@ typeButtons.forEach(function(button){
         button.classList.add("active");  //اضافة active للزر الحالي
     };
 });
-let uploadinput = document.querySelector("#images");
-let uploadinputlabel = document.querySelector(".upload-text");
-uploadinput.onchange = function() {
-    let fileCount = uploadinput.files.length;
-    uploadinputlabel.innerHTML = fileCount + `تم اخيار ${fileCount} صورة`; //innerhtml تغير النص داخل العنصر
 
-};
+
+
 //التحقق من الحقول قبل النشر
 let publishButton = document.querySelector(".publish");
 
@@ -51,16 +47,11 @@ publishButton.onclick = function(e){
     console.log(newProperty);
 
     alert("تم إرسال العقار إلى الأدمن للمراجعة");
-
+    //هذه الفكرة للباك بس يتحقق من نشر العقار للادمن يعمل انتقال للصفحة
     window.location.href = "../views/index.html";
 };
 
 
-//الترحيب
-function welcomeMessage(userName){
-    return `مرحباً ${userName} في موقع Magic`;
-}
-console.log(welcomeMessage("Shahed")); //استدعاء الفانكشن
 
 let reveals =
 document.querySelectorAll(".reveal");
@@ -95,6 +86,8 @@ identityInput.onchange = function(){
 
     let file = identityInput.files[0];
 
+    if (!file) return;
+
     identityPreview.src =
     URL.createObjectURL(file);
 
@@ -113,6 +106,8 @@ document.querySelector(".ownership-preview");
 ownershipInput.onchange = function(){
 
     let file = ownershipInput.files[0];
+
+    if (!file) return;
 
     ownershipPreview.src =
     URL.createObjectURL(file);
@@ -143,7 +138,7 @@ agencyInput.onchange = function(){
 };
 
 
-
+//رفع الصورة
 let uploadInput =
 document.querySelector("#images");
 

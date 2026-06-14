@@ -47,6 +47,21 @@ window.addEventListener("scroll", function () {
 
 });
 
+//لفتح التفاصيل
+//============
+//let cards = document.querySelectorAll(".property-card");
+
+cards.forEach(function(card){
+
+    card.addEventListener("click", function(){
+
+        let id = card.getAttribute("data-id");
+
+        window.location.href = "details.html?id=" + id;
+
+    });
+
+});
 
 
 // ==========================
@@ -104,40 +119,33 @@ typeWriter();
 //================
 const btn = document.getElementById("showMoreBtn");
 const hiddenCards = document.querySelectorAll(".hidden-property");
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-if (isLoggedIn === "true") {
-
-    btn.style.display = "flex";
-
-} else {
-
-    btn.style.display = "none";
-
-    hiddenCards.forEach(card => {
-        card.style.display = "none";
-    });
-
-}
+let expanded = false;
 
 
+// عند الضغط على زر عرض المزيد
 btn.onclick = function () {
 
-    hiddenCards.forEach(card => {
+    if(expanded === false){
+        hiddenCards.forEach(function (card) {
 
-        if(card.style.display === "block"){
-            card.style.display = "none";
-            btn.innerHTML = 'عرض المزيد <span>←</span>';
-            btn.classList.remove("active");
-        } else {
             card.style.display = "block";
-            btn.innerHTML = 'عرض أقل <span>^</span>';
-            btn.classList.add("active");
-        }
+        });
 
-    });
+        btn.innerHTML = "↑ عرض أقل";
+        expanded = true;
 
+    }else{
+
+        hiddenCards.forEach(function (card) {
+
+            card.style.display = "none";
+        });
+
+        btn.innerHTML = "عرض المزيد";
+        expanded = false;
+    }
 };
+
 //================
 //الروابط السريعة لاظهر عقارات للبيع وللايجار وكل العقارات
 //البيع
@@ -195,3 +203,89 @@ function showAll() {
 
 }
 
+//عرض العقارات في الرئيسية
+// جلب العقارات
+
+
+let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+let container = document.querySelector(".property-grid");
+
+properties.forEach(function(p){
+
+    container.innerHTML += `
+        <div class="property-card" data-id="${p.id}">
+
+            <div style="position: relative;">
+                <img src="/public/images/default.jpg">
+                <span class="tag">${p.type}</span>
+            </div>
+
+            <div class="content">
+                <div class="price">${p.price}</div>
+
+                <h4>${p.title}</h4>
+
+                <p>${p.location}</p>
+
+                <div class="details">
+                    <span>${p.rooms} غرف</span>
+                    <span>${p.baths} حمامات</span>
+                    <span>${p.space} م²</span>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+});
+
+
+/*
+let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+// مكان العرض
+let container = document.querySelector(".property-grid");
+
+container.innerHTML = "";
+
+// عرض كل العقارات
+properties.forEach(function (p) {
+
+    container.innerHTML += `
+        <div class="property-card" data-id="${p.id}">
+
+            <div style="position: relative;">
+                <img src="${p.images?.[0] || '/public/images/default.jpg'}">
+                <span class="tag">${p.type}</span>
+            </div>
+
+            <div class="content">
+                <div class="price">${p.price}</div>
+                <h4>${p.title}</h4>
+                <p>${p.location}</p>
+
+                <div class="details">
+                    <span>${p.rooms || 0} غرف</span>
+                    <span>${p.baths || 0} حمامات</span>
+                    <span>${p.space || 0} م²</span>
+                </div>
+            </div>
+
+        </div>
+    `;
+});
+
+*/
+
+//فتح التفاصيل
+document.addEventListener("click", function (e) {
+
+    let card = e.target.closest(".property-card");
+
+    if (card) {
+        let id = card.getAttribute("data-id");
+        window.location.href = "details.html?id=" + id;
+    }
+
+});
