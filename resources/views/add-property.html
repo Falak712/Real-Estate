@@ -342,6 +342,7 @@ transform:scale(1.05);
       font-weight:700;
     }
     .identity-preview,
+    .agency-preview,
 .ownership-preview{
 
     width: 250px;
@@ -604,6 +605,8 @@ onclick="document.getElementById('identityImage').click()">
 <img class="identity-preview">
      </div>
   <br>
+
+  <!-- وثيقة الملكية -->
   <div class="card">
   <input type="file" id="ownershipImage" hidden>
 
@@ -616,13 +619,27 @@ onclick="document.getElementById('ownershipImage').click()">
 
 <img class="ownership-preview">
 </div>
+
+
+<!-- صورة الوكالة اذا العقار مو ب اسم المالك-->
+<div class="card reveal">
+    <input type="file" id="agencyImage" hidden >
+
+    <button class="upload-btn"
+      onclick="document.getElementById('agencyImage').click()">
+      اختيار صورة الوكالة
+    </button>
+
+    <img class="agency-preview">
+  </div>
+
      </div>
      </div>
     <!-- ACTIONS -->
     <div class="actions">
 
       <button class="publish">
-        نشر الإعلان
+        نشر العقار
       </button>
 
       <button class="cancel">

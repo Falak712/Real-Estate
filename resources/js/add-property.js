@@ -41,9 +41,10 @@ publishButton.onclick = function(e){   //عند الضغط عليه
     // تحديث الصفحة
     else {
 
-      alert("تم إرسال الإعلان إلى الأدمن للمراجعة");
+      alert("تم إرسال العقار إلى الأدمن للمراجعة");
 
       location.reload();
+      window.location.href = "../views/index.html";
 
   }
 
@@ -115,6 +116,28 @@ ownershipInput.onchange = function(){
     "block";
 
 };
+
+/*صورة الوكالة*/
+let agencyInput =
+document.querySelector("#agencyImage");
+
+let agencyPreview =
+document.querySelector(".agency-preview");
+
+agencyInput.onchange = function(){
+
+    let file = agencyInput.files[0];
+
+    if (!file) return;
+
+    agencyPreview.src =
+    URL.createObjectURL(file);
+
+    agencyPreview.style.display =
+    "block";
+};
+
+
 
 let uploadInput =
 document.querySelector("#images");

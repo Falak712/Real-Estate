@@ -51,7 +51,7 @@ registerButton.onclick = function(e){
 
         alert("تم إنشاء الحساب بنجاح ✨");
         // إذا كانت الحقول ممتلئة ينتقل للرئيسية
-   window.location.href = "../views/index.html";
+        window.location.href = "../views/index.html";
 
     }
 
