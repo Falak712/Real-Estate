@@ -48,7 +48,7 @@ publishButton.onclick = function(e){
 
     alert("تم إرسال العقار إلى الأدمن للمراجعة");
     //هذه الفكرة للباك بس يتحقق من نشر العقار للادمن يعمل انتقال للصفحة
-    window.location.href = "../views/index.html";
+    window.location.href = "/index.html";
 };
 
 
