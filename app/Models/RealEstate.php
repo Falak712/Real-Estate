@@ -38,4 +38,9 @@ class RealEstate extends Model
          {
          return $this->belongsTo(Area::class);
          }
+
+         public function pictures()
+{
+    return $this->hasMany(Picture::class);
+}
 }

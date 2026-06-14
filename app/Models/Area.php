@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Area extends Model
 {
     protected $fillable = ['name'];
+<<<<<<< HEAD
 
 
     public function realestate()
@@ -16,3 +17,11 @@ class Area extends Model
 }
 
 
+=======
+    
+    public function realEstates()
+    {
+        return $this->hasMany(RealEstate::class);
+    }
+}
+>>>>>>> origin/database-update

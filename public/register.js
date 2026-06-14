@@ -50,6 +50,8 @@ registerButton.onclick = function(e){
     else{
 
         alert("تم إنشاء الحساب بنجاح ✨");
+        //اذا كانت الحقول ممتلئة ينتقل للرئيسية
+        window.location.href="/index.html";
 
     }
 

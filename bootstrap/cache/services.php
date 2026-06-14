@@ -24,6 +24,7 @@
     20 => 'Illuminate\\Translation\\TranslationServiceProvider',
     21 => 'Illuminate\\Validation\\ValidationServiceProvider',
     22 => 'Illuminate\\View\\ViewServiceProvider',
+<<<<<<< HEAD
     23 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     24 => 'Laravel\\Boost\\BoostServiceProvider',
     25 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
@@ -37,6 +38,20 @@
     33 => 'Termwind\\Laravel\\TermwindServiceProvider',
     34 => 'Pest\\Laravel\\PestServiceProvider',
     35 => 'App\\Providers\\AppServiceProvider',
+=======
+    23 => 'Laravel\\Boost\\BoostServiceProvider',
+    24 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
+    25 => 'Laravel\\Pail\\PailServiceProvider',
+    26 => 'Laravel\\Roster\\RosterServiceProvider',
+    27 => 'Laravel\\Sail\\SailServiceProvider',
+    28 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    29 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    30 => 'Carbon\\Laravel\\ServiceProvider',
+    31 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    32 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    33 => 'Pest\\Laravel\\PestServiceProvider',
+    34 => 'App\\Providers\\AppServiceProvider',
+>>>>>>> origin/database-update
   ),
   'eager' => 
   array (
