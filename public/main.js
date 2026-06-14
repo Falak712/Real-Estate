@@ -104,6 +104,22 @@ typeWriter();
 //================
 const btn = document.getElementById("showMoreBtn");
 const hiddenCards = document.querySelectorAll(".hidden-property");
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if (isLoggedIn === "true") {
+
+    btn.style.display = "flex";
+
+} else {
+
+    btn.style.display = "none";
+
+    hiddenCards.forEach(card => {
+        card.style.display = "none";
+    });
+
+}
+
 
 btn.onclick = function () {
 
@@ -178,3 +194,4 @@ function showAll() {
     });
 
 }
+

@@ -19,35 +19,41 @@ uploadinput.onchange = function() {
 
 };
 //التحقق من الحقول قبل النشر
-let publishButton = document.querySelector(".publish"); //جبت زر النشر
+let publishButton = document.querySelector(".publish");
 
-publishButton.onclick = function(e){   //عند الضغط عليه
+publishButton.onclick = function(e){
 
-  e.preventDefault();  //منع اعادة تحميل الصفحة
+    e.preventDefault();
 
-  //جبت حقل العنوان والسعر والمدينة
-  let title = document.querySelector("#title");
-  let price = document.querySelector("#price");
-  let city = document.querySelector("#city");
+    let title = document.querySelector("#title");
+    let price = document.querySelector("#price");
+    let city = document.querySelector("#city");
 
-  if(       //اذا اي حقل فاضي
-    title.value === "" ||
-    price.value === "" ||
-    city.value === ""
-  ){
-     alert("الرجاء ملء جميع الحقول المطلوبة");
-  }
+    if (
+        title.value === "" ||
+        price.value === "" ||
+        city.value === ""
+    ){
+        alert("الرجاء ملء جميع الحقول المطلوبة");
+        return;
+    }
 
-    // تحديث الصفحة
-    else {
+    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
 
-      alert("تم إرسال الإعلان إلى الأدمن للمراجعة");
+    let newProperty = {
+        title: title.value,
+        price: price.value,
+        location: city.value,
+        type: type,
+        status: "pending"
+    };
 
-      location.reload();
+    console.log(newProperty);
 
-  }
+    alert("تم إرسال العقار إلى الأدمن للمراجعة");
 
-}
+    window.location.href = "../views/index.html";
+};
 
 
 //الترحيب
@@ -115,6 +121,28 @@ ownershipInput.onchange = function(){
     "block";
 
 };
+
+/*صورة الوكالة*/
+let agencyInput =
+document.querySelector("#agencyImage");
+
+let agencyPreview =
+document.querySelector(".agency-preview");
+
+agencyInput.onchange = function(){
+
+    let file = agencyInput.files[0];
+
+    if (!file) return;
+
+    agencyPreview.src =
+    URL.createObjectURL(file);
+
+    agencyPreview.style.display =
+    "block";
+};
+
+
 
 let uploadInput =
 document.querySelector("#images");
