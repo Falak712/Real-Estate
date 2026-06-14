@@ -10,19 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class RealEstateController extends Controller
 {
-<<<<<<< HEAD
-    public function index() 
-    {
-        $realEstates = RealEstate::all();
-        return response()->json(['real_estates' => $realEstates]);
-=======
+
     public function index(Request $request)
 {
     $query = RealEstate::with(['pictures','area']);
 
     if ($request->area_id) {
         $query->where('area_id', $request->area_id);
->>>>>>> origin/database-update
     }
 
     if ($request->contract_type) {
@@ -42,12 +36,10 @@ class RealEstateController extends Controller
 
     public function show($id)
     {
-<<<<<<< HEAD
-        $realEstate = RealEstate::findOrFail($id);
-=======
+
        $realEstate = RealEstate::with(['pictures','area'])->findOrFail($id);
 
->>>>>>> origin/database-update
+
         return response()->json(['real_estate' => $realEstate]);
     }
 
@@ -67,17 +59,6 @@ class RealEstateController extends Controller
         ], 201);
     }
 
-<<<<<<< HEAD
-    public function update(UpdateRealEstateRequest $request, $id)
-    {
-        $realEstate = RealEstate::findOrFail($id);
-        $realEstate->update($request->validated());
-        return response()->json([
-            'message' => 'تم تعديل العقار بنجاح',
-            'real_estate' => $realEstate
-        ]);
-    }
-=======
    public function update(UpdateRealEstateRequest $request, $id)
 {
     $realEstate = RealEstate::findOrFail($id);
@@ -86,7 +67,7 @@ class RealEstateController extends Controller
 
     return response()->json([ 'message' => 'تم تعديل العقار بنجاح','real_estate' => $realEstate ]);
 }
->>>>>>> origin/database-update
+
 
     public function destroy($id)
     {
