@@ -10,20 +10,26 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-          Schema::create('pictures', function (Blueprint $table) {
-            $table->id();
-            $table->string('file_name',255);
-            $table->string('file_path',255);
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('pictures', function (Blueprint $table) {
+
+        $table->id();
+
+        $table->string('image');
+
+        $table->foreignId('real_estate_id')
+              ->constrained()
+              ->onDelete('cascade');
+
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('real_estates');
+        Schema::dropIfExists('pictures');
     }
 };
