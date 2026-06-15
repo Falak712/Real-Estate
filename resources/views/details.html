@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل العقار</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
     <style>
         *{
@@ -382,6 +383,19 @@ header{
     }
 
 }
+/*<!--خريطة-->*/
+#map{
+    width:100%;
+    height:350px;
+    border-radius:15px;
+}
+.map-section h2{
+    color:#d4a84f;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+}
 
     </style>
 </head>
@@ -401,16 +415,16 @@ header{
     <!-- الحواف الذهبية للصفحة-->
     <div class="details-container">
 
-    <!--المحتوى-->
-    <div class="container">
+        <!--المحتوى-->
+         <div class="container">
 
-        <p>تفاصيل العقار</p>
+          <p>تفاصيل العقار</p>
 
-    <!--القسم يلي فوق-->
-    <div class="top-section">
+        <!--القسم يلي فوق-->
+         <div class="top-section">
 
-        <!-- الصور -->
-        <div class="gallery">
+         <!-- الصور -->
+          <div class="gallery">
 
             <img class="main-image" id="mainImage" src="images/villa.jpg">
 
@@ -496,7 +510,7 @@ header{
 
         <div class="feature">
             <i class="fa-solid fa-bed"></i>
-            <p>غرف النوم</p>
+            <p>غرف </p>
             <h3 id="rooms">--</h3>
         </div>
 
@@ -512,9 +526,30 @@ header{
             <h3 id="direction">--</h3>
         </div>
 
+
+
+    </div>
+    <br>
+       <!--الخريطة-->
+       <div class="map-section">
+
+        <h2>موقع العقار</h2>
+
+        <iframe
+        id="map"
+        width="100%"
+        height="350"
+        style="border:0; border-radius:15px;"
+        loading="lazy"
+        allowfullscreen>
+        </iframe>
+
     </div>
 
-    <script src="details.js"></script>
+
+     <!--خريطة-->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../js/details.js"></script>
 
     </body>
 </html>
