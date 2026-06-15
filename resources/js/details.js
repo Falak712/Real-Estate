@@ -51,7 +51,7 @@ if (property) {
     //موقع عالخريطة
     let lat = property.pointOfWidth;
     let lng = property.pointOfLength;
-    // إذا الإحداثيات موجودة
+     // إذا الإحداثيات موجودة
     if (lat !== undefined && lng !== undefined) {
        document.getElementById("map").src =
           `https://www.google.com/maps?q=${lat},${lng}&output=embed`;

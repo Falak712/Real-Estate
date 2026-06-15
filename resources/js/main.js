@@ -5,14 +5,22 @@
 function searchProperties() {
 
     let cityInput = document.getElementById("city").value;
+    let typeInput = document.getElementById("type").value;
+    let priceInput = document.getElementById("price").value;
+    let stateInput = document.getElementById("state").value;
 
-    if (cityInput === "") {
+    if (cityInput === "" ||
+        typeInput === "" ||
+        priceInput === "" ||
+        stateInput === ""
+    ) {
 
-        alert("الرجاء إدخال المدينة أو المنطقة");
+        alert("الرجاء إدخال جميع البيانات");
         return;
     }
-
+    else {
     alert("تم إرسال بيانات البحث");
+    }
 
 }
 
@@ -218,7 +226,9 @@ properties.forEach(function(p){
 
             <div style="position: relative;">
                 <img src="/public/images/default.jpg">
-                <span class="tag">${p.type}</span>
+               <span class="tag">
+               ${p.state === "sale" ? "للبيع" : "للإيجار"}
+              </span>
             </div>
 
             <div class="content">
@@ -241,42 +251,7 @@ properties.forEach(function(p){
 });
 
 
-/*
-let properties = JSON.parse(localStorage.getItem("properties")) || [];
 
-// مكان العرض
-let container = document.querySelector(".property-grid");
-
-container.innerHTML = "";
-
-// عرض كل العقارات
-properties.forEach(function (p) {
-
-    container.innerHTML += `
-        <div class="property-card" data-id="${p.id}">
-
-            <div style="position: relative;">
-                <img src="${p.images?.[0] || '/public/images/default.jpg'}">
-                <span class="tag">${p.type}</span>
-            </div>
-
-            <div class="content">
-                <div class="price">${p.price}</div>
-                <h4>${p.title}</h4>
-                <p>${p.location}</p>
-
-                <div class="details">
-                    <span>${p.rooms || 0} غرف</span>
-                    <span>${p.baths || 0} حمامات</span>
-                    <span>${p.space || 0} م²</span>
-                </div>
-            </div>
-
-        </div>
-    `;
-});
-
-*/
 
 //فتح التفاصيل
 document.addEventListener("click", function (e) {

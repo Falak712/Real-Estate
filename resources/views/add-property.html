@@ -443,11 +443,12 @@ border: 2px solid #c9a84c;
         <div class="input-group">
           <label>النوع</label>
           <div class="type-buttons">
-            <button class="type-btn active">
-              للبيع
+            <button class="type-btn active" data-state="sale">
+                للبيع
             </button>
-            <button class="type-btn">
-              للإيجار
+
+            <button class="type-btn" data-state="rent">
+                للإيجار
             </button>
           </div>
         </div>
@@ -456,9 +457,11 @@ border: 2px solid #c9a84c;
           <label>نوع العقار</label>
           <select class="select">
             <option>اختر النوع</option>
+            <option>أرض</option>
             <option>شقة</option>
             <option>فيلا</option>
             <option>مكتب</option>
+            <option>منزل</option>
           </select>
         </div>
       </div>

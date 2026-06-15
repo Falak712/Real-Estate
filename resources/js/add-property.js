@@ -1,6 +1,20 @@
 // ==========================
 //صفحة اضافة عقار
 //اختيار نوع العقار
+
+
+let typeButtons = document.querySelectorAll(".type-btn");
+
+typeButtons.forEach(button => {
+    button.onclick = function () {
+
+        typeButtons.forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+    };
+});
+
+/*
 let typeButtons = document.querySelectorAll(".type-btn");
 
 typeButtons.forEach(function(button){
@@ -10,13 +24,13 @@ typeButtons.forEach(function(button){
         });
         button.classList.add("active");  //اضافة active للزر الحالي
     };
-});
+});*/
 
 
 let title = document.getElementById("title");
 let price = document.getElementById("price");
 let city = document.getElementById("city");
-let description = document.getElementById("description");
+let description = document.getElementById("descriptionInput");
 let space = document.getElementById("space");
 let rooms = document.getElementById("rooms");
 let baths = document.getElementById("baths");
@@ -33,11 +47,23 @@ publishButton.onclick = function (e) {
 
     e.preventDefault();
 
-    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
+
+    let stateBtn = document.querySelector(".type-btn.active");
+
+    let state = stateBtn ? stateBtn.dataset.state : "";
+
     if (
         title.value === "" ||
         price.value === "" ||
-        city.value === ""
+        city.value === "" ||
+        location.value === "" ||
+        description.value === "" ||
+        location.value === "" ||
+        space.value === "" ||
+        rooms.value === "" ||
+        baths.value === "" ||
+        direction.value === "" ||
+        images.value === ""
     ) {
 
         alert("الرجاء ملء جميع الحقول المطلوبة");
@@ -57,6 +83,9 @@ publishButton.onclick = function (e) {
         direction: direction.value,
         images: ["https://server.com/uploads/img1.jpg"],
         status: "متاح",
+
+
+        state: state,         // للبيع - للإيجار
 
 
     };
@@ -235,17 +264,23 @@ uploadInput.onchange = function(){
 
     for(let i = 0; i < fileCount; i++){
 
-        let image =
-        document.createElement("img");
+        //ينشئ عنصر صورة جديد
+        let image = document.createElement("img");
 
+        //يحول الملف الذي اختاره المستخدم إلى رابط مؤقت
+        let fileURL = URL.createObjectURL(uploadInput.files[i]);
 
-        image.src =
-        URL.createObjectURL(
-        uploadInput.files[i]
-        );
+        //يضع الرابط داخل الصورة
+        image.src = fileURL;
+
+        //يحفظ روابط الصور داخل المصفوفة
         imagesArray.push(fileURL);
 
+        //يضيف الصورة إلى الحاوية لعرضها على الصفحة
         previewContainer.appendChild(image);
+
+        //عرض الصورة التي اختارها المستخدم.
+        image.src = URL.createObjectURL(uploadInput.files[i]);
 
     }
 

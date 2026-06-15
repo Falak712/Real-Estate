@@ -10,6 +10,8 @@ let password = document.querySelector("#password");
 
 let confirmPassword = document.querySelector("#confirm-password");
 
+let phoneNumber = document.querySelector("#phone-number");
+
 
 // عند الضغط على زر إنشاء الحساب
 registerButton.onclick = function(e){
@@ -23,7 +25,8 @@ registerButton.onclick = function(e){
         fullName.value === "" ||
         email.value === "" ||
         password.value === "" ||
-        confirmPassword.value === ""
+        confirmPassword.value === "" ||
+        phoneNumber.value === ""
     ){
         alert("الرجاء تعبئة جميع الحقول");
 
