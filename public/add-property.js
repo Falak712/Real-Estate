@@ -13,8 +13,76 @@ typeButtons.forEach(function(button){
 });
 
 
+let title = document.getElementById("title");
+let price = document.getElementById("price");
+let city = document.getElementById("city");
+let description = document.getElementById("description");
+let space = document.getElementById("space");
+let rooms = document.getElementById("rooms");
+let baths = document.getElementById("baths");
+let direction = document.getElementById("direction");
+
+
+
 
 //التحقق من الحقول قبل النشر
+
+let publishButton = document.querySelector(".publish");
+
+publishButton.onclick = function (e) {
+
+    e.preventDefault();
+
+    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
+    if (
+        title.value === "" ||
+        price.value === "" ||
+        city.value === ""
+    ) {
+
+        alert("الرجاء ملء جميع الحقول المطلوبة");
+        return;
+
+    }
+
+    let newProperty = {
+        id: Date.now(),
+        title: title.value,
+        price: price.value,
+        location: city.value,
+        description: document.getElementById("descriptionInput").value,
+        space: space.value,
+        rooms: rooms.value,
+        baths: baths.value,
+        direction: direction.value,
+        images: ["https://server.com/uploads/img1.jpg"],
+        status: "متاح",
+
+
+    };
+
+
+    // جلب العقارات الموجودة
+    let properties =
+    JSON.parse(localStorage.getItem("properties")) || [];
+
+    // إضافة العقار الجديد
+    properties.push(newProperty);
+
+    // حفظ المصفوفة
+    localStorage.setItem(
+        "properties",
+        JSON.stringify(properties)
+    );
+
+    alert("تم نشر العقار بنجاح");
+
+    window.location.href = "../views/index.html";
+
+};
+
+/*هذا الكود الاصلي لحتى يوافق عليه الادمن*/
+/*
 let publishButton = document.querySelector(".publish");
 
 publishButton.onclick = function(e){
@@ -50,9 +118,10 @@ publishButton.onclick = function(e){
     //هذه الفكرة للباك بس يتحقق من نشر العقار للادمن يعمل انتقال للصفحة
     window.location.href = "/index.html";
 };
+*/
 
 
-
+//تأثير الظهور عند التمرير
 let reveals =
 document.querySelectorAll(".reveal");
 
@@ -75,6 +144,7 @@ window.addEventListener("scroll", function(){
   });
 
 });
+
 /*صورة الهوية*/
 let identityInput =
 document.querySelector("#identityImage");
@@ -95,6 +165,7 @@ identityInput.onchange = function(){
     "block";
 
 };
+
 /*صورة الملكية*/
 
 let ownershipInput =
@@ -139,6 +210,9 @@ agencyInput.onchange = function(){
 
 
 //رفع الصورة
+
+let imagesArray = [];
+
 let uploadInput =
 document.querySelector("#images");
 
@@ -164,10 +238,12 @@ uploadInput.onchange = function(){
         let image =
         document.createElement("img");
 
+
         image.src =
         URL.createObjectURL(
         uploadInput.files[i]
         );
+        imagesArray.push(fileURL);
 
         previewContainer.appendChild(image);
 
