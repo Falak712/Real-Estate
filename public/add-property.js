@@ -1,19 +1,32 @@
 // ==========================
-// صفحة إضافة عقار
-// ==========================
+//صفحة اضافة عقار
+//اختيار نوع العقار
 
-// اختيار نوع العقار
+
 let typeButtons = document.querySelectorAll(".type-btn");
-typeButtons.forEach(function(button) {
-    button.onclick = function() {
-        typeButtons.forEach(function(btn) {
-            btn.classList.remove("active");
-        });
+
+typeButtons.forEach(button => {
+    button.onclick = function () {
+
+        typeButtons.forEach(btn => btn.classList.remove("active"));
+
         button.classList.add("active");
     };
 });
 
-// المتغيرات
+/*
+let typeButtons = document.querySelectorAll(".type-btn");
+
+typeButtons.forEach(function(button){
+    button.onclick = function() {  //لما المستخدم يكبس عالزر نفذ الكود
+        typeButtons.forEach(function(btn){   //حذف ال active من كل الازرار
+            btn.classList.remove("active");
+        });
+        button.classList.add("active");  //اضافة active للزر الحالي
+    };
+});*/
+
+
 let title = document.getElementById("title");
 let price = document.getElementById("price");
 let city = document.getElementById("city");
@@ -23,186 +36,256 @@ let rooms = document.getElementById("rooms");
 let baths = document.getElementById("baths");
 let direction = document.getElementById("direction");
 
-// ==========================
-// زر النشر - ربط بالباك
-// ==========================
+
+
+
+//التحقق من الحقول قبل النشر
+
 let publishButton = document.querySelector(".publish");
 
-publishButton.onclick = async function(e) {
+publishButton.onclick = function (e) {
+
     e.preventDefault();
 
-    // تحقق من تسجيل الدخول
-    let token = localStorage.getItem('token');
-    if (!token) {
-        alert('يجب تسجيل الدخول أولاً');
-        window.location.href = '/login.html';
+
+    let stateBtn = document.querySelector(".type-btn.active");
+
+    let state = stateBtn ? stateBtn.dataset.state : "";
+
+    if (
+        title.value === "" ||
+        price.value === "" ||
+        city.value === "" ||
+        location.value === "" ||
+        description.value === "" ||
+        location.value === "" ||
+        space.value === "" ||
+        rooms.value === "" ||
+        baths.value === "" ||
+        direction.value === "" ||
+        images.value === ""
+    ) {
+
+        alert("الرجاء ملء جميع الحقول المطلوبة");
         return;
+
     }
 
-    // تحقق من الحقول
-    if (!title.value || !price.value || !city.value) {
-        alert('الرجاء ملء جميع الحقول المطلوبة');
-        return;
-    }
+    let newProperty = {
+        id: Date.now(),
+        title: title.value,
+        price: price.value,
+        location: city.value,
+        description: document.getElementById("descriptionInput").value,
+        space: space.value,
+        rooms: rooms.value,
+        baths: baths.value,
+        direction: direction.value,
+        images: ["https://server.com/uploads/img1.jpg"],
+        status: "متاح",
 
-    // نوع العقار
-    let typeBtn = document.querySelector(".type-btn.active");
-    if (!typeBtn) {
-        alert('الرجاء اختيار نوع العقار');
-        return;
-    }
 
-    // نوع العقد (بيع أو إيجار)
-    let contractType = document.querySelector('input[name="contract_type"]:checked')?.value;
-    if (!contractType) {
-        alert('الرجاء اختيار نوع العقد (بيع أو إيجار)');
-        return;
-    }
+        state: state,         // للبيع - للإيجار
 
-    try {
-        // الخطوة 1: إرسال بيانات العقار
-        let response = await fetch('http://127.0.0.1:8000/api/real-estate', {
-            method: 'POST',
-            headers: {
-                'Authorization':` Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                price: price.value,
-                description: description?.value || '',
-                size: space.value,
-                bedrooms: rooms.value,
-                bathrooms: baths.value,
-                address: city.value,
-                direction: direction.value,
-                type_real_estate: typeBtn.innerText,
-                contract_type: contractType,
-                area_id: 1, // مؤقتاً
-            })
-        });
 
-        let data = await response.json();
+    };
 
-        if (!response.ok) {
-            alert(data.message || 'حدث خطأ أثناء إضافة العقار');
-            return;
-        }
 
-        let realEstateId = data.id || data.real_estate?.id;
+    // جلب العقارات الموجودة
+    let properties =
+    JSON.parse(localStorage.getItem("properties")) || [];
 
-        // الخطوة 2: رفع الصور لو في صور
-        let uploadInput = document.querySelector("#images");
-        if (uploadInput && uploadInput.files.length > 0) {
-            let formData = new FormData();
-            
-            for (let i = 0; i < uploadInput.files.length; i++) {
-                formData.append('images[]', uploadInput.files[i]);
-            }
+    // إضافة العقار الجديد
+    properties.push(newProperty);
 
-            await fetch(`http://127.0.0.1:8000/api/real-estates/${realEstateId}/pictures`, {
-                method: 'POST',
-                headers: {
-                    'Authorization':` Bearer ${token}`,
-                    'Accept': 'application/json'
-                },
-                body: formData
-            });
-        }
+    // حفظ المصفوفة
+    localStorage.setItem(
+        "properties",
+        JSON.stringify(properties)
+    );
 
-        alert('تم إرسال العقار للمراجعة بنجاح! سيتم التواصل معك قريباً');
-        window.location.href = '/index.html';
+    alert("تم نشر العقار بنجاح");
 
-    } catch (error) {
-        alert('حدث خطأ في الاتصال بالسيرفر');
-        console.error(error);
-    }
+    window.location.href = "../views/index.html";
+
 };
 
-// ==========================
-// معاينة الصور
-// ==========================
-let uploadInput = document.querySelector("#images");
-let uploadText = document.querySelector(".upload-text");
-let previewContainer = document.querySelector(".preview-container");
-if (uploadInput) {
-    uploadInput.onchange = function() {
-        let fileCount = uploadInput.files.length;
-        if (uploadText) uploadText.innerHTML = "تم اختيار " + fileCount + " صورة";
-        if (previewContainer) previewContainer.innerHTML = "";
+/*هذا الكود الاصلي لحتى يوافق عليه الادمن*/
+/*
+let publishButton = document.querySelector(".publish");
 
-        for (let i = 0; i < fileCount; i++) {
-            let image = document.createElement("img");
-            image.src = URL.createObjectURL(uploadInput.files[i]);
-            image.style.width = "100px";
-            image.style.margin = "5px";
-            if (previewContainer) previewContainer.appendChild(image);
-        }
+publishButton.onclick = function(e){
+
+    e.preventDefault();
+
+    let title = document.querySelector("#title");
+    let price = document.querySelector("#price");
+    let city = document.querySelector("#city");
+
+    if (
+        title.value === "" ||
+        price.value === "" ||
+        city.value === ""
+    ){
+        alert("الرجاء ملء جميع الحقول المطلوبة");
+        return;
+    }
+
+    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
+
+    let newProperty = {
+        title: title.value,
+        price: price.value,
+        location: city.value,
+        type: type,
+        status: "pending"
     };
-}
 
-// ==========================
-// صورة الهوية
-// ==========================
-let identityInput = document.querySelector("#identityImage");
-let identityPreview = document.querySelector(".identity-preview");
+    console.log(newProperty);
 
-if (identityInput) {
-    identityInput.onchange = function() {
-        let file = identityInput.files[0];
-        if (!file) return;
-        identityPreview.src = URL.createObjectURL(file);
-        identityPreview.style.display = "block";
-    };
-}
-
-// ==========================
-// صورة الملكية
-// ==========================
-let ownershipInput = document.querySelector("#ownershipImage");
-let ownershipPreview = document.querySelector(".ownership-preview");
-
-if (ownershipInput) {
-    ownershipInput.onchange = function() {
-        let file = ownershipInput.files[0];
-        if (!file) return;
-        ownershipPreview.src = URL.createObjectURL(file);
-        ownershipPreview.style.display = "block";
-    };
-}
-
-// ==========================
-// صورة الوكالة
-// ==========================
-let agencyInput = document.querySelector("#agencyImage");
-let agencyPreview = document.querySelector(".agency-preview");
-
-if (agencyInput) {
-    agencyInput.onchange = function() {
-        let file = agencyInput.files[0];
-        if (!file) return;
-        agencyPreview.src = URL.createObjectURL(file);
-        agencyPreview.style.display = "block";
-    };
-}
-
-// ==========================
-// زر الإلغاء
-// ==========================
-document.querySelector(".cancel").onclick = function() {
-    window.location.href = "/index.html";
+    alert("تم إرسال العقار إلى الأدمن للمراجعة");
+    //هذه الفكرة للباك بس يتحقق من نشر العقار للادمن يعمل انتقال للصفحة
+    window.location.href = "../views/index.html";
 };
+*/
 
-// ==========================
-// تأثير الظهور عند التمرير
-// ==========================
-let reveals = document.querySelectorAll(".reveal");
-window.addEventListener("scroll", function() {
-    reveals.forEach(function(card) {
-        let windowHeight = window.innerHeight;
-        let cardTop = card.getBoundingClientRect().top;
-        if (cardTop < windowHeight - 100) {
-            card.classList.add("active");
-        }
-    });
+
+//تأثير الظهور عند التمرير
+let reveals =
+document.querySelectorAll(".reveal");
+
+window.addEventListener("scroll", function(){
+
+  reveals.forEach(function(card){
+
+    let windowHeight =
+    window.innerHeight;
+
+    let cardTop =
+    card.getBoundingClientRect().top;
+
+    if(cardTop < windowHeight - 100){
+
+      card.classList.add("active");
+
+    }
+
+  });
+
 });
+
+/*صورة الهوية*/
+let identityInput =
+document.querySelector("#identityImage");
+
+let identityPreview =
+document.querySelector(".identity-preview");
+
+identityInput.onchange = function(){
+
+    let file = identityInput.files[0];
+
+    if (!file) return;
+
+    identityPreview.src =
+    URL.createObjectURL(file);
+
+    identityPreview.style.display =
+    "block";
+
+};
+
+/*صورة الملكية*/
+
+let ownershipInput =
+document.querySelector("#ownershipImage");
+
+let ownershipPreview =
+document.querySelector(".ownership-preview");
+
+ownershipInput.onchange = function(){
+
+    let file = ownershipInput.files[0];
+
+    if (!file) return;
+
+    ownershipPreview.src =
+    URL.createObjectURL(file);
+
+    ownershipPreview.style.display =
+    "block";
+
+};
+
+/*صورة الوكالة*/
+let agencyInput =
+document.querySelector("#agencyImage");
+
+let agencyPreview =
+document.querySelector(".agency-preview");
+
+agencyInput.onchange = function(){
+
+    let file = agencyInput.files[0];
+
+    if (!file) return;
+
+    agencyPreview.src =
+    URL.createObjectURL(file);
+
+    agencyPreview.style.display =
+    "block";
+};
+
+
+//رفع الصورة
+
+let imagesArray = [];
+
+let uploadInput =
+document.querySelector("#images");
+
+let uploadText =
+document.querySelector(".upload-text");
+
+let previewContainer =
+document.querySelector(".preview-container");
+
+
+uploadInput.onchange = function(){
+
+    let fileCount =
+    uploadInput.files.length;
+
+    uploadText.innerHTML =
+    "تم اختيار " + fileCount + " صورة";
+
+    previewContainer.innerHTML = "";
+
+    for(let i = 0; i < fileCount; i++){
+
+        //ينشئ عنصر صورة جديد
+        let image = document.createElement("img");
+
+        //يحول الملف الذي اختاره المستخدم إلى رابط مؤقت
+        let fileURL = URL.createObjectURL(uploadInput.files[i]);
+
+        //يضع الرابط داخل الصورة
+        image.src = fileURL;
+
+        //يحفظ روابط الصور داخل المصفوفة
+        imagesArray.push(fileURL);
+
+        //يضيف الصورة إلى الحاوية لعرضها على الصفحة
+        previewContainer.appendChild(image);
+
+        //عرض الصورة التي اختارها المستخدم.
+        image.src = URL.createObjectURL(uploadInput.files[i]);
+
+    }
+
+};
+
+document.querySelector(".cancel").onclick = function () {
+    window.location.href = "index.html";
+};
