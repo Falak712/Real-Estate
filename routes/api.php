@@ -8,7 +8,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\RealEstateController;
 use App\Http\Controllers\PunishmentController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\PictureController;
 use App\Http\Middleware\AdminMiddleware;
 
 /*
@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'check.banned'])->group(function () {
     Route::get('/currentuser', [AuthController::class, 'currentUser']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile/update', [ProfileController::class, 'update']);
-    Route::post('/real-estate', [RealEstateController::class, 'store']);
+   // Route::post('/real-estate', [RealEstateController::class, 'store']);
 });
 
 /*
@@ -66,4 +66,19 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
 */
 
 Route::apiResource('areas', AreaController::class);
-Route::apiResource('real-estates', RealEstateController::class);
+Route::apiResource('real-estate', RealEstateController::class);
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+
+    Route::post('/real-estates/{id}/pictures',[PictureController::class, 'store']);
+
+    Route::get('/real-estates/{id}/pictures', [PictureController::class, 'index']);
+    
+    // حذف صورة
+    Route::delete('/pictures/{id}', [PictureController::class, 'destroy']);
+
+
+});

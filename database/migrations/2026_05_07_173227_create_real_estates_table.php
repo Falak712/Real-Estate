@@ -22,12 +22,12 @@ return new class extends Migration
             $table->string('address',255);
             $table->double('point_of_length');
             $table->double('point_of_width');
-            $table->enum('type_real_estate',['apartment','house','land','office']);
+            $table->enum('type_real_estate',['apartment','house','land','office','villa']);
             $table->enum('status_real_estate',['available','booked','sold']);
             $table->enum('contract_type',['rent','sale']);
-            $table->string('ownership_contract',255);
-            $table->string('agency_contract',255);
-            $table->string('national_image_id');
+            $table->string('ownership_contract',255)->nullable();
+            $table->string('agency_contract',255)->nullable();
+            $table->string('national_image_id',255)->nullable();
             $table->enum('order_status',['pending','approved','rejected'])->default('pending');
             $table->date('publication_date')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

@@ -57,7 +57,8 @@ class RealEstateController extends Controller
             'message' => 'تم إضافة العقار بنجاح',
             'real_estate' => $realEstate
         ], 201);
-    }
+}
+    
 
    public function update(UpdateRealEstateRequest $request, $id)
 {
