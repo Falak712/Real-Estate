@@ -106,7 +106,7 @@ publishButton.onclick = function (e) {
 
     alert("تم نشر العقار بنجاح");
 
-    window.location.href = "../views/index.html";
+    window.location.href = "/index.html";
 
 };
 
