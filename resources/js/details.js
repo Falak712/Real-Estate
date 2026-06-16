@@ -2,6 +2,7 @@
 // صفحة تفاصيل العقار
 // ==========================
 
+
 let description = document.getElementById("description");
 let space = document.getElementById("space");
 let rooms = document.getElementById("rooms");
@@ -43,6 +44,10 @@ if (property) {
 
     document.getElementById("direction").innerText = property.direction || "";
 
+    document.getElementById("type").innerText = property.type || "";
+
+
+
     // الصورة
     if (property.images && property.images.length > 0) {
         document.getElementById("mainImage").src = property.images[0];
@@ -51,7 +56,7 @@ if (property) {
     //موقع عالخريطة
     let lat = property.pointOfWidth;
     let lng = property.pointOfLength;
-     // إذا الإحداثيات موجودة
+//اذا الاحداثيات موجودة
     if (lat !== undefined && lng !== undefined) {
        document.getElementById("map").src =
           `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
@@ -67,3 +72,14 @@ else {
         "<h2 style='text-align:center;color:red'>العقار غير موجود</h2>";
 }
 
+//زر الشراء والاستئجار
+let buyBtn = document.querySelector(".buy-btn");
+let rentBtn = document.querySelector(".rent-btn");
+
+buyBtn.onclick = function () {
+    window.location.href = `../views/rental-Booking.html?type=buy&id=${property.id}`;
+}
+
+rentBtn.onclick = function () {
+    window.location.href = `../views/rental-Booking.html?type=rent&id=${property.id}`;
+}

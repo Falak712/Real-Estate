@@ -52,6 +52,10 @@ publishButton.onclick = function (e) {
 
     let state = stateBtn ? stateBtn.dataset.state : "";
 
+    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
+
+     localStorage.setItem("propertyType", type);
+
     if (
         title.value === "" ||
         price.value === "" ||
@@ -69,6 +73,7 @@ publishButton.onclick = function (e) {
         alert("الرجاء ملء جميع الحقول المطلوبة");
         return;
 
+
     }
 
     let newProperty = {
@@ -83,7 +88,7 @@ publishButton.onclick = function (e) {
         direction: direction.value,
         images: ["https://server.com/uploads/img1.jpg"],
         status: "متاح",
-
+        type: type,
 
         state: state,         // للبيع - للإيجار
 
