@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 class RealEstate extends Model
 {
     protected $fillable = [
-        
         'price',
         'description',
         'size',
@@ -22,10 +22,12 @@ class RealEstate extends Model
         'contract_type',
         'ownership_contract',
         'agency_contract',
+        'national_image_id',
         'order_status',
         'publication_date',
         'user_id',
         'area_id',
+
         
         
     ];
@@ -43,4 +45,13 @@ class RealEstate extends Model
 {
     return $this->hasMany(Picture::class);
 }
+    public function rentalBookings()
+    {
+        return $this->belongsToMany(
+            RentalBooking::class,
+            'realestate_booking',
+            'rental_bookings_id',
+            'real_estates_id'
+        );
+    }
 }

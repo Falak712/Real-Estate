@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
             'fullname' => $validated['fullname'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'phone_number' => $validated['phone_number'] ,
+            'phone_number' => $validated['phone_number'],
             'userType' => 'user',
             'banned' => false,
         ]);
@@ -53,7 +54,16 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        Mail::raw(
+            "مرحباً {$user->fullname},
+            تم تسجيل الدخول إلى حسابك بنجاح.
+            التاريخ: " . now() . "
+            إذا لم تكن أنت من قام بتسجيل الدخول يرجى التواصل مع الإدارة فوراً.",
+                function ($message) use ($user) {
+                    $message->to($user->email)
+                    ->subject('إشعار تسجيل دخول');
+            }
+        );
         return response()->json([
             'message' => 'تم تسجيل الدخول بنجاح',
             'user' => $user,

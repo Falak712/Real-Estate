@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-     Schema::create('real_estates', function (Blueprint $table) {
+    Schema::create('real_estates', function (Blueprint $table) {
             $table->id();
             $table->decimal('price',8,2);
             $table->string('description',255)->nullable();
@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('bathrooms')->nullable();
             $table->enum('direction', ['north','south','east','west','northeast','northwest','southeast','southwest']);
             $table->string('address',255);
+            $table->integer('bedrooms')->nullable();
+            $table->integer('bathrooms')->nullable();
             $table->double('point_of_length');
             $table->double('point_of_width');
             $table->enum('type_real_estate',['apartment','house','land','office','villa']);
@@ -41,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pictures');
+        Schema::dropIfExists('real_estates');
     }
 };
