@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('favorites_id')->constrained('favorites')->onDelete('cascade');
             $table->foreignId('real_estates_id')->constrained('real_estates')->onDelete('cascade');
+            $table->unique(['favorites_id', 'real_estates_id']);
             $table->timestamps();
         });
     }

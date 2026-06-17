@@ -15,21 +15,17 @@ return new class extends Migration
     Schema::create('notification', function (Blueprint $table) {
         $table->id();
         $table->string('notification_message', 255);
-        $table->dateTime('date_message');
-        $table->tinyInteger('check')->default(0);
+        $table->dateTime('date_message')->useCurrent(); //وقت انشاء تلقائي 
+        $table->boolean('check')->default(false);
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         $table->timestamps();
     });
 }
-
-      
-    
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('notices');
+        Schema::dropIfExists('notification');
     }
 };

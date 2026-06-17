@@ -43,4 +43,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Punishment::class);
     }
+    public function notices()
+    {
+        return $this->hasMany(Notice::class);
+    }
+    public function rentalBookings()
+    {
+        return $this->hasMany(RentalBooking::class);
+    }
+    public function favorites()
+    {
+        return $this->hasOne(Favorite::class);
+    }
 }
