@@ -66,11 +66,12 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
 */
 
 Route::apiResource('areas', AreaController::class);
-Route::apiResource('real-estate', RealEstateController::class);
 
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+Route::apiResource('real-estate', RealEstateController::class);
 
 
     Route::post('/real-estates/{id}/pictures',[PictureController::class, 'store']);

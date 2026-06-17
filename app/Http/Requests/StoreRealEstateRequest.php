@@ -33,6 +33,7 @@ class StoreRealEstateRequest extends FormRequest
             'order_status' => 'nullable|in:pending,approved,rejected',
             'publication_date' => 'nullable|date',
             'area_id' => 'required|exists:areas,id',
+            'user_id'=>'required|exists:users,id'
         ];
     }
 

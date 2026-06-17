@@ -46,4 +46,16 @@ async function loadRealEstate() {
   }
 }
 
+//زر الشراء والاستئجار
+let buyBtn = document.querySelector(".buy-btn");
+let rentBtn = document.querySelector(".rent-btn");
+
+buyBtn.onclick = function () {
+    window.location.href = `/rental-Booking.html?type=buy&id=${property.id}`;
+}
+
+rentBtn.onclick = function () {
+    window.location.href = `/rental-Booking.html?type=rent&id=${property.id}`;
+}
+
 loadRealEstate();
