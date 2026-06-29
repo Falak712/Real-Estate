@@ -27,31 +27,16 @@ class RentalBookingController extends Controller
     {
         //فحص تعارض الحجز مع اخر 
         $conflict = RentalBooking::whereHas(
-            'real_estates',
+            'realEstates',
             function ($q) use ($request) {
-                $q->where(
-                    'real_estates_id',
-                    $request->real_estates_id
-                );
+                $q->where('real_estates_id',$request->real_estates_id);
             }
         )
-            ->whereIn('status', [
-                'pending',
-                'confirmed'
-            ])
-            ->where(function ($q) use ($request) {
-                $q->where(
-                    'start_date',
-                    '<=',
-                    $request->end_date
-                )
-                    ->where(
-                        'end_date',
-                        '>=',
-                        $request->start_date
-                    );
-            })
-            ->exists();
+            ->whereIn('status', ['pending','confirmed'])
+            ->where(function ($q) use ($request) {$q->where('start_date','<=',$request->end_date)
+            ->where('end_date','>=',$request->start_date);
+            })->exists();
+
         if ($conflict) {
             return response()->json('هذه الفترة محجوزة مسبقاً', 422);
         }
@@ -62,9 +47,7 @@ class RentalBookingController extends Controller
             'user_id' => Auth::id()
         ]);
         //الربط بين الحجز والعقار
-        $booking->real_estates()->attach(
-            $request->real_estates_id
-        );
+        $booking->realEstates()->attach($request->real_estates_id);
         $user = Auth::user();
 
         Mail::raw(
@@ -73,8 +56,7 @@ class RentalBookingController extends Controller
             حالة الطلب الحالية: قيد المراجعة.
             سيتم إشعارك عند الموافقة أو الرفض من قبل الإدارة.",
                 function ($message) use ($user) {
-                $message->to($user->email)
-                ->subject('تأكيد استلام طلب الاستئجار');
+                $message->to($user->email)->subject('تأكيد استلام طلب الاستئجار');
     }
 );
         return response()->json(['تم إرسال طلب الحجز بنجاح', $booking], 201);
@@ -104,31 +86,18 @@ class RentalBookingController extends Controller
         $conflict = RentalBooking::whereHas(
             'realEstates',
             function ($q) use ($realEstate) {
-                $q->where(
-                    'real_estates_id',
-                    $realEstate->id
-                );
+                $q->where('real_estates_id',$realEstate->id);
             }
         )
-            ->whereIn('status', [
-                'pending',
-                'confirmed'
-            ])
+            ->whereIn('status', ['pending','confirmed'])
             //اذا في حجز اتجاهله 
             ->where('id', '!=', $rentalbooking->id)
             ->where(function ($q) use ($request) {
-                $q->where(
-                    'start_date',
-                    '<=',
-                    $request->end_date
-                )
-                    ->where(
-                        'end_date',
-                        '>=',
-                        $request->start_date
-                    );
+                $q->where('start_date','<=',$request->end_date)
+                    ->where('end_date','>=',$request->start_date);
             })
             ->exists();
+
         if ($conflict) {
             return response()->json('هذه الفترة محجوزة مسبقاً', 422);
         }
@@ -163,11 +132,13 @@ class RentalBookingController extends Controller
     {
         $rentalBooking = RentalBooking::findOrFail($id);
 
-        return $rentalBooking->rental_bookings()
+      /*  return $rentalBooking->realEstates()
             ->where('status', 'confirmed')
-            ->get([
-                'start_date',
-                'end_date'
-            ]);
-    }
+            ->get(['start_date','end_date']);*/
+
+    return RentalBooking::where('id', $id)
+        ->where('status', 'confirmed')
+        ->get(['start_date', 'end_date']);
 }
+    }
+

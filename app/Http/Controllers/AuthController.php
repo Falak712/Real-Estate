@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\LoginNotificationMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,16 +55,7 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        Mail::raw(
-            "مرحباً {$user->fullname},
-            تم تسجيل الدخول إلى حسابك بنجاح.
-            التاريخ: " . now() . "
-            إذا لم تكن أنت من قام بتسجيل الدخول يرجى التواصل مع الإدارة فوراً.",
-                function ($message) use ($user) {
-                    $message->to($user->email)
-                    ->subject('إشعار تسجيل دخول');
-            }
-        );
+        Mail::to($user->email)->send(new LoginNotificationMail($user));
         return response()->json([
             'message' => 'تم تسجيل الدخول بنجاح',
             'user' => $user,

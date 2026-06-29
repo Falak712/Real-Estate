@@ -41,6 +41,10 @@ class RealEstateController extends Controller
             $query->where('area_id', $request->area_id);
         }
 
+        //فلترة حسب المدينة
+        if ($request->address) {
+    $query->where('address', 'like', '%' . $request->address . '%');
+}
 
 
         // فلترة حسب نوع العقد
@@ -121,15 +125,41 @@ class RealEstateController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function store(StoreRealEstateRequest $request)
-    {
-        $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
-        $validated['status_real_estate'] = 'available';
-        $validated['order_status'] = 'pending';
-        $realEstate = RealEstate::create($validated);
-        return response()->json(['message' => 'تم إضافة العقار بنجاح','real_estate' => $realEstate], 201);
-    }
+  public function store(StoreRealEstateRequest $request)
+{
+$validated = $request->validated();
+
+$validated['user_id'] = Auth::id();
+
+$validated['status_real_estate'] = 'available';
+
+$validated['order_status'] = 'pending';
+
+// رفع صورة الهوية
+if ($request->hasFile('identity_image')) {
+
+    $validated['identity_image'] =
+        $request->file('identity_image')
+        ->store('identities', 'public');
+}
+
+// رفع وثيقة الملكية
+if ($request->hasFile('ownership_document')) {
+
+    $validated['ownership_document'] =
+        $request->file('ownership_document')
+        ->store('ownerships', 'public');
+}
+
+$realEstate = RealEstate::create($validated);
+
+return response()->json([
+    'message' => 'تم إضافة العقار بنجاح',
+    'real_estate' => $realEstate
+], 201);
+
+}
+
 
 
 
@@ -138,23 +168,45 @@ class RealEstateController extends Controller
     | تعديل عقار
     |--------------------------------------------------------------------------
     */
+public function update(UpdateRealEstateRequest $request, $id)
+{
+$realEstate = RealEstate::findOrFail($id);
 
-    public function update(UpdateRealEstateRequest $request,$id)
-     {
+if ($realEstate->user_id != Auth::id()) {
 
-        $realEstate = RealEstate::findOrFail($id);
-        // السماح لصاحب العقار فقط
+    return response()->json([
+        'message' => 'غير مسموح لك تعديل هذا العقار'
+    ], 403);
+}
 
-        if ($realEstate->user_id != Auth::id()) {
-            return response()->json([
-                'message' => 'غير مسموح لك تعديل هذا العقار'
-            ], 403);
-        }
-        $realEstate->update($request->validated()
-        );
-        return response()->json(['message' => 'تم تعديل العقار بنجاح','real_estate' => $realEstate]);
-    }
+$validated = $request->validated();
 
+// إذا تم تعديل العقار يرجع للمراجعة
+$validated['order_status'] = 'pending';
+
+if ($request->hasFile('identity_image')) {
+
+    $validated['identity_image'] =
+        $request->file('identity_image')
+        ->store('identities', 'public');
+}
+
+if ($request->hasFile('ownership_document')) {
+
+    $validated['ownership_document'] =
+        $request->file('ownership_document')
+        ->store('ownerships', 'public');
+}
+
+$realEstate->update($validated);
+
+return response()->json([
+    'message' => 'تم تعديل العقار بنجاح',
+    'real_estate' => $realEstate
+]);
+
+}
+   
 
 
     /*

@@ -9,4 +9,3 @@ Route::get('/', function () {
    // Route::middleware(['auth','admin'])->group(function(){
     //    Route::post('/admin/create-user',[AuthController::class,'register']);
    // });
-

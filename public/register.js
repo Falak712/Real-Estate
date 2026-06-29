@@ -1,123 +1,71 @@
-// جلب العناصر
-
-let registerButton = document.querySelector(".register-btn");
-
-let fullName = document.querySelector("#fullname");
-
-let email = document.querySelector("#email");
-
-let password = document.querySelector("#password");
-
-let confirmPassword = document.querySelector("#confirm-password");
-
-let phoneNumber = document.querySelector("#phone-number");
-
-
-// عند الضغط على زر إنشاء الحساب
-registerButton.onclick = function(e){
-    // منع إعادة تحميل الصفحة
+async function register(e) {
     e.preventDefault();
 
-    // التحقق من الحقول الفارغة
+    let fullName = document.getElementById('fullname').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let passwordConfirmation = document.getElementById('confirm-password').value;
+    let phoneNumber = document.getElementById('phone-number').value;
 
-    if(
+    try {
+        let response = await fetch('http://127.0.0.1:8000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                fullname: fullName,
+                email: email,
+                password: password,
+                password_confirmation: passwordConfirmation,
+                phone_number: phoneNumber
+            })
+        });
 
-        fullName.value === "" ||
-        email.value === "" ||
-        password.value === "" ||
-        confirmPassword.value === "" ||
-        phoneNumber.value === ""
-    ){
-        alert("الرجاء تعبئة جميع الحقول");
+        let data = await response.json();
 
+        if (!response.ok) {
+            if (data.errors) {
+                let firstError = Object.values(data.errors)[0][0];
+                alert(firstError);
+            } else {
+                alert(data.message || 'حدث خطأ أثناء التسجيل');
+            }
+            return;
+        }
+
+        localStorage.setItem('token', data.token);
+        alert('تم إنشاء الحساب بنجاح!');
+        window.location.href = 'index.html';
+
+    } catch (error) {
+        alert('حدث خطأ في الاتصال بالسيرفر');
+        console.error(error);
     }
-
-    // التحقق من تطابق كلمات المرور
-
-    else if(password.value !== confirmPassword.value){
-
-        alert("كلمتا المرور غير متطابقتين");
-
-    }
-
-    // التحقق من طول كلمة المرور
-
-    else if(password.value.length < 6){
-
-        alert("يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل");
-
-    }
-
-    // نجاح التسجيل
-
-    else{
-
-        alert("تم إنشاء الحساب بنجاح ✨");
-        // إذا كانت الحقول ممتلئة ينتقل للرئيسية
-        window.location.href = "/index.html";
-
-    }
-
-};
-
-
-// رسالة ترحيب
-function welcomeUser(name){
-
-    return `مرحباً ${name} في موقع Magic Estate`;
-
 }
-console.log(welcomeUser("Shahed")
-);
-// إظهار وإخفاء كلمة المرور
 
-let passwordInput =
-document.querySelector("#password");
+// ==========================
+// إظهار/إخفاء كلمة المرور
+// ==========================
+let togglePassword = document.getElementById('togglePassword');
+let passwordField = document.getElementById('password');
 
-let togglePassword =
-document.querySelector("#togglePassword");
-
-togglePassword.onclick = function(){
-
-    if(passwordInput.type === "password"){
-
-        passwordInput.type = "text";
-
-        togglePassword.innerHTML = "🙈";
-
-    }else{
-
-        passwordInput.type = "password";
-
-        togglePassword.innerHTML = "👁";
-
+togglePassword.addEventListener('click', function() {
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+    } else {
+        passwordField.type = 'password';
     }
+});
 
-};
+let toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+let confirmPasswordField = document.getElementById('confirm-password');
 
-
-// تأكيد كلمة المرور
-
-let confirmPasswordInput =
-document.querySelector("#confirm-password");
-
-let toggleConfirmPassword =
-document.querySelector("#toggleConfirmPassword");
-
-toggleConfirmPassword.onclick = function(){
-
-    if(confirmPasswordInput.type === "password"){
-
-        confirmPasswordInput.type = "text";
-
-        toggleConfirmPassword.innerHTML = "🙈";
-
-    }else{
-
-        confirmPasswordInput.type = "password";
-
-        toggleConfirmPassword.innerHTML = "👁";
-
+toggleConfirmPassword.addEventListener('click', function() {
+    if (confirmPasswordField.type === 'password') {
+        confirmPasswordField.type = 'text';
+    } else {
+        confirmPasswordField.type = 'password';
     }
-
-};
+});

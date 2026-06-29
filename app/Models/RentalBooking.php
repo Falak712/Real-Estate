@@ -23,7 +23,7 @@ class RentalBooking extends Model
     {
         return $this->belongsToMany(
             RealEstate::class,
-            'realestate_booking',
+            'realestate_bookings',
             'rental_bookings_id',
             'real_estates_id'
         );

@@ -3,54 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
-use App\Models\RealEstate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // عرض مفضلة المستخدم
+
     public function index()
     {
-        $favorites = Favorite::all();
-        return response()->json($favorites, 200);
-    }
+        $favorite = Favorite::with('realEstates')
+            ->where('user_id', Auth::id())
+            ->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(RealEstate $realEstate)
-    {
-        $favorite = Favorite::create($realEstate->validated());
-        $favorite->real_estates()->attach(
-            $realEstate->real_estates_id
-        );
-        return response()->json($favorite, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(RealEstate $realEstate)
-    {
-        $favorite = Favorite::findOrFail($realEstate->id);
         return response()->json($favorite, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id) {}
+    // إضافة عقار للمفضلة
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RealEstate $id)
+    public function store(Request $request)
     {
-        $favorite = Favorite::findOrFail($id);
-        $favorite->delete();
-        $id->realEstates()->detach();
-        return response()->json('تم الحذف بنجاح', 204);
+        $request->validate(['real_estates_id' => 'required|exists:real_estates,id']);
+
+        $favorite = Favorite::firstOrCreate(['user_id' => Auth::id()]);
+
+        if ($favorite->realEstates()->where('real_estates_id', $request->real_estates_id)
+                                    ->exists()
+        ) {
+            return response()->json(['message' => 'العقار موجود بالمفضلة مسبقاً'], 409);
+        }
+
+        $favorite->realEstates()->attach($request->real_estates_id);
+
+        return response()->json(['message' => 'تمت إضافة العقار إلى المفضلة'], 201);
+    }
+
+    // عرض سجل مفضلة واحد
+
+    public function show($id)
+    {
+        $favorite = Favorite::with('realEstates')->findOrFail($id);
+
+        return response()->json($favorite, 200);
+    }
+
+    // حذف عقار من المفضلة
+
+    public function destroy($realEstateId)
+    {
+        $favorite = Favorite::where('user_id',Auth::id())->first();
+
+        if (!$favorite) {
+            return response()->json(['message' => 'لا توجد مفضلة'], 404);
+        }
+
+        $favorite->realEstates()->detach($realEstateId);
+
+        return response()->json(['message' => 'تم حذف العقار من المفضلة'], 200);
     }
 }

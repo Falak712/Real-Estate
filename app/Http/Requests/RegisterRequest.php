@@ -3,67 +3,61 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return True;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-        'fullname'=> 'required|string|max:255',
-         'email'=> 'required|email|unique:users,email',
-         'password'=>'required|min:6|confirmed',
-         'phone_number'=>'nullable|string|max:10',
-         'userType'=>'required|in:user,admin',    
+            'fullname' => 'required|string|max:255',
 
+            'email' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/',
+                'unique:users,email'
+            ],
 
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[a-z]/',      // حرف صغير
+                'regex:/[A-Z]/',      // حرف كبير
+                'regex:/[0-9]/',      // رقم
+                'regex:/[@_\-\$\#\!\%\*\?\&]/', // محرف خاص
+            ],
+            'phone_number'=>'nullable'
+
+            /*'phone_number' => [
+                'nullable',
+                'regex:/^\+963[0-9]{9}$/'
+            ],*/
         ];
     }
-    #[Override]
-    public function messages():array
+
+    public function messages(): array
     {
-       return[
-         'fullname.required'=> 'الاسم مطلوب بالكامل',
-         'fullname.string'=> 'الاسم يجب ان يكون نصا',
-         'fullname.max'=> 'الاسم طويل جدا (الحد الاقصى 255 حرف)',
+        return [
+            'fullname.required' => 'الاسم الكامل مطلوب',
 
-         'email.required'=> 'البريد الإلكتروني مطلوب',
-         'email.email'=> 'البريد الإلكتروني غير صحيح',
-         'email.unique'=> 'البريد الإلكتروني مستحدم مسبقا',
+            'email.required' => 'البريد الإلكتروني مطلوب',
+            'email.regex' => 'صيغة البريد الإلكتروني غير صحيحة (يجب أن تنتهي بـ .com)',
+            'email.unique' => 'البريد الإلكتروني مستخدم مسبقاً',
 
-         'password.required'=> 'كلمة المرور مطلوبة',
-         'password.min'=> 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
-         'password.confirmed'=> 'كلمة المرور غير متطابقة',
+            'password.required' => 'كلمة المرور مطلوبة',
+            'password.confirmed' => 'كلمة المرور غير متطابقة',
+            'password.min' => 'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+            'password.regex' => 'كلمة المرور يجب أن تحتوي على حرف كبير، حرف صغير، رقم، ومحرف خاص (@ _ - $ # ! % * ? &)',
 
-         'phone_number.string'=> 'رقم الهاتف يجب أن يكون نصا',
-         'phone_number.max'=> 'رقم الهاتف يجب ان يكون من 10 ارقام حصرا',
-
-       ];
-    }
-
-    #[Override]
-    public function attributes():array
-    {
-        return[
-           'fullname'=> 'الاسم الكامل',
-           'email'=> 'البريد الإلكنروني',
-           'password'=>'كلمة المرور',
-           'phone_number'=>'رقم الهاتف',
-
-
+            'phone_number.regex' => 'رقم الهاتف يجب أن يبدأ بـ +963 ويتكون من 9 
+            أرقام بعدها (المجموع 13 رمز)',
         ];
     }
 }

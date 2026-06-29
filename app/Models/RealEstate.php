@@ -20,9 +20,8 @@ class RealEstate extends Model
         'type_real_estate',
         'status_real_estate',
         'contract_type',
-        'ownership_contract',
-        'agency_contract',
-        'national_image_id',
+        'identity_image',
+        'ownership_document',
         'order_status',
         'publication_date',
         'user_id',
@@ -49,7 +48,7 @@ class RealEstate extends Model
     {
         return $this->belongsToMany(
             RentalBooking::class,
-            'realestate_booking',
+            'realestate_bookings',
             'rental_bookings_id',
             'real_estates_id'
         );

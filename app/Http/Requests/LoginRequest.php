@@ -23,11 +23,15 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-          'email'=>'required|email',
-          'password'=>'required|min:6',
+    return [
+        'email' => [
+            'required',
+            'string',
+            'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/'
+        ],
+        'password' => 'required|string',
+    ];
 
-        ];
     }
 
     public function message():array

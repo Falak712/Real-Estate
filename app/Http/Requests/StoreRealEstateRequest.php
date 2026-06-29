@@ -28,12 +28,10 @@ class StoreRealEstateRequest extends FormRequest
             'type_real_estate' => 'required|in:apartment,house,land,office',
             'status_real_estate' => 'nullable|in:available,booked,sold',
             'contract_type' => 'required|in:rent,sale',
-            'ownership_contract' => 'nullable|string|max:255',
-            'agency_contract' => 'nullable|string|max:255',
+            'identity_image' =>'required|image|mimes:jpg,jpeg,png|max:4096',
+            'ownership_document' =>'required|file|mimes:jpg,jpeg,png,pdf|max:8192',
             'order_status' => 'nullable|in:pending,approved,rejected',
-            'publication_date' => 'nullable|date',
             'area_id' => 'required|exists:areas,id',
-            'user_id'=>'required|exists:users,id'
         ];
     }
 
@@ -93,7 +91,6 @@ class StoreRealEstateRequest extends FormRequest
 
             'order_status' => 'حالة الطلب',
 
-            'publication_date' => 'تاريخ النشر',
 
             'area_id' => 'المنطقة',
         ];

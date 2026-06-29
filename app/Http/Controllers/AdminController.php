@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\RealEstate;
+use App\Models\RentalBooking;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -107,4 +109,25 @@ public function deleteProperty($id)
         ], 500);
     }
 }
+ public function reject($id)
+  {
+    $booking = RentalBooking::findOrFail($id);
+
+    $booking->update([
+      'status' => 'rejected'
+    ]);
+
+    $user = $booking->user;
+
+    Mail::raw(
+      "مرحباً {$user->fullname}
+        نعتذر، تم رفض طلب الاستئجار الخاص بك.
+        للاستفسار يرجى التواصل مع الإدارة.",
+      function ($message) use ($user) {
+        $message->to($user->email)
+          ->subject('تم رفض طلبك');
+      }
+    );
+    return response()->json('تم رفض الحجز', 200);
+  }
 }
