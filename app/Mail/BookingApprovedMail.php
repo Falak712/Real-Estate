@@ -13,42 +13,22 @@ use Illuminate\Queue\SerializesModels;
 class BookingApprovedMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $booking;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($booking)
     {
-        //
+        $this->booking = $booking;
     }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Booking Approved Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->subject('تمت الموافقة على طلبك')
+            ->view('emails.booking_approved')
+            ->with([
+                'booking' => $this->booking,
+                'start_date' => $this->booking->start_date,
+                'end_date' => $this->booking->end_date,
+            ]);
     }
 }

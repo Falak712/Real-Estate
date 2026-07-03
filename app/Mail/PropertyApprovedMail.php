@@ -13,42 +13,32 @@ use Illuminate\Queue\SerializesModels;
 class PropertyApprovedMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $realstate;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($realstate)
     {
-        //
+        $this->realstate = $realstate;
+    }
+    public function build()
+    {
+        return $this->subject('تمت الموافقة على عقارك')
+            ->view('emails.property_approved')
+            ->with([
+                'realstate' => $this->realstate,
+                'title' => $this->realstate->title,
+                'description' => $this->realstate->description,
+                'price' => $this->realstate->price,
+                'location' => $this->realstate->location,
+                'size' => $this->realstate->size,
+                'sides' => $this->realstate->sides,
+                'address' => $this->realstate->address,
+                'type_real_estate' => $this->realstate->type_real_estate,
+                'status_real_estate' => $this->realstate->status_real_estate,
+                'publication_date' => $this->realstate->publication_date
+            ]);
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Property Approved Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
+    
 }

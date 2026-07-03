@@ -13,42 +13,23 @@ use Illuminate\Queue\SerializesModels;
 class BookingRejectedMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $booking;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($booking)
     {
-        //
+        $this->booking = $booking;
+    }
+    public function build()
+    {
+        return $this->subject('تم رفض طلبك')
+            ->view('emails.booking_rejected')
+            ->with([
+                'booking' => $this->booking,
+                'start_date' => $this->booking->start_date,
+                'end_date' => $this->booking->end_date,
+            ]);
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Booking Rejected Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
 }

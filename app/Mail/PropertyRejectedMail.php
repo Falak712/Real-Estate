@@ -13,42 +13,30 @@ use Illuminate\Queue\SerializesModels;
 class PropertyRejectedMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $realstate;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($realstate)
     {
-        //
+        $this->realstate = $realstate;
     }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Property Rejected Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->subject('تم رفض عقارك')
+            ->view('emails.property_rejected')
+            ->with([
+                'realstate' => $this->realstate,
+                'title' => $this->realstate->title,
+                'description' => $this->realstate->description,
+                'price' => $this->realstate->price,
+                'location' => $this->realstate->location,
+                'size' => $this->realstate->size,
+                'sides' => $this->realstate->sides,
+                'address' => $this->realstate->address,
+                'type_real_estate' => $this->realstate->type_real_estate,
+                'status_real_estate' => $this->realstate->status_real_estate,
+                'publication_date' => $this->realstate->publication_date
+            ]);
     }
 }
