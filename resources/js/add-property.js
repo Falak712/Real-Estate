@@ -14,19 +14,6 @@ typeButtons.forEach(button => {
     };
 });
 
-/*
-let typeButtons = document.querySelectorAll(".type-btn");
-
-typeButtons.forEach(function(button){
-    button.onclick = function() {  //لما المستخدم يكبس عالزر نفذ الكود
-        typeButtons.forEach(function(btn){   //حذف ال active من كل الازرار
-            btn.classList.remove("active");
-        });
-        button.classList.add("active");  //اضافة active للزر الحالي
-    };
-});*/
-
-
 let title = document.getElementById("title");
 let price = document.getElementById("price");
 let city = document.getElementById("city");
@@ -35,7 +22,8 @@ let space = document.getElementById("space");
 let rooms = document.getElementById("rooms");
 let baths = document.getElementById("baths");
 let direction = document.getElementById("direction");
-
+let currency = document.getElementById("currency");
+//let currency = localStorage.getItem("currency") || "SYP";
 
 
 
@@ -55,43 +43,37 @@ publishButton.onclick = function (e) {
     let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
 
      localStorage.setItem("propertyType", type);
-
-    if (
+     if (
         title.value === "" ||
         price.value === "" ||
         city.value === "" ||
-        location.value === "" ||
         description.value === "" ||
-        location.value === "" ||
         space.value === "" ||
         rooms.value === "" ||
         baths.value === "" ||
         direction.value === "" ||
-        images.value === ""
+        currency.value === ""
     ) {
-
         alert("الرجاء ملء جميع الحقول المطلوبة");
         return;
-
-
     }
 
     let newProperty = {
         id: Date.now(),
         title: title.value,
-        price: price.value,
+        price: Number(price.value),
+        currency: document.getElementById("currency").value,
         location: city.value,
         description: document.getElementById("descriptionInput").value,
         space: space.value,
         rooms: rooms.value,
         baths: baths.value,
         direction: direction.value,
-        images: ["https://server.com/uploads/img1.jpg"],
+        //images: ["https://server.com/uploads/img1.jpg"],
+        images: imagesArray,
         status: "متاح",
         type: type,
-
         state: state,         // للبيع - للإيجار
-
 
     };
 
@@ -180,6 +162,7 @@ window.addEventListener("scroll", function(){
 });
 
 /*صورة الهوية*/
+/*
 let identityInput =
 document.querySelector("#identityImage");
 
@@ -198,10 +181,39 @@ identityInput.onchange = function(){
     identityPreview.style.display =
     "block";
 
+};*/
+let identityInput = document.querySelector("#identityImage");
+let identityPreview = document.querySelector(".identity-preview");
+
+identityInput.onchange = function () {
+
+    let file = identityInput.files[0];
+
+    if (!file) return;
+
+
+    let name = file.name.toLowerCase();
+
+    if (
+        !name.endsWith(".png") &&
+        !name.endsWith(".jpg") &&
+        !name.endsWith(".jpeg")
+    ) {
+        alert("مسموح فقط صور PNG / JPG / JPEG");
+
+        this.value = "";
+        identityPreview.style.display = "none";
+        identityPreview.src = "";
+        return;
+    }
+
+    // عرض الصورة
+    identityPreview.src = URL.createObjectURL(file);
+    identityPreview.style.display = "block";
 };
 
 /*صورة الملكية*/
-
+/*
 let ownershipInput =
 document.querySelector("#ownershipImage");
 
@@ -220,26 +232,34 @@ ownershipInput.onchange = function(){
     ownershipPreview.style.display =
     "block";
 
-};
+};*/
+let ownershipInput = document.querySelector("#ownershipImage");
+let ownershipPreview = document.querySelector(".ownership-preview");
 
-/*صورة الوكالة*/
-let agencyInput =
-document.querySelector("#agencyImage");
+ownershipInput.onchange = function () {
 
-let agencyPreview =
-document.querySelector(".agency-preview");
-
-agencyInput.onchange = function(){
-
-    let file = agencyInput.files[0];
+    let file = ownershipInput.files[0];
 
     if (!file) return;
 
-    agencyPreview.src =
-    URL.createObjectURL(file);
+    let name = file.name.toLowerCase();
 
-    agencyPreview.style.display =
-    "block";
+    if (
+        !name.endsWith(".png") &&
+        !name.endsWith(".jpg") &&
+        !name.endsWith(".jpeg")
+    ) {
+        alert("مسموح فقط صور PNG / JPG / JPEG");
+
+        this.value = "";
+        ownershipPreview.style.display = "none";
+        ownershipPreview.src = "";
+        return;
+    }
+
+    // عرض الصورة
+    ownershipPreview.src = URL.createObjectURL(file);
+    ownershipPreview.style.display = "block";
 };
 
 
@@ -247,16 +267,60 @@ agencyInput.onchange = function(){
 
 let imagesArray = [];
 
-let uploadInput =
-document.querySelector("#images");
+let uploadInput = document.querySelector("#images");
 
-let uploadText =
-document.querySelector(".upload-text");
+let uploadText = document.querySelector(".upload-text");
 
-let previewContainer =
-document.querySelector(".preview-container");
+let previewContainer = document.querySelector(".preview-container");
 
 
+uploadInput.onchange = function () {
+
+    let files = this.files;
+    let fileCount = files.length;
+
+    uploadText.innerHTML = "تم اختيار " + fileCount + " صورة";
+
+
+
+    if (imagesArray.length + files.length > 10) {
+        alert("مسموح فقط 10 صور كحد أقصى");
+        this.value = "";
+        return;
+    }
+
+
+    for (let i = 0; i < fileCount; i++) {
+
+        let file = files[i];
+
+        let name = file.name.toLowerCase();
+
+        if (
+            !name.endsWith(".png") &&
+            !name.endsWith(".jpg") &&
+            !name.endsWith(".jpeg")
+        ) {
+            alert("مسموح فقط صور PNG / JPG / JPEG");
+            this.value = "";
+            return;
+        }
+
+        let image = document.createElement("img");
+
+        let fileURL = URL.createObjectURL(file);
+
+        image.src = fileURL;
+
+        previewContainer.appendChild(image);
+
+        imagesArray.push(fileURL);
+    }
+
+    // مهم جداً حتى تقدر تضيف نفس الصور مرة ثانية
+    this.value = "";
+};
+/*
 uploadInput.onchange = function(){
 
     let fileCount =
@@ -289,8 +353,21 @@ uploadInput.onchange = function(){
 
     }
 
-};
-
+};*/
 document.querySelector(".cancel").onclick = function () {
     window.location.href = "index.html";
+};
+
+
+/*زر القائمة للموبايل*/
+const menuBtn = document.getElementById("menubtn");
+const navLinks = document.getElementById("navlinks");
+
+menuBtn.onclick = function () {
+    if (navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
+    } else {
+        navLinks.style.display = "flex";
+        navLinks.style.flexDirection = "column";
+    }
 };
