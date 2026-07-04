@@ -31,10 +31,10 @@ class StoreRentalBookingRequest extends FormRequest
     {
         return [
             'start_date.required' => 'تاريخ البدء مطلوب.',
-            'start_date.date' => 'تاريخ البدء يجب أن يكون تاريخًا صالحًا.',
+            'start_date.date' => '[yyyy-mm-dd] تاريخ البدء يجب أن يكون تاريخًا صالحًا .',
             'start_date.after_or_equal' => 'تاريخ البدء يجب أن يكون اليوم أو بعده.',
             'end_date.required' => 'تاريخ الانتهاء مطلوب.',
-            'end_date.date' => 'تاريخ الانتهاء يجب أن يكون تاريخًا صالحًا.',
+            'end_date.date' => '[yyyy-mm-dd] تاريخ الانتهاء يجب أن يكون تاريخًا صالحًا .',
             'end_date.after' => 'تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء.',
         ];
     }

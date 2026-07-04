@@ -21,6 +21,10 @@ class LoginNotificationMail extends Mailable
     {
         return $this
             ->subject('تم تسجيل الدخول')
-            ->view('emails.login');
+            ->view('emails.login')
+            ->with([
+                'name' => $this->user->name,
+                'time' => now()->format('Y-m-d H:i'),
+            ]);
     }
 }
