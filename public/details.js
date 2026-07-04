@@ -43,6 +43,21 @@ if (!token) {
   })
   .then(data => {
     const property = data.real_estate  ||data;
+    // زر شراء العقار
+document.querySelector(".buy-btn").addEventListener("click", function () {
+
+    window.location.href =`
+    rental-Booking.html?type=buy&id=${property.id}`;
+
+});
+
+// زر استئجار العقار
+document.querySelector(".rent-btn").addEventListener("click", function () {
+
+    window.location.href =`
+    rental-Booking.html?type=rent&id=${property.id}`;
+
+});
 
     document.getElementById("title").textContent = property.title  ||"عقار";
     document.getElementById("location").innerHTML =
