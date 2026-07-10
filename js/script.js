@@ -119,6 +119,7 @@ else{
     alert(data.message);
 }
 });
+/* عرض المزيد */ 
 const realestateCards = document.querySelectorAll(".realestate-card");
 realestateCards.forEach(function(card){
     card.addEventListener("click", function(){
