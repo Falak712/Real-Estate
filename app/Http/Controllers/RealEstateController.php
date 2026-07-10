@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRealEstateRequest;
 use App\Http\Requests\UpdateRealEstateRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RealEstateController extends Controller
 {
@@ -153,6 +154,18 @@ if ($request->hasFile('ownership_document')) {
 
 $realEstate = RealEstate::create($validated);
 
+Mail::raw(
+    " مرحباً {$realEstate->user->fullname},
+
+    تم استلام طلب إضافة العقار الخاص بك بنجاح.
+
+    [ حالة الطلب الحالية:[ قيد المراجعة.
+
+    سيتم إشعارك عند الموافقة أو الرفض من قبل الإدارة.",
+        function ($message) use ($realEstate) {
+        $message->to($realEstate->user->email)->subject('تأكيد استلام طلب إضافة العقار');
+}
+);
 return response()->json([
     'message' => 'تم إضافة العقار بنجاح',
     'real_estate' => $realEstate

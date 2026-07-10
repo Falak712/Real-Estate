@@ -52,8 +52,11 @@ class RentalBookingController extends Controller
 
         Mail::raw(
             "مرحباً {$user->fullname},
+
             تم استلام طلب الاستئجار الخاص بك بنجاح.
-            حالة الطلب الحالية: قيد المراجعة.
+
+            [ حالة الطلب الحالية:[ قيد المراجعة.
+
             سيتم إشعارك عند الموافقة أو الرفض من قبل الإدارة.",
                 function ($message) use ($user) {
                 $message->to($user->email)->subject('تأكيد استلام طلب الاستئجار');

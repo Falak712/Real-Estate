@@ -42,7 +42,7 @@ class StoreRealEstateRequest extends FormRequest
             'price.required' => 'السعر مطلوب',
             'price.numeric' => 'السعر يجب أن يكون رقماً',
             'size.required' => 'المساحة مطلوبة',
-             'direction' => 'اتجاه العقار مطلوب',
+            'direction' => 'اتجاه العقار مطلوب',
             'address.required' => 'العنوان مطلوب',
             'point_of_length.required' => 'خط الطول مطلوب',
             'point_of_width.required' => 'خط العرض مطلوب',

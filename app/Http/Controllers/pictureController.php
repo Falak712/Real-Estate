@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Picture;
 use App\Models\RealEstate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\PictureResource;
 
 class PictureController extends Controller
@@ -36,7 +38,7 @@ class PictureController extends Controller
             ], 404);
 
         } catch (\Exception $e) {
-            \Log::error('Picture upload error: ' . $e->getMessage());
+            Log::error('Picture upload error: ' . $e->getMessage());
             return response()->json([
                 'message' => 'فشل رفع الصور، حاول مرة أخرى'
             ], 500);
@@ -65,7 +67,7 @@ class PictureController extends Controller
             $picture = Picture::findOrFail($id);
 
             // حذف الصورة من Storage
-            \Storage::disk('public')->delete($picture->image_path);
+            Storage::disk('public')->delete($picture->image_path);
 
             // حذف من قاعدة البيانات
             $picture->delete();
@@ -80,7 +82,7 @@ class PictureController extends Controller
             ], 404);
 
         } catch (\Exception $e) {
-            \Log::error('Delete picture error: ' . $e->getMessage());
+            Log::error('Delete picture error: ' . $e->getMessage());
             return response()->json([
                 'message' => 'فشل حذف الصورة'
             ], 500);

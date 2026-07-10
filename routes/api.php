@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::post('/admin/properties/{id}/reject', [AdminController::class, 'rejectProperty']);
     Route::delete('/admin/properties/{id}', [AdminController::class, 'deleteProperty']);
 
-     Route::post('/admin/bookings/{id}/approve',[AdminController::class, 'approve']);
+    Route::post('/admin/bookings/{id}/approve',[AdminController::class, 'approve']);
     Route::post('/admin/bookings/{id}/reject',[AdminController::class, 'reject']);
 
 
@@ -105,7 +105,6 @@ Route::apiResource('real-estate', RealEstateController::class);
 
 });
 
-   
 
 
 
