@@ -13,7 +13,7 @@ use App\Http\Controllers\PictureController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\RentalBookingController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +65,6 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
      Route::post('/admin/bookings/{id}/approve',[AdminController::class, 'approve']);
     Route::post('/admin/bookings/{id}/reject',[AdminController::class, 'reject']);
 
-        Route::post('/notices', [NoticeController::class, 'store']);
 
 });
 
@@ -101,26 +100,7 @@ Route::apiResource('real-estate', RealEstateController::class);
 
 
 
-    Route::get('/notices', [NoticeController::class, 'index']);
-    Route::get('/notices/{id}', [NoticeController::class, 'show']);
-    Route::delete('/notices/{id}', [NoticeController::class, 'destroy']);
-    Route::post('/notices/{id}', [NoticeController::class, 'ConfirmNotice']);
 
-
-Route::get('/test-mail', function () {
-
-    Mail::raw(
-        "هذه رسالة تجريبية من مشروع The Magic",
-        function ($message) {
-            $message->to("wiigudsy@gmail.com")
-                    ->subject("اختبار البريد");
-        }
-    );
-
-    return response()->json([
-        "message" => "تم إرسال البريد"
-    ]);
-});
 
 
 });
