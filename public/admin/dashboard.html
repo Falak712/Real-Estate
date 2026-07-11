@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لوحة تحكم الأدمن</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>The MAGIC</h2>
+
+            <p>Admin Panel</p>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+                <i class="fa-solid fa-house"></i>
+                <span>الرئيسية</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-users"></i>
+                <span>المستخدمون</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-building"></i>
+                <span>العقارات</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-clock"></i>
+                <span>العقارات المعلقة</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>الحجوزات</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-location-dot"></i>
+                <span>المناطق</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-ban"></i>
+                <span>العقوبات</span>
+            </li>
+
+            <li>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل الخروج</span>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+    <!-- المحتوى -->
+
+    <main class="main-content">
+
+        <!-- Header -->
+
+        <header>
+
+            <h1>لوحة التحكم</h1>
+
+            <div class="admin">
+
+                <i class="fa-solid fa-user-shield"></i>
+
+                <span>Administrator</span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- بطاقات الإحصائيات -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <i class="fa-solid fa-users"></i>
+
+                <h2 id="usersCount">0</h2>
+
+                <p>المستخدمون</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fa-solid fa-building"></i>
+
+                <h2 id="propertiesCount">0</h2>
+
+                <p>العقارات</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fa-solid fa-clock"></i>
+
+                <h2 id="pendingCount">0</h2>
+
+                <p>العقارات المعلقة</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <h2 id="bookingCount">0</h2>
+
+                <p>الحجوزات</p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- آخر العقارات -->
+
+        <section class="table-box">
+
+            <h2>آخر العقارات</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>المالك</th>
+
+                        <th>المدينة</th>
+
+                        <th>السعر</th>
+
+                        <th>الحالة</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="latestProperties">
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+
+        <!-- آخر الحجوزات -->
+
+        <section class="table-box">
+
+            <h2>آخر الحجوزات</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>المستخدم</th>
+
+                        <th>العقار</th>
+
+                        <th>النوع</th>
+
+                        <th>الحالة</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="latestBookings">
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+<script src="dashboard.js"></script>
+
+</body>
+
+</html>

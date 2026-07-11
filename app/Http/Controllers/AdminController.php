@@ -104,4 +104,26 @@ public function rejectProperty($id)
         ], 500);
     }
 }
+public function dashboard()
+{
+
+    return response()->json([
+
+        "users" => User::count(),
+
+        "properties" => RealEstate::count(),
+
+        "pending_properties" => RealEstate::where('order_status','pending')->count(),
+
+        "bookings" => RentalBooking::count(),
+
+        "latest_properties" => RealEstate::latest()->take(5)->get(),
+
+        "latest_users" => User::latest()->take(5)->get(),
+
+        "latest_bookings" => RentalBooking::latest()->take(5)->get(),
+
+    ]);
+
+}
 }

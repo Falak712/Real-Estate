@@ -63,7 +63,7 @@ function renderProperties(properties) {
 
         }
 
-        container.innerHTML += 
+        container.innerHTML += `
 
         <div class="property-card"
              data-id="${property.id}">
@@ -114,7 +114,7 @@ function renderProperties(properties) {
 
         </div>
 
-        ;
+        ;`
 
     });
 
