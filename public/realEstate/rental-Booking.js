@@ -15,8 +15,6 @@ let bookingInfo = document.getElementById("bookingInfo");
 
 let pageTitle = document.getElementById("pageTitle");
 
-console.log(type);
-
 let publishBtn = document.getElementById("publishBtn");
 
 if (type === "buy") {
@@ -177,3 +175,51 @@ function calculateDays() {
         daysInput.value = diffDays > 0 ? diffDays : 0;
     }
 }
+
+function login() {
+
+    let email = document.getElementById("email").value;
+    let number = document.getElementById("phone-number").value;
+
+    if (email === "" || number === "") {
+
+        alert("الرجاء إدخال البريد الإلكتروني و رقم الهاتف");
+
+        return;
+    }
+
+    let numberRegex = /^\d{10}$/;   //(?=.*[A-Za-z]) لازم يكون عندي حرف واحد اقل شي
+                                    //(?=.*\d) لازم رقم  واحد عالاقل
+                                    //.{8,} الطول 8 محارف و واكتر
+
+    if (!numberRegex.test(number)) {
+     alert("يجب أن يتكون رقم الهاتف من 10 أرقام");
+      return;
+   }
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+
+    if (!emailRegex.test(email)) {
+       alert("يجب إدخال بريد إلكتروني من نوع Gmail");
+       return;
+    }
+
+      alert("تم التسجيل بنجاح");
+
+    {
+    }
+}
+
+
+/*زر القائمة للموبايل*/
+const menuBtn = document.getElementById("menubtn");
+const navLinks = document.getElementById("navlinks");
+
+menuBtn.onclick = function () {
+    if (navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
+    } else {
+        navLinks.style.display = "flex";
+        navLinks.style.flexDirection = "column";
+    }
+};

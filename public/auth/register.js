@@ -1,71 +1,131 @@
-async function register(e) {
+// جلب العناصر
+
+let registerButton = document.querySelector(".register-btn");
+
+let fullName = document.querySelector("#fullname");
+
+let email = document.querySelector("#email");
+
+let password = document.querySelector("#password");
+
+let confirmPassword = document.querySelector("#confirm-password");
+
+let phoneNumber = document.querySelector("#phone-number");
+
+// عند الضغط على زر إنشاء الحساب
+registerButton.onclick = function(e){
+
+
+        // منع إعادة تحميل الصفحة
     e.preventDefault();
 
-    let fullName = document.getElementById('fullname').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    let passwordConfirmation = document.getElementById('confirm-password').value;
-    let phoneNumber = document.getElementById('phone-number').value;
+    // التحقق من الحقول الفارغة
 
-    try {
-        let response = await fetch('http://127.0.0.1:8000/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                fullname: fullName,
-                email: email,
-                password: password,
-                password_confirmation: passwordConfirmation,
-                phone_number: phoneNumber
-            })
-        });
+    if(
 
-        let data = await response.json();
-
-        if (!response.ok) {
-            if (data.errors) {
-                let firstError = Object.values(data.errors)[0][0];
-                alert(firstError);
-            } else {
-                alert(data.message || 'حدث خطأ أثناء التسجيل');
-            }
-            return;
-        }
-
-        localStorage.setItem('token', data.token);
-        alert('تم إنشاء الحساب بنجاح!');
-        window.location.href = 'index.html';
-
-    } catch (error) {
-        alert('حدث خطأ في الاتصال بالسيرفر');
-        console.error(error);
+        fullName.value === "" ||
+        email.value === "" ||
+        password.value === "" ||
+        confirmPassword.value === "" ||
+        phoneNumber.value === ""
+    ){
+        alert("الرجاء تعبئة جميع الحقول");
+        return;
     }
-}
 
-// ==========================
-// إظهار/إخفاء كلمة المرور
-// ==========================
-let togglePassword = document.getElementById('togglePassword');
-let passwordField = document.getElementById('password');
+    // التحقق من تطابق كلمات المرور
 
-togglePassword.addEventListener('click', function() {
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-    } else {
-        passwordField.type = 'password';
+    if(password.value !== confirmPassword.value){
+
+        alert("كلمتا المرور غير متطابقتين");
+
     }
-});
 
-let toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-let confirmPasswordField = document.getElementById('confirm-password');
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;  //(?=.*[A-Za-z]) لازم يكون عندي حرف واحد اقل شي
+    //(?=.*\d) لازم رقم  واحد عالاقل
+    //.{8,} الطول 8 محارف و واكتر
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-toggleConfirmPassword.addEventListener('click', function() {
-    if (confirmPasswordField.type === 'password') {
-        confirmPasswordField.type = 'text';
-    } else {
-        confirmPasswordField.type = 'password';
+    let phoneRegex = /^\d{10}$/;
+
+    if (!passwordRegex.test(password.value)) {
+        alert(" يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتتضمن حروفًا وأرقامًا بالانكليزي");  //التحقق من أن البريد ينتهي @gmail.com
+        return;
     }
-});
+
+    if (!emailRegex.test(email.value)) {
+       alert("يجب إدخال بريد إلكتروني من نوع Gmail");
+       return;
+
+    }
+    if (!phoneRegex.test(phoneNumber.value)) {
+        alert("يجب أن يكون رقم الهاتف مكوناً من 10 أرقام");
+        return;
+    }
+
+    let formData = new FormData();
+
+    formData.append("fullName", fullName.value);
+    formData.append("email", email.value);
+    formData.append("phoneNumber", phoneNumber.value);
+    formData.append("password", password.value);
+
+    alert("تم إنشاء الحساب بنجاح ✨");
+        // إذا كانت الحقول ممتلئة ينتقل للرئيسية
+        window.location.href = "../views/index.html";
+
+};
+
+
+// إظهار وإخفاء كلمة المرور
+
+let passwordInput =
+document.querySelector("#password");
+
+let togglePassword =
+document.querySelector("#togglePassword");
+
+togglePassword.onclick = function(){
+
+    if(passwordInput.type === "password"){
+
+        passwordInput.type = "text";
+
+        togglePassword.innerHTML = "🙈";
+
+    }else{
+
+        passwordInput.type = "password";
+
+        togglePassword.innerHTML = "👁";
+
+    }
+
+};
+
+
+// تأكيد كلمة المرور
+
+let confirmPasswordInput =
+document.querySelector("#confirm-password");
+
+let toggleConfirmPassword =
+document.querySelector("#toggleConfirmPassword");
+
+toggleConfirmPassword.onclick = function(){
+
+    if(confirmPasswordInput.type === "password"){
+
+        confirmPasswordInput.type = "text";
+
+        toggleConfirmPassword.innerHTML = "🙈";
+
+    }else{
+
+        confirmPasswordInput.type = "password";
+
+        toggleConfirmPassword.innerHTML = "👁";
+
+    }
+
+};

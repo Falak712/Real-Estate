@@ -1,210 +1,378 @@
-//=========================================
-// API
-//=========================================
+// ==========================
+// زر البحث
+// ==========================
+/*
+function searchProperties() {
 
-const API = "http://127.0.0.1:8000/api";
-
-const container = document.querySelector(".property-grid");
-
-
-//=========================================
-// تحميل العقارات
-//=========================================
-
-window.onload = function () {
-
-    loadProperties();
-
-}
+    let cityInput = document.getElementById("city").value;
+    let typeInput = document.getElementById("type").value;
+    let priceInput = document.getElementById("price").value;
+    let stateInput = document.getElementById("state").value;
+    let currencyInput = document.getElementById("currencyFilter").value;
+    let cards = document.querySelectorAll(".property-card");
 
 
-//=========================================
-// جلب العقارات
-//=========================================
 
-async function loadProperties() {
+    if (cityInput === "" ||
+        typeInput === "" ||
+        priceInput === "" ||
+        stateInput === "" ||
+        currencyInput === ""
+    ) {
 
-    try {
-
-        let response = await fetch(API + "/real-estate");
-
-        let data = await response.json();
-
-        renderProperties(data.real_estates.data);
-
+        alert("الرجاء إدخال جميع البيانات");
+        return;
     }
-
-    catch (error) {
-
-        console.log(error);
-
+    else {
+    alert("تم إرسال بيانات البحث");
     }
 
 }
+*/
+function searchProperties() {
+    let city = document.getElementById("city").value.toLowerCase();
+    let type = document.getElementById("type").value;
+    let currency = document.getElementById("currencyFilter").value;
+    let price = document.getElementById("price").value;
+    let state = document.getElementById("state").value;
 
+    let cards = document.querySelectorAll(".property-card");
 
-//=========================================
-// عرض العقارات
-//=========================================
+    cards.forEach((card) => {
+        let match = true;
 
-function renderProperties(properties) {
-
-    container.innerHTML = "";
-
-    properties.forEach(function(property) {
-
-        let image = "/images/default.jpg";
-
-        if(property.pictures.length > 0){
-
-            image =
-            "http://127.0.0.1:8000/storage/" +
-            property.pictures[0].image_path;
-
+        if (city && !card.innerText.toLowerCase().includes(city)) {
+            match = false;
         }
 
-        container.innerHTML += `
+        if (type && card.dataset.type !== type) {
+            match = false;
+        }
 
-        <div class="property-card"
-             data-id="${property.id}">
+        if (currency && card.dataset.currency !== currency) {
+            match = false;
+        }
 
-            <div style="position:relative;">
+        if (state && card.dataset.state !== state) {
+            match = false;
+        }
 
-                <img src="${image}">
+        card.style.display = match ? "block" : "none";
+    });
+}
 
-                <span class="tag">
+//login
+/*let logbtn = document.getElementById("logbtn");
 
-                    ${property.contract_type=="sale" ? "بيع" : "إيجار"}
+let isLoggedIn = localStorage.getItem("loggedIn");
 
-                </span>
+if (isLoggedIn === "true") {
 
+    authBtn.innerText = "تسجيل خروج";
+
+    authBtn.href = "#";
+
+    authBtn.onclick = function (e) {
+        e.preventDefault();
+
+        localStorage.removeItem("loggedIn");
+
+        window.location.reload();
+    };
+}*/
+
+// ==========================
+// تأثير ظهور بطاقات العقارات
+// ==========================
+
+let cards = document.querySelectorAll(".property-card");
+
+cards.forEach(function (card) {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(50px)";
+});
+
+window.addEventListener("scroll", function () {
+    cards.forEach(function (card) {
+        let cardTop = card.getBoundingClientRect().top;
+
+        if (cardTop < window.innerHeight - 100) {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+            card.style.transition = "0.7s";
+        }
+    });
+});
+
+//لفتح التفاصيل
+//============
+
+cards.forEach(function (card) {
+    card.addEventListener("click", function () {
+        let id = card.getAttribute("data-id");
+
+        window.location.href = "details.html?id=" + id;
+    });
+});
+
+// ==========================
+// تأثير Hover للكروت
+// ==========================
+
+cards.forEach(function (card) {
+    card.addEventListener("mouseenter", function () {
+        card.style.transform = "scale(1.03)";
+        card.style.transition = "0.3s";
+    });
+
+    card.addEventListener("mouseleave", function () {
+        card.style.transform = "scale(1)";
+    });
+});
+
+//================
+// زر عرض المزيد
+/*
+const btn = document.getElementById("showMoreBtn");
+const hiddenCards = document.querySelectorAll(".hidden-property");
+let expanded = false;
+
+// عند الضغط على زر عرض المزيد
+btn.onclick = function () {
+    if (expanded === false) {
+        hiddenCards.forEach(function (card) {
+            card.style.display = "block";
+        });
+
+        btn.innerHTML = "↑ عرض أقل";
+        expanded = true;
+    } else {
+        hiddenCards.forEach(function (card) {
+            card.style.display = "none";
+        });
+
+        btn.innerHTML = "عرض المزيد";
+        expanded = false;
+    }
+};
+*/
+const btn = document.getElementById("showMoreBtn");
+let expanded = false;
+
+btn.onclick = function () {
+     // التحقق من تسجيل الدخول
+     if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "../views/login.html";
+        return;
+    }
+    const hiddenCards = document.querySelectorAll(".hidden-property");
+
+    hiddenCards.forEach(function (card) {
+
+        if (expanded) {
+            card.style.display = "none";
+        } else {
+            card.style.display = "block";
+        }
+
+    });
+
+    expanded = !expanded;
+
+    if (expanded) {
+        btn.innerHTML = "↑ عرض أقل";
+    } else {
+        btn.innerHTML = "عرض المزيد←";
+    }
+};
+//================
+//الروابط السريعة لاظهر عقارات للبيع وللايجار وكل العقارات
+//البيع
+function showSale() {
+    let properties = document.querySelectorAll(".property-card");
+
+    properties.forEach(function (property) {
+        if (property.dataset.state === "sale") {
+            property.style.display = "block";
+        } else {
+            property.style.display = "none";
+        }
+    });
+}
+
+//عقارات الايجار
+function showRent() {
+    let properties = document.querySelectorAll(".property-card");
+
+    properties.forEach(function (property) {
+        if (property.dataset.state === "rent") {
+            property.style.display = "block";
+        } else {
+            property.style.display = "none";
+        }
+    });
+}
+
+//كل العقارات
+function showAll() {
+    let properties = document.querySelectorAll(".property-card");
+
+    properties.forEach(function (property) {
+        property.style.display = "block";
+    });
+}
+
+//عرض العقارات في الرئيسية
+// جلب العقارات
+/*
+let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+let container = document.querySelector(".property-grid");
+
+properties.forEach(function (p) {
+    const currencySymbols = {
+        USD: "$",
+        SYP: "ل.س",
+    };
+
+    let symbol = currencySymbols[p.currency] || "؟";
+
+    container.innerHTML += `
+        <div class="property-card" data-id="${p.id}">
+
+            <div style="position: relative;">
+                <img src="${p.images && p.images.length > 0 ? p.images[0] : 'images/default.jpg'}">
+               <span class="tag">
+               ${p.state === "sale" ? "للبيع" : "للإيجار"}
+              </span>
             </div>
 
             <div class="content">
+               <div class="price">
+                ${p.price.toLocaleString()} ${ currencySymbols[p.currency] || p.currency
+    }
+               </div>
 
-                <div class="price">
+                <h4>${p.title}</h4>
 
-                    ${property.price}$
-
-                </div>
-
-                <h4>
-
-                    ${property.type_real_estate}
-
-                </h4>
-
-                <p>
-
-                    ${property.address}
-
-                </p>
+                <p>${p.location}</p>
 
                 <div class="details">
-
-                    <span>${property.bedrooms} غرف</span>
-
-                    <span>${property.bathrooms} حمامات</span>
-
-                    <span>${property.size} م²</span>
-
+                    <span>${p.rooms} غرف</span>
+                    <span>${p.baths} حمامات</span>
+                    <span>${p.space} م²</span>
                 </div>
 
             </div>
 
         </div>
+    `;
+});*/
 
-        ;`
+let properties = JSON.parse(localStorage.getItem("properties")) || [];
 
-    });
+let container = document.querySelector(".property-grid");
+let showMoreBtn = document.getElementById("showMoreBtn");
 
+container.innerHTML = "";
+
+properties.forEach(function (p, index) {
+
+    let hiddenClass = index >= 3 ? "hidden-property" : "";
+
+    container.innerHTML += `
+        <div class="property-card ${hiddenClass}" data-id="${p.id}">
+
+            <div style="position: relative;">
+                <img src="${p.images && p.images.length ? p.images[0] : 'images/default.jpg'}">
+                <span class="tag">
+                    ${p.state === "sale" ? "للبيع" : "للإيجار"}
+                </span>
+            </div>
+
+            <div class="content">
+                <div class="price">
+                    ${p.price.toLocaleString()} ${p.currency}
+                </div>
+
+                <h4>${p.title}</h4>
+
+                <p>${p.location}</p>
+
+                <div class="details">
+                    <span> <i class="fa-solid fa-bed"></i> ${p.rooms} غرف</span>
+                    <span> <i class="fa-solid fa-bath"></i> ${p.baths} حمامات</span>
+                    <span> <i class="fa-solid fa-ruler-combined"></i> ${p.space} م²</span>
+                </div>
+            </div>
+
+        </div>
+    `;
+});
+
+
+// إظهار أو إخفاء زر عرض المزيد
+if (properties.length <= 3) {
+    showMoreBtn.style.display = "none";
+} else {
+    showMoreBtn.style.display = "block";
 }
 
 
-//=========================================
-// البحث والفلترة
-//=========================================
 
-document
-.getElementById("searchBtn")
-.addEventListener("click", searchProperties);
+//فتح التفاصيل
+document.addEventListener("click", function (e) {
+    let card = e.target.closest(".property-card");
 
-
-async function searchProperties() {
-
-    let city =
-    document.getElementById("city").value;
-
-    let type =
-    document.getElementById("type").value;
-
-    let state =
-    document.getElementById("state").value;
-
-    let price =
-    document.getElementById("price").value;
-
-    let url = API + "/real-estate?";
-
-
-
-    //----------------------------------
-
-    if(city){
-
-        url += "address=" + city + "&";
-
+    if (card) {
+        let id = card.getAttribute("data-id");
+        window.location.href = "details.html?id=" + id;
     }
+});
 
-    //----------------------------------
+/*زر القائمة للموبايل*/
+const menuBtn = document.getElementById("menubtn");
+const navLinks = document.getElementById("navlinks");
 
-    if(type){
-
-        url +=
-        "type_real_estate=" + type + "&";
-
+menuBtn.onclick = function () {
+    if (navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
+    } else {
+        navLinks.style.display = "flex";
+        navLinks.style.flexDirection = "column";
     }
+};
 
-    //----------------------------------
+/*زر تسجيل الدخول يتحول لتتسجيل خروج*/
+const authBtn = document.getElementById("authBtn");
 
-    if(state){
+if (localStorage.getItem("isLoggedIn") === "true") {
+    authBtn.innerHTML =
+        '<i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج';
 
-        url +=
-        "contract_type=" + state + "&";
+    authBtn.href = "#";
 
-    }
+    authBtn.onclick = function (e) {
+        e.preventDefault();
 
-    //----------------------------------
+        // حذف حالة تسجيل الدخول
+        localStorage.removeItem("isLoggedIn");
 
-    if(price=="low"){
-
-        url +=
-        "max_price=500000&";
-
-    }
-
-    else if(price=="medium"){
-
-        url +=
-        "min_price=500000&max_price=2000000&";
-
-    }
-
-    else if(price=="high"){
-
-        url +=
-        "min_price=2000000&";
-
-    }
-
-    //----------------------------------
-
-    let response =
-    await fetch(url);
-
-    let data =
-    await response.json();
-
-    renderProperties(data.real_estates.data);
-
+        // إعادة تحميل الصفحة
+        location.reload();
+    };
 }
+
+function goToAddProperty(e) {
+
+    e.preventDefault();
+
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        window.location.href = "add-property.html";
+    } else {
+        window.location.href = "login.html";
+    }
+}
+
+document.getElementById("headerAddBtn").onclick = goToAddProperty;
+document.getElementById("addPropertyBtn").onclick = goToAddProperty;
