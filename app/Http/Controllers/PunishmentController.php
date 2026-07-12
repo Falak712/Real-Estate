@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Punishment;
 use App\Http\Requests\BanUserRequest;
-
+use Illuminate\Support\Facades\Log;
 class PunishmentController extends Controller
 {
     public function banUser(BanUserRequest $request, $id)
