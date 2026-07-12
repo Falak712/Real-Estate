@@ -2,7 +2,6 @@
 // صفحة تفاصيل العقار
 // ==========================
 
-
 let description = document.getElementById("description");
 let space = document.getElementById("space");
 let rooms = document.getElementById("rooms");
@@ -28,7 +27,7 @@ if (property) {
 
     document.getElementById("title").innerText = property.title || "";
 
-    document.getElementById("price").innerText = property.price || "";
+    //document.getElementById("price").innerText = property.price || "";
 
     document.getElementById("location").innerText = property.location || "";
 
@@ -48,23 +47,83 @@ if (property) {
 
 
 
+   // document.getElementById("currency").innerText = property.currency || "";
+
+    const currencySymbols = {
+        USD: "$",
+        SYP: "ل.س"
+    };
+
+    let symbol = currencySymbols[property.currency] || property.currency;
+
+     document.getElementById("price").innerText =
+        `${Number(property.price).toLocaleString()} ${symbol}`;
+
+
+
     // الصورة
     if (property.images && property.images.length > 0) {
-        document.getElementById("mainImage").src = property.images[0];
+
+        let mainImage = document.getElementById("mainImage");
+        let thumbnails = document.querySelector(".thumbnails");
+
+        mainImage.src = property.images[0];
+
+        thumbnails.innerHTML = "";
+
+        property.images.forEach(function(image) {
+
+            let img = document.createElement("img");
+
+            img.src = image;
+
+            img.onclick = function () {
+                mainImage.src = image;
+            };
+
+            thumbnails.appendChild(img);
+
+        });
+
     }
 
     //موقع عالخريطة
+    /*
     let lat = property.pointOfWidth;
     let lng = property.pointOfLength;
-//اذا الاحداثيات موجودة
+    //اذا الاحداثيات موجودة
     if (lat !== undefined && lng !== undefined) {
        document.getElementById("map").src =
           `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
      } else {
       document.querySelector(".map-section").style.display = "none";
    }
+      if (property.location) {
+        document.getElementById("map").src =
+            `https://www.google.com/maps?q=${property.location}&output=embed`;
+    } else {
+        document.querySelector(".map-section").style.display = "none";
+    }
+*/
+let lat = property.latitude;
+let lng = property.longitude;
 
+// إذا في إحداثيات (الأفضل)
+if (lat && lng) {
+    document.getElementById("map").src =
+        `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
+}
+/*
+// إذا ما في إحداثيات → نستخدم النص (الحالي عندك)
+else if (property.location) {
+    document.getElementById("map").src =
+        `https://www.google.com/maps?q=${property.location}&output=embed`;
+}*/
 
+// إذا لا هذا ولا هذا → نخفي الخريطة
+else {
+    document.querySelector(".map-section").style.display = "none";
+}
 
 }
 else {
@@ -83,3 +142,40 @@ buyBtn.onclick = function () {
 rentBtn.onclick = function () {
     window.location.href = `../views/rental-Booking.html?type=rent&id=${property.id}`;
 }
+
+//حالة العقار
+let statusText = "";
+
+switch (property.status) {
+
+    case "available":
+        statusText = "متاح";
+        break;
+
+    case "booked":
+        statusText = "محجوز";
+        break;
+
+    case "sold":
+        statusText = "مباع";
+        break;
+
+    default:
+        statusText = "غير معروف";
+}
+
+document.getElementById("status").innerText = statusText;
+
+
+/*زر القائمة للموبايل*/
+const menuBtn = document.getElementById("menubtn");
+const navLinks = document.getElementById("navlinks");
+
+menuBtn.onclick = function () {
+    if (navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
+    } else {
+        navLinks.style.display = "flex";
+        navLinks.style.flexDirection = "column";
+    }
+};

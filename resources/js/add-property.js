@@ -1,7 +1,5 @@
-// ==========================
 //صفحة اضافة عقار
 //اختيار نوع العقار
-
 
 let typeButtons = document.querySelectorAll(".type-btn");
 
@@ -28,6 +26,7 @@ let currency = document.getElementById("currency");
 
 
 //التحقق من الحقول قبل النشر
+//زر نشر العقار
 
 let publishButton = document.querySelector(".publish");
 
@@ -36,13 +35,14 @@ publishButton.onclick = function (e) {
     e.preventDefault();
 
 
+
     let stateBtn = document.querySelector(".type-btn.active");
 
     let state = stateBtn ? stateBtn.dataset.state : "";
 
     let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
 
-     localStorage.setItem("propertyType", type);
+
      if (
         title.value === "" ||
         price.value === "" ||
@@ -58,88 +58,78 @@ publishButton.onclick = function (e) {
         return;
     }
 
-    let newProperty = {
-        id: Date.now(),
-        title: title.value,
-        price: Number(price.value),
-        currency: document.getElementById("currency").value,
-        location: city.value,
-        description: document.getElementById("descriptionInput").value,
-        space: space.value,
-        rooms: rooms.value,
-        baths: baths.value,
-        direction: direction.value,
-        //images: ["https://server.com/uploads/img1.jpg"],
-        images: imagesArray,
-        status: "متاح",
-        type: type,
-        state: state,         // للبيع - للإيجار
-
-    };
+    let formData = new FormData();
 
 
-    // جلب العقارات الموجودة
-    let properties =
-    JSON.parse(localStorage.getItem("properties")) || [];
+formData.append("title", title.value);
+formData.append("price", Number(price.value));
+formData.append("currency", currency.value);
+formData.append("location", city.value);
+formData.append("description", description.value);
 
-    // إضافة العقار الجديد
-    properties.push(newProperty);
+formData.append("space", space.value);
+formData.append("rooms", rooms.value);
+formData.append("baths", baths.value);
 
-    // حفظ المصفوفة
-    localStorage.setItem(
-        "properties",
-        JSON.stringify(properties)
+formData.append("direction", direction.value);
+
+formData.append("type", type);
+
+formData.append("state", state);
+
+
+// الحالة عند الأدمن
+formData.append("status", "pending");
+
+
+// الإحداثيات
+formData.append(
+    "latitude",
+    document.getElementById("lat").value
+);
+
+formData.append(
+    "longitude",
+    document.getElementById("lng").value
+);
+
+
+// صور العقار
+imagesArray.forEach(function(image){
+
+    formData.append("images[]", image);
+
+});
+
+
+// الهوية
+if(identityFile){
+    formData.append(
+        "identityImage",
+        identityFile
     );
+}
 
-    alert("تم نشر العقار بنجاح");
 
-    window.location.href = "../views/index.html";
+// وثيقة الملكية
+if(ownershipFile){
+    formData.append(
+        "ownershipImage",
+        ownershipFile
+    );
+}
+console.log([...formData]);
 
+alert("تم إرسال العقار للمراجعة");
+
+window.location.href = "../views/index.html";
 };
 
-/*هذا الكود الاصلي لحتى يوافق عليه الادمن*/
-/*
-let publishButton = document.querySelector(".publish");
-
-publishButton.onclick = function(e){
-
-    e.preventDefault();
-
-    let title = document.querySelector("#title");
-    let price = document.querySelector("#price");
-    let city = document.querySelector("#city");
-
-    if (
-        title.value === "" ||
-        price.value === "" ||
-        city.value === ""
-    ){
-        alert("الرجاء ملء جميع الحقول المطلوبة");
-        return;
-    }
-
-    let type = document.querySelector(".type-btn.active")?.innerText || "غير محدد";
-
-    let newProperty = {
-        title: title.value,
-        price: price.value,
-        location: city.value,
-        type: type,
-        status: "pending"
-    };
-
-    console.log(newProperty);
-
-    alert("تم إرسال العقار إلى الأدمن للمراجعة");
-    //هذه الفكرة للباك بس يتحقق من نشر العقار للادمن يعمل انتقال للصفحة
-    window.location.href = "../views/index.html";
-};
-*/
 
 
 //تأثير الظهور عند التمرير
 let reveals =
-document.querySelectorAll(".reveal");
+ document.querySelectorAll(".reveal");
 
 window.addEventListener("scroll", function(){
 
@@ -161,35 +151,17 @@ window.addEventListener("scroll", function(){
 
 });
 
-/*صورة الهوية*/
-/*
-let identityInput =
-document.querySelector("#identityImage");
-
-let identityPreview =
-document.querySelector(".identity-preview");
-
-identityInput.onchange = function(){
-
-    let file = identityInput.files[0];
-
-    if (!file) return;
-
-    identityPreview.src =
-    URL.createObjectURL(file);
-
-    identityPreview.style.display =
-    "block";
-
-};*/
 let identityInput = document.querySelector("#identityImage");
+let identityFile = null;
 let identityPreview = document.querySelector(".identity-preview");
 
 identityInput.onchange = function () {
 
     let file = identityInput.files[0];
 
+
     if (!file) return;
+    identityFile = file;
 
 
     let name = file.name.toLowerCase();
@@ -213,32 +185,15 @@ identityInput.onchange = function () {
 };
 
 /*صورة الملكية*/
-/*
-let ownershipInput =
-document.querySelector("#ownershipImage");
-
-let ownershipPreview =
-document.querySelector(".ownership-preview");
-
-ownershipInput.onchange = function(){
-
-    let file = ownershipInput.files[0];
-
-    if (!file) return;
-
-    ownershipPreview.src =
-    URL.createObjectURL(file);
-
-    ownershipPreview.style.display =
-    "block";
-
-};*/
 let ownershipInput = document.querySelector("#ownershipImage");
+let ownershipFile = null;  //ملف لحفظ الصور
 let ownershipPreview = document.querySelector(".ownership-preview");
 
 ownershipInput.onchange = function () {
 
     let file = ownershipInput.files[0];
+
+    ownershipFile = file;
 
     if (!file) return;
 
@@ -268,31 +223,17 @@ ownershipInput.onchange = function () {
 let imagesArray = [];
 
 let uploadInput = document.querySelector("#images");
-
 let uploadText = document.querySelector(".upload-text");
-
 let previewContainer = document.querySelector(".preview-container");
 
-
+//رفع الصور
 uploadInput.onchange = function () {
 
-    let files = this.files;
-    let fileCount = files.length;
-
-    uploadText.innerHTML = "تم اختيار " + fileCount + " صورة";
+    let files = Array.from(this.files);
 
 
-
-    if (imagesArray.length + files.length > 10) {
-        alert("مسموح فقط 10 صور كحد أقصى");
-        this.value = "";
-        return;
-    }
-
-
-    for (let i = 0; i < fileCount; i++) {
-
-        let file = files[i];
+    // التحقق من نوع الصور
+    for (let file of files) {
 
         let name = file.name.toLowerCase();
 
@@ -302,58 +243,47 @@ uploadInput.onchange = function () {
             !name.endsWith(".jpeg")
         ) {
             alert("مسموح فقط صور PNG / JPG / JPEG");
+
             this.value = "";
             return;
         }
-
-        let image = document.createElement("img");
-
-        let fileURL = URL.createObjectURL(file);
-
-        image.src = fileURL;
-
-        previewContainer.appendChild(image);
-
-        imagesArray.push(fileURL);
     }
 
-    // مهم جداً حتى تقدر تضيف نفس الصور مرة ثانية
-    this.value = "";
-};
-/*
-uploadInput.onchange = function(){
 
-    let fileCount =
-    uploadInput.files.length;
+    // التحقق من العدد
+    if(imagesArray.length + files.length > 10){
+        alert("الحد الأقصى 10 صور");
+        this.value = "";
+        return;
+    }
+
+
+    // إضافة الصور الجديدة مع القديمة
+    imagesArray.push(...files);
+
 
     uploadText.innerHTML =
-    "تم اختيار " + fileCount + " صورة";
+    "تم اختيار " + imagesArray.length + " صور";
+
 
     previewContainer.innerHTML = "";
 
-    for(let i = 0; i < fileCount; i++){
 
-        //ينشئ عنصر صورة جديد
+    imagesArray.forEach(function(file){
+
         let image = document.createElement("img");
 
-        //يحول الملف الذي اختاره المستخدم إلى رابط مؤقت
-        let fileURL = URL.createObjectURL(uploadInput.files[i]);
+        image.src = URL.createObjectURL(file);
 
-        //يضع الرابط داخل الصورة
-        image.src = fileURL;
-
-        //يحفظ روابط الصور داخل المصفوفة
-        imagesArray.push(fileURL);
-
-        //يضيف الصورة إلى الحاوية لعرضها على الصفحة
         previewContainer.appendChild(image);
 
-        //عرض الصورة التي اختارها المستخدم.
-        image.src = URL.createObjectURL(uploadInput.files[i]);
+    });
 
-    }
 
-};*/
+    // حتى يسمح باختيار نفس الصورة مرة ثانية
+    this.value = "";
+
+};
 document.querySelector(".cancel").onclick = function () {
     window.location.href = "index.html";
 };
@@ -371,3 +301,77 @@ menuBtn.onclick = function () {
         navLinks.style.flexDirection = "column";
     }
 };
+
+// إنشاء الخريطة
+const map = L.map('map').setView([33.5138, 36.2765], 30);
+
+// طبقة الخريطة
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19
+  }).addTo(map);
+
+
+let marker;
+
+// عند الضغط على الخريطة
+map.on('click', function (e) {
+
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+
+  // حذف marker القديم
+  if (marker) {
+    map.removeLayer(marker);
+  }
+
+  // عرض النص
+  document.getElementById("selectedLocation").innerText =
+    `الموقع المحدد: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+  // تخزين القيم
+  document.getElementById("lat").value = lat;
+  document.getElementById("lng").value = lng;
+});
+
+
+let searchInput = document.getElementById("searchInput");
+let searchMarker;
+
+// البحث عند الضغط Enter
+searchInput.addEventListener("keypress", function (e) {
+
+  if (e.key === "Enter") {
+
+    let query = searchInput.value;
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+      .then(res => res.json())
+      .then(data => {
+
+        if (data.length > 0) {
+
+          let lat = data[0].lat;
+          let lon = data[0].lon;
+
+          // تحريك الخريطة
+          map.setView([lat, lon], 14);
+
+          // حذف ماركر قديم
+          if (searchMarker) {
+            map.removeLayer(searchMarker);
+          }
+
+          // إضافة ماركر جديد
+          searchMarker = L.marker([lat, lon]).addTo(map);
+
+          // حفظ القيم
+          document.getElementById("lat").value = lat;
+          document.getElementById("lng").value = lon;
+
+          document.getElementById("selectedLocation").innerText =
+            `الموقع: ${parseFloat(lat).toFixed(6)}, ${parseFloat(lon).toFixed(6)}`;
+        }
+      });
+  }
+});

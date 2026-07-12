@@ -12,10 +12,11 @@ let confirmPassword = document.querySelector("#confirm-password");
 
 let phoneNumber = document.querySelector("#phone-number");
 
-
 // عند الضغط على زر إنشاء الحساب
 registerButton.onclick = function(e){
-    // منع إعادة تحميل الصفحة
+
+
+        // منع إعادة تحميل الصفحة
     e.preventDefault();
 
     // التحقق من الحقول الفارغة
@@ -29,46 +30,53 @@ registerButton.onclick = function(e){
         phoneNumber.value === ""
     ){
         alert("الرجاء تعبئة جميع الحقول");
-
+        return;
     }
 
     // التحقق من تطابق كلمات المرور
 
-    else if(password.value !== confirmPassword.value){
+    if(password.value !== confirmPassword.value){
 
         alert("كلمتا المرور غير متطابقتين");
 
     }
 
-    // التحقق من طول كلمة المرور
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;  //(?=.*[A-Za-z]) لازم يكون عندي حرف واحد اقل شي
+    //(?=.*\d) لازم رقم  واحد عالاقل
+    //.{8,} الطول 8 محارف و واكتر
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-    else if(password.value.length < 6){
+    let phoneRegex = /^\d{10}$/;
 
-        alert("يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل");
-
+    if (!passwordRegex.test(password.value)) {
+        alert(" يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتتضمن حروفًا وأرقامًا بالانكليزي");  //التحقق من أن البريد ينتهي @gmail.com
+        return;
     }
 
-    // نجاح التسجيل
+    if (!emailRegex.test(email.value)) {
+       alert("يجب إدخال بريد إلكتروني من نوع Gmail");
+       return;
 
-    else{
+    }
+    if (!phoneRegex.test(phoneNumber.value)) {
+        alert("يجب أن يكون رقم الهاتف مكوناً من 10 أرقام");
+        return;
+    }
 
-        alert("تم إنشاء الحساب بنجاح ✨");
+    let formData = new FormData();
+
+    formData.append("fullName", fullName.value);
+    formData.append("email", email.value);
+    formData.append("phoneNumber", phoneNumber.value);
+    formData.append("password", password.value);
+
+    alert("تم إنشاء الحساب بنجاح ✨");
         // إذا كانت الحقول ممتلئة ينتقل للرئيسية
         window.location.href = "../views/index.html";
-
-    }
 
 };
 
 
-// رسالة ترحيب
-function welcomeUser(name){
-
-    return `مرحباً ${name} في موقع Magic Estate`;
-
-}
-console.log(welcomeUser("Shahed")
-);
 // إظهار وإخفاء كلمة المرور
 
 let passwordInput =

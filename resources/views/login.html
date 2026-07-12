@@ -3,43 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Login | Magic Estate</title>
     <style>
            *{
       margin:0;
       padding:0;
-      box-sizing:border-box;
-      font-family:'Cairo',sans-serif;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
     }
 
     body{
-
-      background:#050505;
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:35px;
+      padding:50px;
+      background: linear-gradient(135deg, #0a0a0a 0%, #111111 35%,#1a1a1a 60%,#c8962e 120%);
+      background-size: 200% 200%;
+      animation: bgMove 8s ease-in-out infinite;
     }
 
-    /* الخلفية */
-
-    body::before{
-      content:"";
-      position:absolute;
-      inset:0;
-
-      background:
-      radial-gradient(circle at top right,
-      rgba(212,168,79,.18),
-      transparent 30%),
-
-      radial-gradient(circle at bottom left,
-      rgba(212,168,79,.12),
-      transparent 30%);
-
-      z-index:-1;
-
-    }
+    @keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
     /* container*/
 
@@ -63,8 +57,9 @@
     /* القسم اليسار */
 
     .left-side{
+        /*
       position:relative;
-      padding:60px;
+      padding:46px;
       background-size:cover;
       background-position:center;
       display:flex;
@@ -75,6 +70,27 @@
       rgba(0,0,0,.72),
       rgba(0,0,0,.78)
       )
+      */
+
+      position:relative;
+      padding:46px;
+      background-size:cover;
+      background-position:center;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+
+      background:
+      linear-gradient(
+      rgba(0,0,0,.72),
+      rgba(0,0,0,.78)
+      ),
+      url("https://tse1.mm.bing.net/th/id/OIP.aBfaNr67zgGd4lBXLIVzrwHaLH?r=0&rs=1&pid=ImgDetMain&o=7&rm=3");
+
+      background-size:cover;
+      background-position:center;
+
     }
 
     .badge{
@@ -87,7 +103,7 @@
 
       border:1px solid rgba(212,168,79,.3);
 
-      color:#f3d57e;
+      color:#c8962e;
 
       margin-bottom:25px;
 
@@ -100,7 +116,7 @@
 
       color:white;
 
-      font-size:58px;
+      font-size:28px;
 
       line-height:1.3;
 
@@ -127,13 +143,22 @@
 
       background:#0b0b0b;
 
-      padding:70px;
-
+      padding:46px;
+      font-size: 28px;
       display:flex;
       flex-direction:column;
       justify-content:center;
 
       position:relative;
+
+    }
+    .right-side h2{
+
+      color:white;
+
+      font-size:30px;
+
+      margin-bottom:12px;
 
     }
 
@@ -189,9 +214,9 @@
     }
     .password-box{
 
-position:relative;
+     position:relative;
 
-}
+    }
 
     /*انشاء خساب*/
 
@@ -204,7 +229,7 @@ position:relative;
 
 .create-account a{
 
-color:#d4a84f;
+color:#c8962e;
 
 text-decoration:none;
 
@@ -218,22 +243,12 @@ transition:.3s;
 
 .create-account a:hover{
 
-color:#f3d57e;
+color:#c8962e;
 
 text-shadow:
 0 0 12px rgba(212,168,79,.35);
 
 }
-
-    .right-side h2{
-
-      color:white;
-
-      font-size:50px;
-
-      margin-bottom:12px;
-
-    }
 
     .subtitle{
 
@@ -257,7 +272,7 @@ text-shadow:
 
       display:block;
 
-      color:#d4a84f;
+      color:#c8962e;
 
       margin-bottom:12px;
 
@@ -290,7 +305,7 @@ text-shadow:
 
     .input-box:focus{
 
-      border-color:#d4a84f;
+      border-color:#c8962e;
 
       box-shadow:
       0 0 15px rgba(212,168,79,.18);
@@ -303,7 +318,7 @@ text-shadow:
 
       margin-top:10px;
 
-      color:#d4a84f;
+      color:#c8962e;
 
       text-decoration:none;
 
@@ -413,16 +428,15 @@ text-shadow:
 
     .google-btn:hover{
 
-      border-color:#d4a84f;
+      border-color:#c8962e;
 
       transform:translateY(-3px);
 
     }
     .google-btn img{
 
-width:22px;
-
-height:22px;
+      width:22px;
+      height:22px;
     }
 
 
@@ -459,6 +473,98 @@ height:22px;
       }
 
     }
+    /*للموبايل*/
+
+
+@media (max-width:768px){
+
+    body{
+    padding:0;
+}
+
+.login-container{
+
+grid-template-columns:1fr;
+
+min-height:100vh;
+width:100%;
+border-radius:0;
+background:
+linear-gradient(
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.85)
+),
+url("https://tse1.mm.bing.net/th/id/OIP.aBfaNr67zgGd4lBXLIVzrwHaLH?r=0&rs=1&pid=ImgDetMain&o=7&rm=3")
+center / cover no-repeat;
+
+}
+
+
+.left-side{
+    display:none;
+}
+
+.right-side{
+
+background:transparent;
+
+padding:50px 20px;
+
+text-align:right;
+
+}
+
+.back{
+    position:static;
+    display:inline-block;
+    margin-bottom:25px;
+    font-size:16px;
+}
+
+.login-icon{
+        align-self:flex-end;
+        width:70px;
+        height:70px;
+        font-size:28px;
+        margin-bottom:20px;
+    }
+
+.right-side h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    font-size:15px;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-box{
+    height:55px;
+    font-size:15px;
+    border-radius:14px;
+}
+
+.login-btn,
+.google-btn{
+    height:55px;
+    font-size:16px;
+    border-radius:14px;
+}
+
+.create-account{
+    font-size:14px;
+}
+
+.divider{
+    margin:20px 0;
+}
+}
 
 
     </style>
@@ -509,7 +615,7 @@ height:22px;
           type="email"
           class="input-box"
           id="email"
-          placeholder="name@example.com">
+          placeholder="name@gmail.com">
         </div>
 
         <!-- Password -->
@@ -521,7 +627,8 @@ height:22px;
           type="password"
           class="input-box"
           id="password"
-          placeholder="••••••••">
+          placeholder="••••••••"
+          minlength="8">
 
           <a href="#" class="forgot">
             نسيت كلمة المرور؟
@@ -533,7 +640,7 @@ height:22px;
         <button class="login-btn" onclick="login()" >
           تسجيل الدخول
         </button>
-      </a>
+
         <div class="create-account">
 
           ليس لديك حساب؟
