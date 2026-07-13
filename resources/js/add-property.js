@@ -375,3 +375,22 @@ searchInput.addEventListener("keypress", function (e) {
       });
   }
 });
+//زر تسجيل الخروج
+
+const logoutButtons = document.querySelectorAll("#logoutBtn, .mobile-logout");
+
+logoutButtons.forEach(btn => {
+
+    btn.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        // حذف حالة تسجيل الدخول
+        localStorage.removeItem("isLoggedIn");
+
+        // الرجوع للصفحة الرئيسية
+        window.location.href = "index.html";
+
+    });
+
+});

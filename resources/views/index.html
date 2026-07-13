@@ -7,6 +7,7 @@
     <link href="/public/images/p.png" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 
     <style>
@@ -15,7 +16,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Times New Roman', serif;
+            font-family: "Cairo", sans-serif;
         }
 
 
@@ -25,7 +26,6 @@
             background-color: #141414;
             color: #ffffff;
             padding-top: 70px;
-
             margin: 0;
             min-height: 100vh;
            background: linear-gradient(135deg, #0a0a0a 0%, #111111 35%,#1a1a1a 60%,#c8962e 120%);
@@ -66,13 +66,14 @@
             align-items:center;
             margin: 0;
             padding: 0;
-            margin-left: 60px;
+
 
         }
         header .logo img{
             height:80px;
             width:auto;
             object-fit:contain;
+            margin-left: 100%;
         }
 
         nav a {
@@ -120,15 +121,21 @@
         }
         .navbar .container
         {
-         max-width: 1400px;
 
+          width:90%;
+         justify-content:space-between;
+         max-width: 1400px;
           margin: auto;
          display: flex;
          align-items: center;
         }
 
         .nav-links{
+            display:flex;
 
+    justify-content:center;
+
+    flex:1;
         align-items: center;
         gap: 20px;
         }
@@ -175,8 +182,11 @@
             color:#c8962e;
             text-align: center;
             font-size:17px;
-
+            display:inline-flex;
             cursor:pointer;
+            align-items:center;        /* إضافة */
+            justify-content:center;   /* إضافة */
+            gap:8px;
             transition:.3s;
          }
             .header-add:hover,
@@ -187,6 +197,48 @@
                 transform: translateY(-4px);
                 box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
             }
+
+            .mobile-login,
+            .mobile-add{
+               display:none;
+               }
+
+
+            .header-actions{
+             display:flex;
+             align-items:center;
+             gap:35px;
+              margin-right:auto;
+             }
+
+@media(max-width:768px){
+
+.header-actions{
+    width:100%;
+    flex-direction:column;
+}
+
+.header-actions a{
+    width:80%;
+}
+
+.header-actions{
+    display:none;
+}
+
+
+.mobile-login,
+.mobile-add{
+    display:block;
+}
+
+
+.nav-links a{
+    width:80%;
+    text-align:center;
+}
+
+}
 
 
         /* القسم الثاني */
@@ -223,20 +275,137 @@
         .hero button:hover {
             background-color: #ffffff;
         }
+        .hero-stats{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.stat-box{
+    width: 220px;
+    padding: 30px 20px;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    border: 2px solid rgba(212,168,79,.5);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    transition: .4s ease;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(212,168,79,.12);
+}
+
+.stat-box h2{
+    color: #c8962e;
+    font-size: 32px;
+    font-family: 'Times New Roman', serif;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.stat-box p{
+    color: #f5f5f5;
+    font-size: 18px;
+    letter-spacing: .5px;
+}
+/*اراء العملاء*/
+.testimonials{
+    background:#111;
+    padding:90px 8%;
+}
+
+.section-title{
+    text-align:center;
+    color:#c8962e;
+    font-size:28px;
+    font-family: 'Times New Roman', serif;
+    margin-bottom:60px;
+}
+
+.testimonial-container{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.testimonial-card{
+    width:330px;
+    background:#1a1a1a;
+    border:2px solid rgba(212,168,79,.4);
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    transition:.4s;
+    box-shadow:0 0 18px rgba(212,168,79,.08);
+}
+
+.testimonial-card:hover{
+    transform:translateY(-10px);
+    border-color:#c8962e;
+    box-shadow:0 0 25px rgba(212,168,79,.3);
+}
+
+.testimonial-card img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #c8962e;
+    margin-bottom:18px;
+}
+
+.testimonial-card h3{
+    color:white;
+    margin-bottom:10px;
+}
+
+.stars{
+    color:#c8962e;
+    font-size:22px;
+    margin-bottom:18px;
+}
+
+.testimonial-card p{
+    color:#cfcfcf;
+    line-height:1.8;
+    font-size:15px;
+}
 
         /* القسم 1 مع الصورة */
         .search-section {
-            position: relative;
-            background:  url('/public/images/p.png') center center / cover no-repeat;
-            height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            color: #ffffff;
+            background:url('/public/images/p.png') center center/cover no-repeat;
+            height:600px;
 
         }
+
+        .search-section h1 {
+    color: #f3d57e;
+    text-shadow: 0 0 15px rgba(201,168,76,.3);
+    font-size: 50px;
+    margin-bottom: 15px;
+    font-family: "Times New Roman", serif;
+    font-weight: bold;
+}
+
+.search-section p {
+    font-size: 25px;
+    margin-bottom: 30px;
+    color: white;
+    font-family: "Cairo", sans-serif;
+}
+
+        .search-container{
+          display:flex;
+          justify-content:center;
+          margin-top:-100px;   /* يخلي الصندوق نازل من الصورة */
+          position:relative;
+          z-index:10;
+            display:flex;
+          justify-content:center;
+           margin:40px auto;   /* مسافة تحت الصورة */
+        }
+
         .search-section h2 {
             color: #c8962e;
             text-shadow:
@@ -259,22 +428,20 @@
         }
 
         .search-box {
+            width:90%;
+            max-width:1100px;
 
-            background: rgba(15, 15, 15, 0.55); /*  شفافية */
-            border: 1px solid rgba(200, 150, 46, 0.4);
-            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+            background:rgba(15,15,15,.9);
+            border:2px solid rgba(200,150,46,.4);
+            border-radius:15px;
+             padding:20px;
 
-             padding: 20px;
-             border-radius: 12px;
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
 
-             display:flex;
-             gap: 20px;
-             flex-wrap: wrap;
+            box-shadow:0 10px 30px rgba(0,0,0,.4);
 
-             max-width: 900px;
-             margin-top: 10%;
-
-    align-items:center;
         }
         .search-box:hover {
           background: rgba(15, 15, 15, 0.7);
@@ -362,7 +529,7 @@
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: 0.3s;
-            border: 1px solid rgba(201,168,76,.15);
+            border: 2px solid rgba(201,168,76,.15);
             color: white;
         }
 
@@ -401,15 +568,15 @@
             margin-top: 10px;
         }
         .details span{
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+          display: flex;
+           align-items: center;
+          gap: 6px;
+         }
 
-.details i{
-    color: #c8962e;
-    font-size: 15px;
-}
+         .details i{
+           color: #c8962e;
+            font-size: 15px;
+          }
 
         /* خصائص مخفية لعرض المزيد*/
         .hidden-property{
@@ -580,6 +747,80 @@
         width: 100%;
     }
 }
+.profile-btn{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #d4a84f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d4a84f;
+    text-decoration: none;
+    transition: .3s;
+    font-size: 18px;
+}
+
+.profile-btn:hover{
+    background: #d4a84f;
+    color: #111;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(212,168,79,.4);
+}
+@media (max-width: 768px) {
+.profile-btn{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #d4a84f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d4a84f;
+    text-decoration: none;
+    transition: .3s;
+    font-size: 18px;
+}
+
+.profile-btn:hover{
+    background: #d4a84f;
+    color: #111;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(212,168,79,.4);
+}
+}
+/* إخفاء النص على الكمبيوتر */
+.profile-text{
+    display: none;
+}
+
+/* إظهاره على الموبايل */
+@media (max-width:768px){
+
+    .profile-text{
+        display: inline;
+        margin-right: 8px;
+    }
+}
+
+@media(max-width:768px){
+
+    .header-login,
+    .header-add,
+    .header-actions{
+        display:none;
+    }
+
+    .mobile-login,
+    .mobile-add{
+        display:block;
+        width:80%;
+        margin:auto;
+        text-align:center;
+    }
+
+}
+
 
 
     </style>
@@ -588,9 +829,11 @@
     <!-- الهيدر -->
     <header class="navbar">
         <div class="container">
+        <a href="index.html">
             <span class="logo">
                 <img src="/public/images/logo.png" class="img">
             </span>
+        </a>
 
             <div class="menu-btn" id="menubtn">
                 <i class="fa-solid fa-bars"></i>
@@ -600,18 +843,47 @@
 
             </div>
             <nav class="nav-links" id="navlinks">
+            <a href="profile.html" class="profile-btn"><i class="fa-solid fa-user"></i><span class="profile-text">الملف الشخصي</span></a>
             <a href="#">الرئيسية</a>
             <a href="#properties">العقارات</a>
             <a href="#about">من نحن</a>
-            <a href="#">إدارة النظام</a>
-            <a href="../views/login.html" class="header-login" id="authBtn"> <i class="fa-solid fa-user"></i> تسجيل الدخول</a>
-            <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
+            <a href="../views/login.html" class="header-login mobile-login" id="mobileAuthBtn">
+                <i class="fa-solid fa-user"></i> تسجيل الدخول
+            </a>
+
+            <a href="add-property.html" class="header-add mobile-add" id="mobileAddPropertyBtn">
+                <i class="fa-solid fa-plus"></i> أضف عقارك
+            </a>
+
             </nav>
+
+            <div class="header-actions">
+
+                <a href="../views/login.html" class="header-login" id="authBtn">
+                <i class="fa-solid fa-user"></i> تسجيل الدخول
+                </a>
+
+                <a href="add-property.html" class="header-add" id="addPropertyBtn">
+                <i class="fa-solid fa-plus"></i> أضف عقارك
+                </a>
+
+                </div>
+
         </div>
     </header>
 
     <!-- قسم البحث -->
     <section class="search-section">
+        <h1>
+            Magic Estate
+        </h1>
+
+        <p>
+            بوابتك لعالم العقارات الفاخرة
+        </p>
+    </section>
+
+    <section class="search-container">
 
         <div class="search-box">
             <input type="text" placeholder="المدينة أو المنطقة..." id="city">
@@ -624,7 +896,7 @@
             </select>
             <select id="currencyFilter">
                 <option value="USD">$</option>
-                <option value="SYP">ل.س</option>
+                <option value="SYP">SYP</option>
             </select>
             <select id="price">
                 <option value="any">أي سعر</option>
@@ -641,6 +913,11 @@
             <p id="result"></p>
         </div>
     </section>
+
+
+
+
+
 
     <!-- قسم العقارات -->
     <section class="properties" id="properties">
@@ -665,13 +942,86 @@
         <p>انضم إلى آلاف الملاك الذين يثقون بمنصتنا لعرض عقاراتهم. تواصل مع مشترين محتملين بكل سهولة وموثوقية.</p>
         <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
     </section>
+    <section class="hero">
+        <div class="hero-stats">
+            <div class="stat-box">
+                <h2>10K+</h2>
+                <p>مستخدم مسجل 👥</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>5K+</h2>
+                <p>عملية تسجيل دخول 🔑</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>5K+</h2>
+                <p>عملية بيع وشراء 🏡</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+
+        <h2 class="section-title">آراء عملائنا</h2>
+
+        <div class="testimonial-container">
+
+            <div class="testimonial-card">
+                <img src="/public/images/3.webp" alt="">
+                <h3>أحمد محمد</h3>
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    تجربة رائعة، وجدت العقار المناسب بسرعة وسهولة،
+                    وأنصح الجميع باستخدام Magic Estate.
+                </p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="/public/images/2.webp" alt="">
+                <h3>سارة علي</h3>
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    تصميم الموقع احترافي وخدمة العملاء كانت ممتازة،
+                    وتمت عملية الشراء بكل سهولة.
+                </p>
+            </div>
+
+            <div class="testimonial-card">
+                <img src="/public/images/1.webp" alt="">
+                <h3>محمد خالد</h3>
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    أفضل منصة عقارية استخدمتها، البحث سريع
+                    والعروض متنوعة.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
 
     <!-- الفوتر -->
     <footer id="about">
         <div class="contact">
             <h4>تواصل معنا</h4>
             <p>دمشق،الجمهورية العربية السورية</p>
-            <p>magic@gmail.com</p>
+            <br>
+            <p>themagic792@gmail.com</p>
+            <br>
             <p>+963 937 874 215</p>
         </div>
 
