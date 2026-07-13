@@ -373,19 +373,54 @@
 }
 
         /* القسم 1 مع الصورة */
-        .search-section {
-            background:url('/public/images/p.png') center center/cover no-repeat;
-            height:600px;
+        .search-section{
+    position:relative;
+    height:600px;
 
-        }
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 
+    text-align:center;
+    overflow:hidden;
+}
+
+
+/* الصورة الخلفية */
+.search-section::before{
+    content:"";
+    position:absolute;
+    inset:-10px;
+
+    background:url('/public/images/p.png') center/cover no-repeat;
+
+    filter:blur(4px);
+
+    transform:scale(1.05);
+
+    z-index:-2;
+}
+
+
+/* طبقة التعتيم */
+.search-section::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,0.45);
+
+    z-index:-1;
+}
         .search-section h1 {
-    color: #f3d57e;
+    color: #c8962e;
     text-shadow: 0 0 15px rgba(201,168,76,.3);
-    font-size: 50px;
+    font-size: 40px;
     margin-bottom: 15px;
     font-family: "Times New Roman", serif;
     font-weight: bold;
+    text-align:center;
 }
 
 .search-section p {
@@ -393,6 +428,7 @@
     margin-bottom: 30px;
     color: white;
     font-family: "Cairo", sans-serif;
+    text-align:center;
 }
 
         .search-container{
@@ -404,27 +440,6 @@
             display:flex;
           justify-content:center;
            margin:40px auto;   /* مسافة تحت الصورة */
-        }
-
-        .search-section h2 {
-            color: #c8962e;
-            text-shadow:
-            0 0 15px rgba(201,168,76,.3);
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-        .search-section h1 {
-            color: #c8962e;
-            text-shadow:
-            0 0 15px #c8962e;
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .search-section p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
         .search-box {
@@ -943,6 +958,7 @@
         <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
     </section>
     <section class="hero">
+        <h2 class="section-title">احصائيات في موقعنا</h2>
         <div class="hero-stats">
             <div class="stat-box">
                 <h2>10K+</h2>
