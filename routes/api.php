@@ -87,6 +87,7 @@ Route::apiResource('real-estate', RealEstateController::class);
     Route::post('/real-estates/{id}/pictures',[PictureController::class, 'store']);
 
     Route::get('/real-estates/{id}/pictures', [PictureController::class, 'index']);
+    Route::get('real-estates', [RealEstateController::class, 'myRealEstates']);   
     
     // حذف صورة
     Route::delete('/pictures/{id}', [PictureController::class, 'destroy']);

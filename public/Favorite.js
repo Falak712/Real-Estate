@@ -9,7 +9,7 @@ const favoritesContainer = document.getElementById("favoritesContainer");
 if(!token){
     alert("يجب تسجيل الدخول أولاً");
     window.location.href = "login.html";
-}
+}  
 
 // تشغيل عرض المفضلة
 if(favoritesContainer){
@@ -19,15 +19,18 @@ if(favoritesContainer){
 // جلب العقارات المفضلة من السيرفر
 async function getFavorites(){
     try{
-        const response = await fetch(`${API_URL}/favorites`, {
-            method: "GET",
+        const response = await fetch("favorites", {
+            method: "index",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         });
+        if (!response.ok) {
+            throw new Error("Failed");
+        }
         const data = await response.json();
-        displayFavorites(data);
+        displayFavorites(data.realestates || []);
     }
     catch(error){
         console.log(error);
@@ -44,7 +47,6 @@ function displayFavorites(realestates){
         </div>;`
         return;
     }
-}
     realestates.forEach(realestate => {
         const card = document.createElement("div");
         card.className = "realestate-card";
@@ -66,12 +68,11 @@ function displayFavorites(realestates){
             <h2 class="realestate-price">
                 <i class="fa-solid fa-sack-dollar"></i> ${realestate.price}
             </h2>
-        </div>;
+        </div>`;
         favoritesContainer.appendChild(card);
     });
     removeButtons();
-    }`
-    });
+    }
     
 // زر حذف من المفضلة
 function removeButtons(){
@@ -87,13 +88,18 @@ function removeButtons(){
 // حذف العقار من السيرفر
 async function removeFavorite(id) {
     try {
-        await fetch(`${API_URL}/favorites/${id}`, {
-            method: "DELETE",
+        const response = await fetch(`favorites/${id}`, {
+            method: "destroy",
             headers: {
                 "Authorization":`Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         });
+        if(!response.ok){
+
+            throw new Error("Delete failed");
+
+        }
         // إعادة تحميل القائمة بعد الحذف
         getFavorites();
     } catch (error) {

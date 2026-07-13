@@ -17,7 +17,7 @@ if (realestatesContainer) {
 // جلب عقارات المستخدم
 async function getMyRealEstates() {
     try {
-        const response = await fetch(`${API_URL}/my-realestates`, {
+        const response = await fetch("myRealEstates", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -32,10 +32,10 @@ async function getMyRealEstates() {
     }
     catch (error) {
         console.log(error);
-        realestatesContainer.innerHTML = 
+        realestatesContainer.innerHTML =` 
             <div class="empty-realestates">
                 حدث خطأ أثناء تحميل العقارات
-            </div>
+            </div>`
         ;
     }
 }
@@ -43,14 +43,16 @@ async function getMyRealEstates() {
 
 function displayRealEstates(realestates) {
     realestatesContainer.innerHTML = "";
-    realestatesCount.textContent = realestates.length;
+    if (realestatesCount) {
+        realestatesCount.textContent = realestates.length;
+    }
     if (realestates.length === 0) {
-        realestatesContainer.innerHTML = 
+        realestatesContainer.innerHTML = `
             <div class="empty-realestates">
                 <i class="fa-solid fa-house-circle-xmark"></i>
                 <p>لا يوجد لديك أي عقارات</p>
             </div>
-        ;
+        `;
         return;
     }
 }

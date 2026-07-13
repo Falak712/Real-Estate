@@ -244,4 +244,13 @@ return response()->json([
 
         return response()->json(['message' => 'تم حذف العقار بنجاح']);
     }
+    public function myRealEstates()
+    {
+    $realEstates = RealEstate::with(['pictures','area'])
+        ->where('user_id', Auth::id())
+        ->latest()
+        ->get();
+
+    return response()->json($realEstates);
+    }
 }
