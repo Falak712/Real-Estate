@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>مرحباً {{ $user->fullname }}</h2>
+    <h2>مرحباً{{ $property->user->fullname }}</h2>
 <p> 
     . تم الموافقة على نشر العقار الخاص بك
 </p>

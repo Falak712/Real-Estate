@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>مرحباً {{ $user->fullname }}</h2>
+    <h2>مرحباً {{ $booking->user->fullname }}</h2>
 
 <p> 
     . تم الموافقة على طلب الاستئجار الخاص بك

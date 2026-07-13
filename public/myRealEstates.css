@@ -1,0 +1,225 @@
+ body{
+    background-image: linear-gradient( rgba(0,0,0,1), rgba(0,0,0,0.3), rgba(0,0,0,1)),
+    url("images/background03.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 2;
+} 
+/* لون الهيدر مع الخلفية */
+header{
+    justify-content:space-between ;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    z-index: 10;
+    display: flex;
+    top: 0;
+}
+.logo{
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0;
+padding: 0;
+margin-left: 60px;
+}
+header .logo img{
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+nav a{
+    margin: 0 20px;
+    color: #c8962e;
+    transition: 0.3s;
+    font-weight: 500;
+}
+nav a:hover {
+    color: #FFFFFF;
+}
+a{
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.container{
+    width: 850px;
+    margin: auto;
+    margin-top: 80px;
+}
+/* شريط التنقل */
+.navbar {
+    background-color: #0b0b0b;
+    border-bottom: 1px solid rgba(200,150,46,0.35);
+    box-shadow: 0 5px 20px rgba(200,150,46,0.08);
+    padding: 7px 0;
+    position: fixed;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.navbar .container{
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.navlinks{
+    align-items: center;
+    gap: 20px;
+}
+@media(max-width:768px){
+    .navbar .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navlinks { 
+        display:none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 15px;
+        gap: 15px;
+    }
+    .navlinks{ 
+        display: block;
+        font-size: 28px;
+        color: #c8962e;
+        cursor: pointer;
+        display: none;
+    }
+    .logo img{
+        height: 50px;
+    }
+}
+.header-logout, .header-add {
+    padding: 8px 12px;
+    border: 1px solid #c8962e;
+    border-radius: 13px;
+    background: black;
+    color: #c8962e;
+    text-align: center;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.header-add:hover , .header-logout:hover{
+    color: #c8962e;
+    transform: scale(1.05);
+    transform: translate(-4px);
+    box-shadow: 0 15px 35px rgba(234, 197,93, 0.25);
+}
+.title{
+    text-align: center;
+    color: #c88b11;
+    margin-top: 50px;
+    padding: 70px;
+    font-size: 40px;
+    cursor:default;
+}
+.title::after{
+    content: "";
+    width: 100px;
+    height: 3px;
+    background: #D4AF37;
+    margin: 12px auto;
+    border-radius: 10px;
+    cursor:default;
+}
+.my-realestates-section{
+    width:90%;
+    max-width:1300px;
+    margin:40px auto;
+}
+.realestates-header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:40px;
+}
+.realestates-count{
+    width:240px;
+    padding:18px;
+    text-align:center;
+    border:1px solid #D4AF37;
+    border-radius:18px;
+    background:rgba(2,0,20,.45);
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+.realestates-count span{
+    display:block;
+    color:#dac266;
+    font-size:25px;
+}
+.realestates-count h2{
+    margin-top:10px;
+    color:#D4AF37;
+    font-size:20px;
+    font-weight:bold;
+}
+/* نفس ترتيب البطاقات الموجود بصفحة البروفايل */
+.realestates-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:35px;
+}
+/* زر التفاصيل */
+.details-btn{
+    display:block;
+    width:90%;
+    margin:18px auto 20px;
+    padding:12px;
+    text-align:center;
+    text-decoration:none;
+    background:#D4AF37;
+    color:black;
+    font-size:17px;
+    font-weight:bold;
+    border-radius:12px;
+    transition:.35s;
+}
+.details-btn:hover{
+    background:#f0c96c;
+    transform:translateY(-3px);
+}
+/* حالة العقار */
+.realestates-state{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+}
+/* مقبول */
+.accepted{
+    background:#14532d;
+    color:#8cffb4;
+}
+/* مرفوض */
+.rejected{
+    background:#4d1010;
+    color:#ff8d8d;
+}
+/* قيد المراجعة */
+.pending{
+    background:#5e4d14;
+    color:#ffe58b;
+}
+/* لا يوجد عقارات */
+.empty-realestates{
+    width:100%;
+    text-align:center;
+    color:#d5d5d5;
+    font-size:25px;
+    margin-top:70px;
+}

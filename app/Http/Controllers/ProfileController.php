@@ -21,6 +21,7 @@ class ProfileController extends Controller
         $validated=$request->validate([
     'fullname' => 'sometimes|string|max:255',
     'phone_number' => 'sometimes|string|max:10',
+    'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id,
 ]);
         $user->update($validated);
 

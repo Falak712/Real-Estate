@@ -1,0 +1,449 @@
+ 
+ body{
+    background-image: linear-gradient( rgba(0,0,0,1), rgba(0,0,0,0.5), rgba(0,0,0,1)),
+    url("images/background02.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 2;
+} 
+/* لون الهيدر مع الخلفية */
+header{
+    justify-content:space-between ;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    z-index: 10;
+    display: flex;
+    top: 0;
+}
+.logo{
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0;
+padding: 0;
+margin-left: 60px;
+}
+header .logo img{
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+nav a{
+    margin: 0 20px;
+    color: #c8962e;
+    transition: 0.3s;
+    font-weight: 500;
+}
+nav a:hover {
+    color: #FFFFFF;
+}
+a{
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.container{
+    width: 850px;
+    margin: auto;
+    margin-top: 80px;
+}
+/* شريط التنقل */
+.navbar {
+    background-color: #0b0b0b;
+    border-bottom: 1px solid rgba(200,150,46,0.35);
+    box-shadow: 0 5px 20px rgba(200,150,46,0.08);
+    padding: 7px 0;
+    position: fixed;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.navbar .container{
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.navlinks{
+    align-items: center;
+    gap: 20px;
+}
+@media(max-width:768px){
+    .navbar .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navlinks { 
+        display:none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 15px;
+        gap: 15px;
+    }
+    .navlinks{ 
+        display: block;
+        font-size: 28px;
+        color: #c8962e;
+        cursor: pointer;
+        display: none;
+    }
+    .logo img{
+        height: 50px;
+    }
+}
+.header-logout, .header-add {
+    padding: 8px 12px;
+    border: 1px solid #c8962e;
+    border-radius: 13px;
+    background: black;
+    color: #c8962e;
+    text-align: center;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.header-add:hover , .header-logout:hover{
+    color: #c8962e;
+    transform: scale(1.05);
+    transform: translate(-4px);
+    box-shadow: 0 15px 35px rgba(234, 197,93, 0.25);
+}
+.title{
+    text-align: center;
+    color: #c88b11;
+    margin-top: 50px;
+    padding: 70px;
+    font-size: 40px;
+    cursor:default;
+}
+.title::after{
+    content: "";
+    width: 100px;
+    height: 3px;
+    background: #D4AF37;
+    margin: 12px auto;
+    border-radius: 10px;
+    cursor:default;
+}
+/* معلومات الحساب */
+.account-info{
+    color: bisque;
+    text-align:center;
+    width: 440px;
+    padding: 22px;
+    margin:20px 20px;
+    background-color: rgba(2, 0, 20, 0.5);
+    border:1px solid #D4AF37;
+    border-radius: 20px;
+    backdrop-filter:blur(10px);
+    box-shadow: 0px   10px   30px   black;   
+    cursor:default;
+}
+.info-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+gap:2px;
+cursor:default;
+}
+.label{
+color:#F0C96C;
+font-size:18px;
+font-weight:600;
+padding:10px 16px;
+border-radius:12px;
+background:#101522;
+background:rgba(2,0,23,0.8);
+width:40%;
+cursor:default;
+}
+.value{
+color:#FFFFFF;
+font-size:18px;
+font-weight:400;
+background:#2A2A2A;
+padding:10px 16px;
+border-radius:8px;
+width:60%;
+text-align:center;
+cursor:default;
+}
+/* الاعدادات*/
+.settings{
+    color: bisque;
+    text-align:center;
+    width:440px;
+    padding:30px;
+    margin-top: 40px;
+    margin-left:20px;
+    margin-right:auto;
+    background-color:rgba(2,0,20,0.5);
+    border:1px solid #D4AF37;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px black;
+}
+.settings-card{
+    text-align:center; 
+    margin:10px 0px 10px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:8px 16px;
+    border-radius:8px;
+    color:#FFFFFF;
+    font-size:19px;
+    font-weight:400;
+    cursor:default;
+}
+.right-side{
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+.edit-profile{
+background:#D4AF37;
+color:#050505;
+width: 100%;
+height:50px;
+border-radius:12px;
+font-size:18px;
+font-weight:600;
+}
+.edit-password{
+background:#D4AF37;
+color:#050505;
+border:1px solid #D4AF37;
+width: 100%;
+height:50px;
+border-radius:12px;
+font-size:18px;
+font-weight:600;
+}
+.logout{
+background:#3A0D0D;
+color:#a63131;
+border:1px solid #aa4444;
+width:100%;
+height:50px;
+border-radius:12px;
+font-size:18px;
+font-weight:600;
+}
+.edit-profile:hover{
+    background: #f0c96c;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(212,175,55,0.5);
+}
+.edit-password:hover{
+    background: #f0c96c;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(212,175,55,0.5);
+}
+.logout:hover{
+    background: #c2372e;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(225, 43, 19, 0.5);
+}
+.editing {
+    background-color: rgb(232, 195, 30);
+    color: black;
+    border: 2px solid #D4AF37;
+    outline: none;
+}
+/* قسم عقاراتي */
+.realestates-info{
+    width:80%;
+    max-width:1200px;
+    margin:50px auto;
+    padding:10px;
+    background-color:rgba(2,0,20,0.5);
+    border:1px solid #D4AF37;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px black;
+}
+.section-title{
+    text-align:center;
+    color:#D4AF37;
+    font-size:50px;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+/*ترتيب البطاقات*/
+.realestates-container{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:35px;
+    flex-wrap:wrap;
+}
+/* البطاقة*/
+.realestate-card{
+    width:300px;
+    background:#1b1b1b;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    transition:.35s;
+    cursor:pointer;
+}
+.realestate-card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+}
+/*الصورة*/
+.realestate-image{
+    position:relative;
+}
+.realestate-image img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    display:block;
+}
+/*كلمة للبيع */
+.realestate-status{
+    position:absolute;
+    top:18px;
+    left:18px;
+    background:#D4AF37;
+    color:white;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+}
+.rent{
+    background:#0099ff;
+}
+/*محتوى البطاقة*/
+.realestate-content{
+    padding:20px;
+}
+.realestate-title{
+    color:white;
+    font-size:23px;
+    margin-bottom:12px;
+}
+.realestate-location{
+    color:#bdbdbd;
+    font-size:16px;
+    margin-bottom:18px;
+}
+.realestate-price{
+    color:#D4AF37;
+    font-size:30px;
+}
+/* Responsive للموبايل */
+@media(max-width:1000px){
+.realestates-container{
+    justify-content:center;
+}
+}
+@media(max-width:768px){
+    .realestates-container{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:12px;
+    }
+    .realestate-card{
+        width:48%;
+    }
+    #info{
+      font-size:34px;
+    }
+}
+.password-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+.password-box{
+    width:350px;
+    background:#101522;
+    padding:30px;
+    border-radius:20px;
+    border:1px solid #D4AF37;
+    text-align:center;
+}
+.password-box h2{
+    color:#D4AF37;
+    margin-bottom:20px;
+}
+.password-box input{
+    width:90%;
+    padding:12px;
+    margin:8px;
+    border-radius:10px;
+    border:none;
+}
+.password-buttons button{
+    width:40%;
+    margin:10px;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+#savePassword{
+    background:#6b5b20;
+    color:#999;
+    cursor:not-allowed;
+    transition:0.3s;
+}
+#savePassword.active{
+    background:#FFD700;
+    color:#000;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(212,175,55,0.8);
+}
+#closePassword{
+    background:#3A0D0D;
+    color:white;
+}
+.more-realestate{
+    display:flex;
+    justify-content:center;
+    margin-top:35px;
+}
+.more-btn{
+    background:#D4AF37;
+    color:#050505;
+    border:none;
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:0.3s;
+}
+.more-btn span{
+    font-size:30px;
+}
+.more-btn:hover{
+    background:#f0c96c;
+    transform:scale(1.08);
+    box-shadow:0 10px 25px rgba(212,175,55,0.5);
+}

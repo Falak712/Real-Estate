@@ -97,6 +97,7 @@ Route::apiResource('real-estate', RealEstateController::class);
     Route::put('rental_bookings/{id}', [RentalBookingController::class, 'update']);
     Route::delete('rental_bookings/{id}', [RentalBookingController::class, 'destroy']);
     Route::post('rental_bookings/{id}', [RentalBookingController::class, 'bookedDates']);
+    Route::put('profile/update', [ProfileController::class, 'update']);
 
 
 
