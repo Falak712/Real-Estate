@@ -120,6 +120,8 @@ if(ownershipFile){
 }
 console.log([...formData]);
 
+window.location.href = "../views/index.html";
+
 alert("تم إرسال العقار للمراجعة");
 
 window.location.href = "../views/index.html";
@@ -302,76 +304,178 @@ menuBtn.onclick = function () {
     }
 };
 
-// إنشاء الخريطة
-const map = L.map('map').setView([33.5138, 36.2765], 30);
 
-// طبقة الخريطة
+//زر تسجيل الخروج
+
+const logoutButtons = document.querySelectorAll("#logoutBtn, .mobile-logout");
+
+logoutButtons.forEach(btn => {
+
+    btn.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        // حذف حالة تسجيل الدخول
+        localStorage.removeItem("isLoggedIn");
+
+        // الرجوع للصفحة الرئيسية
+        window.location.href = "index.html";
+
+    });
+
+});
+
+// =============================
+// الخريطة
+// =============================
+
+
+// إنشاء الخريطة
+const map = L.map('map').setView([33.5138, 36.2765], 13);
+
+
+// إضافة خريطة OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
     attribution: '&copy; OpenStreetMap',
     maxZoom: 19
-  }).addTo(map);
+
+}).addTo(map);
 
 
-let marker;
 
-// عند الضغط على الخريطة
-map.on('click', function (e) {
+let marker = null;
 
-  const lat = e.latlng.lat;
-  const lng = e.latlng.lng;
 
-  // حذف marker القديم
-  if (marker) {
-    map.removeLayer(marker);
-  }
 
-  // عرض النص
-  document.getElementById("selectedLocation").innerText =
+// =============================
+// اختيار الموقع بالضغط على الخريطة
+// =============================
+
+map.on('click', function(e){
+
+
+    let lat = e.latlng.lat;
+    let lng = e.latlng.lng;
+
+
+
+    // حذف العلامة القديمة
+    if(marker){
+
+        map.removeLayer(marker);
+
+    }
+
+
+
+    // إضافة علامة جديدة
+
+    marker = L.marker([lat,lng])
+    .addTo(map);
+
+
+
+    // تخزين الإحداثيات للباك لاحقاً
+
+    document.getElementById("lat").value = lat;
+
+    document.getElementById("lng").value = lng;
+
+
+
+    // عرض الموقع
+
+    document.getElementById("selectedLocation").innerText =
+
     `الموقع المحدد: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
-  // تخزين القيم
-  document.getElementById("lat").value = lat;
-  document.getElementById("lng").value = lng;
+
+
 });
 
 
-let searchInput = document.getElementById("searchInput");
-let searchMarker;
 
-// البحث عند الضغط Enter
-searchInput.addEventListener("keypress", function (e) {
 
-  if (e.key === "Enter") {
+// =============================
+// زر تحديد الموقع الحالي
+// =============================
 
-    let query = searchInput.value;
 
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-      .then(res => res.json())
-      .then(data => {
+const locationBtn = document.getElementById("locationBtn");
 
-        if (data.length > 0) {
 
-          let lat = data[0].lat;
-          let lon = data[0].lon;
+if(locationBtn){
 
-          // تحريك الخريطة
-          map.setView([lat, lon], 14);
 
-          // حذف ماركر قديم
-          if (searchMarker) {
-            map.removeLayer(searchMarker);
-          }
+locationBtn.onclick = function(){
 
-          // إضافة ماركر جديد
-          searchMarker = L.marker([lat, lon]).addTo(map);
 
-          // حفظ القيم
-          document.getElementById("lat").value = lat;
-          document.getElementById("lng").value = lon;
 
-          document.getElementById("selectedLocation").innerText =
-            `الموقع: ${parseFloat(lat).toFixed(6)}, ${parseFloat(lon).toFixed(6)}`;
+    navigator.geolocation.getCurrentPosition(function(position){
+
+
+
+        let lat = position.coords.latitude;
+
+        let lng = position.coords.longitude;
+
+
+
+        // تحريك الخريطة
+
+        map.setView([lat,lng],15);
+
+
+
+        // حذف العلامة القديمة
+
+        if(marker){
+
+            map.removeLayer(marker);
+
         }
-      });
-  }
-});
+
+
+
+        // إضافة علامة الموقع الحالي
+
+        marker = L.marker([lat,lng])
+
+        .addTo(map)
+
+        .bindPopup("موقعك الحالي")
+
+        .openPopup();
+
+
+
+        // حفظ الإحداثيات
+
+        document.getElementById("lat").value = lat;
+
+        document.getElementById("lng").value = lng;
+
+
+
+        document.getElementById("selectedLocation").innerText =
+
+        `الموقع الحالي: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+
+
+    },
+
+    function(){
+
+        alert("لم يتم السماح بالوصول إلى الموقع");
+
+    });
+
+
+
+}
+
+
+
+}

@@ -7,13 +7,14 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
 
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family: 'cairo', sans-serif;
+      font-family: "Cairo", sans-serif;
     }
 
     body{
@@ -58,12 +59,9 @@
         }
           .logo{
             display:flex;
-            justify-content:center;
-            align-items:center;
-            margin: 0;
-            padding: 0;
-            margin-left: 60px;
-
+    align-items:center;
+    margin:0;
+    padding:0;
         }
         header .logo img{
             height:80px;
@@ -117,16 +115,24 @@
         }
         .navbar .container
         {
-            max-width: 1400px;
-            margin: auto;
-            display: flex;
-            align-items: center;
+    max-width:1400px;
+    width:100%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
         }
 
         .nav-links{
 
-        align-items: center;
-        gap: 20px;
+        display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:25px;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
         }
 
         .menu-btn{
@@ -136,11 +142,10 @@
     cursor:pointer;
 }
 
-        .header-logout, .header-add {
+        .header-logout {
             padding: 8px 12px;
             border:1px solid #c8962e;
             border-radius:13px;
-
             background:black;
             color:#c8962e;
             text-align: center;
@@ -149,7 +154,6 @@
             cursor:pointer;
             transition:.3s;
          }
-            .header-add:hover,
             .header-logout:hover {
                 color: #c8962e;
 
@@ -157,6 +161,16 @@
                 transform: translateY(-4px);
                 box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
             }
+
+            .header-actions{
+    margin-left:0;
+    display:flex;
+    align-items:center;
+}
+.mobile-profile,
+.mobile-logout{
+    display:none;
+}
 
     /* CARD */
 
@@ -389,6 +403,71 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     }
 
+.profile-btn{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #d4a84f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d4a84f;
+    text-decoration: none;
+    transition: .3s;
+    font-size: 18px;
+}
+
+.profile-btn:hover{
+    background: #d4a84f;
+    color: #111;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(212,168,79,.4);
+}
+@media (max-width: 768px) {
+.profile-btn{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #d4a84f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d4a84f;
+    text-decoration: none;
+    transition: .3s;
+    font-size: 18px;
+}
+
+.profile-btn:hover{
+    background: #d4a84f;
+    color: #111;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(212,168,79,.4);
+}
+}
+/* إخفاء النص على الكمبيوتر */
+.profile-text{
+    display: none;
+}
+
+/* إظهاره على الموبايل */
+@media (max-width:768px){
+
+    .profile-text{
+        display: inline;
+        margin-right: 8px;
+    }
+
+}
+@media (min-width:769px){
+
+.mobile-profile,
+.mobile-logout{
+    display:none;
+}
+
+}
+
   </style>
 </head>
 <body>
@@ -396,9 +475,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   <!-- الهيدر -->
   <header class="navbar">
     <div class="container">
-        <span class="logo">
-            <img src="/public/images/logo.png" class="img">
-        </span>
+        <a href="index.html">
+            <span class="logo">
+                <img src="/public/images/logo.png" class="img">
+            </span>
+        </a>
+
 
         <div class="menu-btn" id="menubtn">
             <i class="fa-solid fa-bars"></i>
@@ -408,13 +490,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
         </div>
         <nav class="nav-links" id="navlinks">
+        <a href="profile.html" class="profile-btn"><i class="fa-solid fa-user"></i><span class="profile-text">الملف الشخصي</span></a>
         <a href="index.html">الرئيسية</a>
         <a href="index.html#properties">العقارات</a>
         <a href="index.html#about">من نحن</a>
-        <a href="#">إدارة النظام</a>
-        <a href="index.html" class="header-logout" id="logoutBtn"> <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج </a>
 
         </nav>
+
+        <div class="header-actions">
+
+            <a href="index.html" class="header-logout" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                تسجيل خروج
+            </a>
+
+        </div>
     </div>
 </header>
 
