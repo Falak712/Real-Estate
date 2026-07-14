@@ -35,7 +35,9 @@ Route::middleware(['auth:sanctum', 'check.banned'])->group(function () {
     Route::get('/currentuser', [AuthController::class, 'currentUser']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile/update', [ProfileController::class, 'update']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +87,7 @@ Route::get('/real-estates', [RealEstateController::class, 'myrealestate']);
 
     Route::post('/real-estates/{id}/pictures',[PictureController::class, 'store']);
     Route::get('/real-estates/{id}/pictures', [PictureController::class, 'index']);
-    Route::get('real-estates', [RealEstateController::class, 'myrealestate']);
+   // Route::get('real-estates', [RealEstateController::class, 'myrealestate']);
     
     // حذف صورة
     Route::delete('/pictures/{id}', [PictureController::class, 'destroy']);

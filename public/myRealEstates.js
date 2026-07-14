@@ -1,52 +1,15 @@
-// رابط الـ API
-const API_URL = "http://localhost:5000/api";
-// جلب التوكين
-const token = localStorage.getItem("token");
-// عناصر الصفحة
+// ================= عناصر الصفحة =================
 const realestatesContainer = document.getElementById("realestatesContainer");
 const realestatesCount = document.getElementById("realestatesCount");
-// التأكد من تسجيل الدخول
-if (!token) {
-    alert("يجب تسجيل الدخول أولاً");
-    window.location.href = "login.html";
-}
-// تشغيل الصفحة
-if (realestatesContainer) {
-    getMyRealEstates();
-}
-// جلب عقارات المستخدم
-async function getMyRealEstates() {
-    try {
-        const response = await fetch("myRealEstates", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-        if (!response.ok) {
-            throw new Error("Failed");
-        }
-        const data = await response.json();
 
-        displayRealEstates(data.real_estates);
-    }
-    catch (error) {
-        console.log(error);
-        realestatesContainer.innerHTML =` 
-            <div class="empty-realestates">
-                حدث خطأ أثناء تحميل العقارات
-            </div>`
-        ;
-    }
-}
-// عرض العقارات
+// ================= عرض العقارات =================
 
 function displayRealEstates(realestates) {
+    // تنظيف المحتوى القديم
     realestatesContainer.innerHTML = "";
-    if (realestatesCount) {
-        realestatesCount.textContent = realestates.length;
-    }
+    // عرض عدد العقارات
+    realestatesCount.textContent = realestates.length;
+    // في حال لم يوجد عقارات
     if (realestates.length === 0) {
         realestatesContainer.innerHTML = `
             <div class="empty-realestates">
@@ -57,12 +20,14 @@ function displayRealEstates(realestates) {
         return;
     }
 
+    // إنشاء بطاقة لكل عقار
+
     realestates.forEach(realestate => {
         const card = document.createElement("div");
         card.className = "realestate-card";
         card.innerHTML = `
             <div class="realestate-image">
-                <img src="/images/${realestate.image}" alt="${realestate.title}">
+                <img src="/images/${realestate.image}]" alt="${realestate.title}">
                 <span class="realestate-status">
                     ${realestate.status_real_estate}
                 </span>
@@ -85,19 +50,62 @@ function displayRealEstates(realestates) {
                     data-id="${realestate.id}">
                     عرض التفاصيل
                 </button>
-            </div>`
-        ;
+            </div>
+        `;
         realestatesContainer.appendChild(card);
     });
+    // تفعيل أزرار التفاصيل
     detailsButtons();
 }
- /*أزرار التفاصيل*/
+// ================= أزرار التفاصيل =================
 function detailsButtons() {
     const buttons = document.querySelectorAll(".details-btn");
     buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const id = button.dataset.id;
-            window.location.href = `details.html?id=${id}`;
+        button.addEventListener("click", function () {
+            const realestateId = this.dataset.id;
+            console.log("Real Estate ID :", realestateId);
+            // Backend يربط الانتقال لصفحة التفاصيل من هنا
+            // مثال بعد الربط:
+            // window.location.href = `details.html?id=${realestateId}`;
         });
     });
 }
+async function getRealEstates(){
+
+    try {
+
+        const response = await fetch("/api/real-estates", {
+            method:"GET",
+            headers:{
+                "Accept":"application/json"
+            }
+        });
+        const data = await response.json();
+        if(!response.ok){
+            throw data;
+        }
+        // لأن Laravel paginate يرجع data داخل real_estates
+        displayRealEstates(data.real_estates.data);
+    } catch(error){
+        console.error(error);
+        realestatesContainer.innerHTML = `
+            <p>حدث خطأ أثناء تحميل العقارات</p>
+        `;
+    }
+}
+getRealEstates();
+
+async function getMyRealEstates(){
+
+    const response = await fetch("/api/my-real-estates",
+        {
+            headers:{
+                "Accept":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("token")
+            }
+        }
+    );
+    const data = await response.json();
+    displayRealEstates(data.real_estates);
+}
+getMyRealEstates();

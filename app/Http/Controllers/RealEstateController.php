@@ -171,9 +171,10 @@ class RealEstateController extends Controller
 
         return response()->json(['message' => 'تم حذف العقار بنجاح']);
     }
+
     public function myrealestate()
     {
-        $realEstate = RealEstate::where('user_id',Auth::id())   // 
+        $realEstate = RealEstate::where('user_id',Auth::id())   
             ->with(['pictures', 'area'])
             ->latest()
             ->get();

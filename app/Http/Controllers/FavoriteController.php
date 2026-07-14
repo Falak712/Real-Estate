@@ -41,12 +41,12 @@ class FavoriteController extends Controller
     // عرض سجل مفضلة واحد
 
     public function show($id)
-    {
-        $favorite = Favorite::with('realEstates')->findOrFail($id);
-
-        return response()->json($favorite, 200);
-    }
-
+{
+    $favorite = Favorite::with('realEstates')
+        ->where('user_id', Auth::id())
+        ->findOrFail($id);
+    return response()->json($favorite);
+}
     // حذف عقار من المفضلة
 
     public function destroy($realEstateId)

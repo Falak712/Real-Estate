@@ -7,6 +7,7 @@ use App\Models\Punishment;
 use App\Http\Requests\BanUserRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PunishmentController extends Controller
 {
@@ -51,7 +52,7 @@ class PunishmentController extends Controller
                 'is_permanent' => $isPermanent,
             ], 200);
 
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'المستخدم غير موجود'], 404);
 
         } catch (\Exception $e) {
@@ -88,7 +89,7 @@ class PunishmentController extends Controller
 
             return response()->json(['message' => 'تم فك الحظر بنجاح'], 200);
 
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'المستخدم غير موجود'], 404);
 
         } catch (\Exception $e) {
@@ -104,7 +105,7 @@ class PunishmentController extends Controller
 
             return response()->json(['user' => $user], 200);
 
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'المستخدم غير موجود'], 404);
         }
     }

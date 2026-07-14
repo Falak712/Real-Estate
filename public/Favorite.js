@@ -1,111 +1,134 @@
-// رابط الـ API
-const API_URL = "http://localhost:5000/api";
-// جلب التوكين من تسجيل الدخول
-const token = localStorage.getItem("token");
-// مكان عرض العقارات
-const favoritesContainer = document.getElementById("favoritesContainer");
 
-// إذا لم يوجد توكين
-if(!token){
-    alert("يجب تسجيل الدخول أولاً");
-    window.location.href = "login.html";
-}  
-
-// تشغيل عرض المفضلة
-if(favoritesContainer){
-    getFavorites();
-}
-
-// جلب العقارات المفضلة من السيرفر
-async function getFavorites(){
-    try{
-        console.log(token);
-        const response = await fetch("/api/favorites", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-        if (!response.ok) {
-            throw new Error("Failed");
-        }
-        const data = await response.json();
-        console.log(data);
-        displayFavorites(data.real_estates || []);
-    }
-    catch(error){
-        console.log(error);
-        favoritesContainer.innerHTML = `<div class="empty-favorites">حدث خطأ في تحميل المفضلة</div>`;
-    }
-}
-
-// عرض العقارات
-function displayFavorites(realestates){
+// ================= عرض العقارات المفضلة =================
+function displayFavorites(realestates) {
     favoritesContainer.innerHTML = "";
-    if(realestates.length === 0){
-        favoritesContainer.innerHTML = `<div class="empty-favorites"> <i class="fa-solid fa-heart-crack"></i>
-            <p>لا يوجد عقارات في المفضلة</p>
-        </div>`;
+    if (realestates.length === 0) {
+        favoritesContainer.innerHTML = `
+            <div class="empty-favorites">
+                <i class="fa-solid fa-heart-crack"></i>
+                <p>لا يوجد عقارات في المفضلة</p>
+            </div>
+        `;
         return;
     }
     realestates.forEach(realestate => {
         const card = document.createElement("div");
         card.className = "realestate-card";
         card.innerHTML = `
-        <div class="realestate-image">
-            <img src="/images/${realestate.image}">
-            <span class="realestate-status">${realestate.status}</span>
-            <button class="remove-favorite" data-id="${realestate.id}">
-                <i class="fa-solid fa-heart"></i>
-            </button>
-        </div>
-        <div class="realestate-content">
-            <h3 class="realestate-title">
-                <i class="fa-solid fa-hotel"></i> ${realestate.title}
-            </h3>
-            <p class="realestate-location">
-                <i class="fa-solid fa-location-dot"></i> ${realestate.address}
-            </p>
-            <h2 class="realestate-price">
-                <i class="fa-solid fa-sack-dollar"></i> ${realestate.price}
-            </h2>
-        </div>`;
+            <div class="realestate-image">
+                <img src="${realestate.image}" alt="${realestate.title}">
+                <span class="realestate-status">
+                    ${realestate.status_real_estate}
+                </span>
+                <button
+                    class="remove-favorite"
+                    data-id="${realestate.id}">
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+            </div>
+            <div class="realestate-content">
+                <h3 class="realestate-title">
+                    <i class="fa-solid fa-hotel"></i>
+                    ${realestate.title}
+                </h3>
+                <p class="realestate-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    ${realestate.address}
+                </p>
+                <h2 class="realestate-price">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    ${realestate.price}
+                </h2>
+            </div>
+        `;
         favoritesContainer.appendChild(card);
     });
     removeButtons();
+}
+// ================= حذف من المفضلة =================
+async function toggleFavorite(button, realestateId){
+    try{
+        const response = await fetch(
+            `/api/favorites/${realestateId}`,
+            {
+                method:"DELETE",
+                headers:{
+                    "Accept":"application/json",
+                    "Authorization":"Bearer "+localStorage.getItem("token")
+                }
+            }
+        );
+        const data = await response.json();
+        if(!response.ok){
+            throw data;
+        }
+        button.closest(".realestate-card").remove();
+        alert(data.message);
+    }catch(error){
+        console.error(error);
+        alert("حدث خطأ أثناء حذف العقار من المفضلة");
     }
-    
-// زر حذف من المفضلة
-function removeButtons(){
+}
+// ================= أزرار المفضلة =================
+function removeButtons() {
     const buttons = document.querySelectorAll(".remove-favorite");
     buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const realestateId = button.dataset.id;
-            removeFavorite(realestateId);
+        button.addEventListener("click", function () {
+            const realestateId = this.dataset.id;
+            toggleFavorite(this, realestateId);
         });
     });
 }
-    
-// حذف العقار من السيرفر
-async function removeFavorite(id) {
-    try {
-        console.log(token);
-        const response = await fetch(`/api/favorites/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization":`Bearer ${token}`,
-                "Content-Type": "application/json"
+// ================= جلب العقارات المفضلة =================
+async function getFavorites(){
+
+    try{
+        const response = await fetch(
+            "/api/favorites",
+            {
+                headers:{
+                    "Accept":"application/json",
+                    "Authorization":"Bearer "+localStorage.getItem("token")
+                }
             }
-        });
+        );
+        const data = await response.json();
         if(!response.ok){
-
-            throw new Error("Delete failed");
-
+            throw data;
         }
-        // إعادة تحميل القائمة بعد الحذف
-        getFavorites();
-    } catch (error) {
-        console.log(error);
+        if(data && data.real_estates){
+            displayFavorites(data.real_estates);
+        }else{
+            displayFavorites([]);
+        }
+    }catch(error){
+        console.error(error);
+        displayFavorites([]);
+    }
+}
+getFavorites();
+// ================= إضافة عقار إلى المفضلة =================
+async function addFavorite(realEstateId){
+    try{
+        const response = await fetch("/api/favorites",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("token")
+            },
+            body:JSON.stringify({
+                real_estates_id: realEstateId
+            })
+        });
+        const data = await response.json();
+        if(!response.ok){
+            throw data;
+        }
+        alert(data.message);
+    }catch(error){
+        console.error(error);
+        alert(error.message || "حدث خطأ");
     }
 }

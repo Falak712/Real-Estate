@@ -79,4 +79,25 @@ class AuthController extends Controller
             'user' => $request->user(),
         ], 200);
     }
+
+    public function changePassword(Request $request)
+{
+    $user = $request->user();
+
+    $request->validate([
+        'oldPassword' => 'required|string',
+        'newPassword' => 'required|string|min:8|confirmed',
+    ]);
+    if (!Hash::check($request->oldPassword, $user->password)) {
+        return response()->json([
+            'message' => 'كلمة المرور القديمة غير صحيحة'
+        ], 400);
+    }
+    $user->update([
+        'password' => Hash::make($request->newPassword)
+    ]);
+    return response()->json([
+        'message' => 'تم تغيير كلمة المرور بنجاح'
+    ]);
+}
 }
