@@ -938,6 +938,9 @@ textarea{
           <input type="text" id="city" placeholder="مثال:....">
         </div>
 
+
+
+
         <div class="input-group">
           <label>العنوان بالتفصيل</label>
           <input type="text" placeholder="اسم الشارع، رقم المبنى">
@@ -1051,8 +1054,11 @@ onclick="document.getElementById('ownershipImage').click()">
           <div class="icon">📍</div>
           <h3>تحديد الموقع على الخريطة</h3>
         </div>
-        <input type="text" id="searchInput" placeholder="ابحث عن مدينة أو منطقة..."
-         style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px;">
+
+        <button id="locationBtn" type="button" class="upload-btn" style="margin-bottom:15px;">
+            <i class="fa-solid fa-location-crosshairs"></i>
+            موقعي الحالي
+        </button>
 
         <div id="map" style="height: 300px; border-radius: 15px;"></div>
 
