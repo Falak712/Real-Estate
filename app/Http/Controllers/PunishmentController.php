@@ -6,10 +6,11 @@ use App\Models\User;
 use App\Models\Punishment;
 use App\Http\Requests\BanUserRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class PunishmentController extends Controller
 {
-    public function banUser(BanUserRequest $request, $id)
+    public function banUser(BanUserRequest $request, int $id)
     {
         try {
             $user = User::findOrFail($id);
@@ -59,7 +60,7 @@ class PunishmentController extends Controller
         }
     }
 
-    public function unbanUser($id)
+    public function unbanUser(int $id)
     {
         try {
             $user = User::findOrFail($id);
@@ -96,7 +97,7 @@ class PunishmentController extends Controller
         }
     }
 
-    public function userPunishments($id)
+    public function userPunishments(int $id)
     {
         try {
             $user = User::with('punishments')->findOrFail($id);

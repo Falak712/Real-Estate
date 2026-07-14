@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRentalBookingRequest;
 use App\Http\Requests\UpdateRentalBookingRequest;
+use App\Models\RealEstate;
 use App\Models\RentalBooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -25,6 +26,21 @@ class RentalBookingController extends Controller
      */
     public function store(StoreRentalBookingRequest $request)
     {
+        $property =RealEstate::findOrFail($request->real_estate_id);
+if ($property->order_status != 'approved') {
+
+    return response()->json([
+        'message' => 'لا يمكن حجز عقار قبل موافقة الإدارة عليه.'
+    ], 403);
+
+}
+if ($property->status_real_estate != 'available') {
+
+    return response()->json([
+        'message' => 'العقار غير متاح للحجز.'
+    ], 400);
+
+}
         //فحص تعارض الحجز مع اخر 
         $conflict = RentalBooking::whereHas(
             'realEstates',

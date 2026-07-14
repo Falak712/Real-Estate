@@ -103,8 +103,8 @@ publishBtn.onclick = function () {
 
     // التأكد من تعبئة جميع الحقول
     if ( !phone ||
-        !name ||
-        !email
+         !name ||
+         !email
     ) {
         alert("يرجى تعبئة جميع الحقول");
         return;
@@ -123,38 +123,18 @@ publishBtn.onclick = function () {
         return;
     }
     }
-      //////////////////////////////////////
-    fetch("/api/rental_bookings", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
 
-        // إذا تستخدم Sanctum:
-        "Authorization": "Bearer " + localStorage.getItem("token")
-    },
 
-    body: JSON.stringify({
-        real_estates_id: property.id,
-        start_date: startDate,
-        end_date: endDate
-    })
+    // إنشاء الطلب
+    let request = {
+        id: Date.now(),
+        propertyId: property.id,
+        type: type,
+        startDate: startDate,
+        endDate: endDate,
+        status: "pending"
+    };
 
-})
-
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-    alert("تم إرسال طلب الحجز بنجاح");
-    window.location.href = "index.html";
-})
-
-.catch(error => {
-    console.error(error);
-    alert("حدث خطأ أثناء إرسال الطلب");
-});
-////////////////////////////////////////////////////////////////
-/* 
     // تخزين الطلب
     let requests = JSON.parse(localStorage.getItem("requests")) || [];
     requests.push(request);
@@ -162,9 +142,8 @@ publishBtn.onclick = function () {
 
     alert("تم إرسال الطلب بنجاح ");
     window.location.href = "index.html";
-*/
-////////////////////////////////////////////////////////////////////
 };
+
 
 let request = {
     id: Date.now(),
