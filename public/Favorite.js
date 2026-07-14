@@ -19,8 +19,9 @@ if(favoritesContainer){
 // جلب العقارات المفضلة من السيرفر
 async function getFavorites(){
     try{
-        const response = await fetch("favorites", {
-            method: "index",
+        console.log(token);
+        const response = await fetch("/api/favorites", {
+            method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -30,11 +31,12 @@ async function getFavorites(){
             throw new Error("Failed");
         }
         const data = await response.json();
-        displayFavorites(data.realestates || []);
+        console.log(data);
+        displayFavorites(data.real_estates || []);
     }
     catch(error){
         console.log(error);
-        favoritesContainer.innerHTML = `<div class="empty-favorites">حدث خطأ في تحميل المفضلة</div>;`
+        favoritesContainer.innerHTML = `<div class="empty-favorites">حدث خطأ في تحميل المفضلة</div>`;
     }
 }
 
@@ -44,7 +46,7 @@ function displayFavorites(realestates){
     if(realestates.length === 0){
         favoritesContainer.innerHTML = `<div class="empty-favorites"> <i class="fa-solid fa-heart-crack"></i>
             <p>لا يوجد عقارات في المفضلة</p>
-        </div>;`
+        </div>`;
         return;
     }
     realestates.forEach(realestate => {
@@ -52,7 +54,7 @@ function displayFavorites(realestates){
         card.className = "realestate-card";
         card.innerHTML = `
         <div class="realestate-image">
-            <img src="${realestate.image}">
+            <img src="/images/${realestate.image}">
             <span class="realestate-status">${realestate.status}</span>
             <button class="remove-favorite" data-id="${realestate.id}">
                 <i class="fa-solid fa-heart"></i>
@@ -63,7 +65,7 @@ function displayFavorites(realestates){
                 <i class="fa-solid fa-hotel"></i> ${realestate.title}
             </h3>
             <p class="realestate-location">
-                <i class="fa-solid fa-location-dot"></i> ${realestate.location}
+                <i class="fa-solid fa-location-dot"></i> ${realestate.address}
             </p>
             <h2 class="realestate-price">
                 <i class="fa-solid fa-sack-dollar"></i> ${realestate.price}
@@ -88,8 +90,9 @@ function removeButtons(){
 // حذف العقار من السيرفر
 async function removeFavorite(id) {
     try {
-        const response = await fetch(`favorites/${id}`, {
-            method: "destroy",
+        console.log(token);
+        const response = await fetch(`/api/favorites/${id}`, {
+            method: "DELETE",
             headers: {
                 "Authorization":`Bearer ${token}`,
                 "Content-Type": "application/json"

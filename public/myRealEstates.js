@@ -27,8 +27,9 @@ async function getMyRealEstates() {
         if (!response.ok) {
             throw new Error("Failed");
         }
-        const realestates = await response.json();
-        displayRealEstates(realestates);
+        const data = await response.json();
+
+        displayRealEstates(data.real_estates);
     }
     catch (error) {
         console.log(error);
@@ -55,15 +56,15 @@ function displayRealEstates(realestates) {
         `;
         return;
     }
-}
+
     realestates.forEach(realestate => {
         const card = document.createElement("div");
         card.className = "realestate-card";
         card.innerHTML = `
             <div class="realestate-image">
-                <img src="${realestate.image}" alt="${realestate.title}">
+                <img src="/images/${realestate.image}" alt="${realestate.title}">
                 <span class="realestate-status">
-                    ${realestate.status}
+                    ${realestate.status_real_estate}
                 </span>
             </div>
             <div class="realestate-content">
@@ -73,7 +74,7 @@ function displayRealEstates(realestates) {
                 </h3>
                 <p class="realestate-location">
                     <i class="fa-solid fa-location-dot"></i>
-                    ${realestate.location}
+                    ${realestate.address}
                 </p>
                 <h2 class="realestate-price">
                     <i class="fa-solid fa-sack-dollar"></i>
@@ -89,6 +90,7 @@ function displayRealEstates(realestates) {
         realestatesContainer.appendChild(card);
     });
     detailsButtons();
+}
  /*أزرار التفاصيل*/
 function detailsButtons() {
     const buttons = document.querySelectorAll(".details-btn");
