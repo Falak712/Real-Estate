@@ -1,20 +1,24 @@
+//صفحة اضافة عقار
+
+const API = 'http://127.0.0.1:8000/api';
+const token = localStorage.getItem('token');
+
 // ==========================
-// اختيار نوع العقد (للبيع/للإيجار)
+// اختيار نوع العقد (بيع/إيجار)
 // ==========================
 let typeButtons = document.querySelectorAll(".type-btn");
 
 typeButtons.forEach(button => {
-    button.onclick = function() {
+    button.onclick = function () {
         typeButtons.forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
     };
 });
 
 // ==========================
-// المتغيرات
+// عناصر الفورم
 // ==========================
 let price = document.getElementById("price");
-let city = document.getElementById("city");
 let description = document.getElementById("descriptionInput");
 let space = document.getElementById("space");
 let rooms = document.getElementById("rooms");
@@ -25,41 +29,123 @@ let direction = document.getElementById("direction");
 // تحميل المناطق من الباك
 // ==========================
 async function loadAreas() {
+    const areaSelect = document.getElementById("areaSelect");
     try {
-        let response = await fetch('http://127.0.0.1:8000/api/areas');
-        let data = await response.json();
-        let areas = data.data || data;
+        const response = await fetch(`${API}/areas`, {
+            headers: { 'Accept': 'application/json' }
+        });
+        const areas = await response.json();
 
-        let areaSelect = document.getElementById('areaSelect');
-        areaSelect.innerHTML = '<option value="">دمشق</option>';
-
+        areaSelect.innerHTML = '<option value="">اختر المنطقة</option>';
         areas.forEach(area => {
-            let option = document.createElement('option');
-            option.value = area.id;
-            option.textContent = area.name;
-            if (area.latitude && area.longitude) {
-                option.setAttribute('data-lat', area.latitude);
-                option.setAttribute('data-lng', area.longitude);
-            }
-            areaSelect.appendChild(option);
+            areaSelect.innerHTML += `<option value="${area.id}">${area.name}</option>`;
         });
-
-        // تحريك الخريطة عند اختيار منطقة
-        areaSelect.addEventListener('change', function() {
-            let selected = this.options[this.selectedIndex];
-            let lat = parseFloat(selected.getAttribute('data-lat'));
-            let lng = parseFloat(selected.getAttribute('data-lng'));
-            if (!isNaN(lat) && !isNaN(lng)) {
-                map.setView([lat, lng], 15);
-            }
-        });
-
     } catch (error) {
-        console.error('فشل تحميل المناطق:', error);
+        areaSelect.innerHTML = '<option value="">تعذر تحميل المناطق</option>';
+        console.error(error);
     }
 }
 
-loadAreas();
+document.addEventListener("DOMContentLoaded", loadAreas);
+
+// ==========================
+// زر نشر العقار
+// ==========================
+let publishButton = document.querySelector(".publish");
+
+publishButton.onclick = async function (e) {
+    e.preventDefault();
+
+    let stateBtn = document.querySelector(".type-btn.active");
+    let contractType = stateBtn ? stateBtn.dataset.state : ""; // sale / rent
+
+    let areaId = document.getElementById("areaSelect").value;
+    let lat = document.getElementById("lat").value;
+    let lng = document.getElementById("lng").value;
+    let typeRealEstate = document.getElementById("typeSelect").value;
+    let addressInput = document.querySelector('input[placeholder="اسم الشارع، رقم المبنى"]');
+
+    // التحقق من الحقول المطلوبة فعليًا حسب الباك
+    if (
+        price.value === "" ||
+        space.value === "" ||
+        direction.value === "" ||
+        contractType === "" ||
+        typeRealEstate === "" ||
+        areaId === "" ||
+        lat === "" ||
+        lng === "" ||
+        addressInput.value === "" ||
+        !identityFile ||
+        !ownershipFile
+    ) {
+        alert("الرجاء ملء جميع الحقول المطلوبة (بما فيها صورة الهوية ووثيقة الملكية)");
+        return;
+    }
+
+    let formData = new FormData();
+
+    formData.append("price", price.value);
+    formData.append("description", description.value);
+    formData.append("size", space.value);
+    formData.append("direction", direction.value);
+    formData.append("bedrooms", rooms.value);
+    formData.append("bathrooms", baths.value);
+    formData.append("address", addressInput.value);
+    formData.append("point_of_length", lng);
+    formData.append("point_of_width", lat);
+    formData.append("type_real_estate", typeRealEstate);
+    formData.append("contract_type", contractType);
+    formData.append("area_id", areaId);
+    formData.append("identity_image", identityFile);
+    formData.append("ownership_document", ownershipFile);
+
+    // الصور - كلها بنفس الطلب
+    imagesArray.forEach(function (image) {
+        formData.append("images[]", image);
+    });
+
+    try {
+        const response = await fetch(`${API}/real-estate`, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Accept": "application/json"
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "حدث خطأ أثناء إضافة العقار");
+            console.error(data.errors);
+            return;
+        }
+        alert(data.message);
+        window.location.href = "../main/index.html";
+
+    } catch (error) {
+        console.error(error);
+        alert("تعذر الاتصال بالخادم");
+    }
+};
+
+// ==========================
+// تأثير الظهور عند التمرير
+// ==========================
+let reveals = document.querySelectorAll(".reveal");
+
+window.addEventListener("scroll", function () {
+    reveals.forEach(function (card) {
+        let windowHeight = window.innerHeight;
+        let cardTop = card.getBoundingClientRect().top;
+
+        if (cardTop < windowHeight - 100) {
+            card.classList.add("active");
+        }
+    });
+});
 
 // ==========================
 // صورة الهوية
@@ -68,15 +154,18 @@ let identityInput = document.querySelector("#identityImage");
 let identityFile = null;
 let identityPreview = document.querySelector(".identity-preview");
 
-identityInput.onchange = function() {
+identityInput.onchange = function () {
     let file = identityInput.files[0];
     if (!file) return;
 
     let name = file.name.toLowerCase();
+
     if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
         alert("مسموح فقط صور PNG / JPG / JPEG");
         this.value = "";
+        identityFile = null;
         identityPreview.style.display = "none";
+        identityPreview.src = "";
         return;
     }
 
@@ -92,39 +181,39 @@ let ownershipInput = document.querySelector("#ownershipImage");
 let ownershipFile = null;
 let ownershipPreview = document.querySelector(".ownership-preview");
 
-ownershipInput.onchange = function() {
+ownershipInput.onchange = function () {
     let file = ownershipInput.files[0];
     if (!file) return;
 
     let name = file.name.toLowerCase();
-    if (!name.endsWith(".png") && !name.endsWith(".jpg") &&
-        !name.endsWith(".jpeg") && !name.endsWith(".pdf")) {
-        alert("مسموح فقط PNG / JPG / JPEG / PDF");
+
+    if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
+        alert("مسموح فقط صور PNG / JPG / JPEG");
         this.value = "";
+        ownershipFile = null;
         ownershipPreview.style.display = "none";
+        ownershipPreview.src = "";
         return;
     }
 
     ownershipFile = file;
-    if (!name.endsWith(".pdf")) {
-        ownershipPreview.src = URL.createObjectURL(file);
-        ownershipPreview.style.display = "block";
-    } else {
-        ownershipPreview.style.display = "none";
-        alert("تم اختيار ملف PDF بنجاح ✅");
-    }
+    ownershipPreview.src = URL.createObjectURL(file);
+    ownershipPreview.style.display = "block";
 };
 
 // ==========================
-// صور العقار
+// رفع صور العقار
 // ==========================
 let imagesArray = [];
+
 let uploadInput = document.querySelector("#images");
 let uploadText = document.querySelector(".upload-text");
 let previewContainer = document.querySelector(".preview-container");
-uploadInput.onchange = function() {
+
+uploadInput.onchange = function () {
     let files = Array.from(this.files);
 
+    // التحقق من نوع الصور
     for (let file of files) {
         let name = file.name.toLowerCase();
         if (!name.endsWith(".png") && !name.endsWith(".jpg") && !name.endsWith(".jpeg")) {
@@ -134,6 +223,7 @@ uploadInput.onchange = function() {
         }
     }
 
+    // التحقق من العدد
     if (imagesArray.length + files.length > 10) {
         alert("الحد الأقصى 10 صور");
         this.value = "";
@@ -141,164 +231,25 @@ uploadInput.onchange = function() {
     }
 
     imagesArray.push(...files);
-    uploadText.innerHTML = "تم اختيار " + imagesArray.length + " صور";
-    previewContainer.innerHTML = "";
 
-    imagesArray.forEach(function(file) {
+    uploadText.innerHTML = "تم اختيار " + imagesArray.length + " صور";
+
+    previewContainer.innerHTML = "";
+    imagesArray.forEach(function (file) {
         let image = document.createElement("img");
         image.src = URL.createObjectURL(file);
         previewContainer.appendChild(image);
     });
 
+    // حتى يسمح باختيار نفس الصورة مرة ثانية
     this.value = "";
 };
 
 // ==========================
-// زر النشر - مربوط بالباك
+// زر إلغاء
 // ==========================
-let publishButton = document.querySelector(".publish");
-
-publishButton.onclick = async function(e) {
-    e.preventDefault();
-
-    // تحقق من تسجيل الدخول
-    let token = localStorage.getItem('token');
-    if (!token) {
-        alert('يجب تسجيل الدخول أولاً');
-        window.location.href = '../auth/login.html';
-        return;
-    }
-
-    // نوع العقد
-    let stateBtn = document.querySelector(".type-btn.active");
-    if (!stateBtn) {
-        alert('الرجاء اختيار نوع العقد');
-        return;
-    }
-    let contractType = stateBtn.dataset.state; // rent أو sale
-
-    // نوع العقار
-    let typeSelect = document.getElementById("typeSelect");
-    let propertyType = typeSelect.value;
-    if (!propertyType) {
-        alert('الرجاء اختيار نوع العقار');
-        return;
-    }
-
-    // المنطقة
-    let areaSelect = document.getElementById('areaSelect');
-    if (!areaSelect.value) {
-        alert('الرجاء اختيار المنطقة');
-        return;
-    }
-
-    // الاتجاه
-    if (!direction.value) {
-        alert('الرجاء اختيار اتجاه العقار');
-        return;
-    }
-
-    // الحقول المطلوبة
-    if (!price.value || !city.value || !space.value) {
-        alert('الرجاء ملء جميع الحقول المطلوبة');
-        return;
-    }
-
-    // الإحداثيات
-    let lat = document.getElementById('lat').value;
-    let lng = document.getElementById('lng').value;
-    if (!lat || !lng) {
-        alert('الرجاء تحديد موقع العقار على الخريطة');
-        return;
-    }
-
-    // صور التحقق
-    if (!identityFile) {
-        alert('الرجاء رفع صورة الهوية');
-        return;
-    }
-    if (!ownershipFile) {
-        alert('الرجاء رفع وثيقة الملكية');
-        return;
-    }
-
-    try {
-        // بناء FormData بنفس أسماء الباك بالضبط
-        let formData = new FormData();
-        formData.append('price', price.value);
-        formData.append('description', description.value || '');
-        formData.append('size', space.value);
-        formData.append('bedrooms', rooms.value || 0);
-        formData.append('bathrooms', baths.value || 0);
-        formData.append('address', city.value);
-        formData.append('direction', direction.value);
-        formData.append('point_of_length', lng);
-        formData.append('point_of_width', lat);
-        formData.append('type_real_estate', propertyType);
-        formData.append('contract_type', contractType);
-        formData.append('area_id', areaSelect.value);
-        formData.append('identity_image', identityFile);
-        formData.append('ownership_document', ownershipFile);
-
-        // إرسال للباك
-        let response = await fetch('http://127.0.0.1:8000/api/real-estate', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json'
-            },
-            body: formData
-        });
-
-        if (response.status === 401) {
-            localStorage.removeItem('token');
-            alert('انتهت صلاحية الجلسة');
-            window.location.href = '../auth/login.html';
-            return;
-        }
-
-        let data = await response.json();
-        if (!response.ok) {
-            let firstError = data.errors
-                ? Object.values(data.errors)[0][0]
-                : data.message;
-            alert(firstError || 'حدث خطأ أثناء إضافة العقار');
-            return;
-        }
-
-        let realEstateId = data.real_estate?.id || data.id;
-
-        // رفع صور العقار
-        if (imagesArray.length > 0 && realEstateId) {
-            let picturesFormData = new FormData();
-            imagesArray.forEach(file => {
-                picturesFormData.append('images[]', file);
-            });
-
-            await fetch(`http://127.0.0.1:8000/api/real-estate/${realEstateId}/pictures`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json'
-                },
-                body: picturesFormData
-            });
-        }
-
-        alert('تم إرسال العقار للمراجعة بنجاح!');
-        window.location.href = '../main/index.html';
-
-    } catch (error) {
-        alert('حدث خطأ في الاتصال بالسيرفر');
-        console.error(error);
-    }
-};
-
-// ==========================
-// زر الإلغاء
-// ==========================
-document.querySelector(".cancel").onclick = function() {
-    window.location.href = "../main/index.html";
+document.querySelector(".cancel").onclick = function () {
+    window.location.href = "index.html";
 };
 
 // ==========================
@@ -307,7 +258,7 @@ document.querySelector(".cancel").onclick = function() {
 const menuBtn = document.getElementById("menubtn");
 const navLinks = document.getElementById("navlinks");
 
-menuBtn.onclick = function() {
+menuBtn.onclick = function () {
     if (navLinks.style.display === "flex") {
         navLinks.style.display = "none";
     } else {
@@ -315,6 +266,30 @@ menuBtn.onclick = function() {
         navLinks.style.flexDirection = "column";
     }
 };
+// ==========================
+// زر تسجيل الخروج
+// ==========================
+const logoutButtons = document.querySelectorAll("#logoutBtn, .mobile-logout");
+
+logoutButtons.forEach(btn => {
+    btn.addEventListener("click", async function (e) {
+        e.preventDefault();
+
+        try {
+            await fetch(`${API}/logout`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            });
+        } catch (err) {}
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "../main/index.html";
+    });
+});
 
 // ==========================
 // الخريطة
@@ -326,18 +301,40 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-let marker;
-// تحديد الموقع تلقائياً عند فتح الصفحة
-if (navigator.geolocation) {
+let marker = null;
 
-    navigator.geolocation.getCurrentPosition(
+// اختيار الموقع بالضغط على الخريطة
+map.on('click', function (e) {
+    let lat = e.latlng.lat;
+    let lng = e.latlng.lng;
 
-        function(position){
+    if (marker) {
+        map.removeLayer(marker);
+    }
 
+    marker = L.marker([lat, lng]).addTo(map);
+
+    document.getElementById("lat").value = lat;
+    document.getElementById("lng").value = lng;
+
+    document.getElementById("selectedLocation").innerText =`
+        الموقع المحدد: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+});
+
+// زر تحديد الموقع الحالي
+const locationBtn = document.getElementById("locationBtn");
+
+if (locationBtn) {
+    locationBtn.onclick = function () {
+        navigator.geolocation.getCurrentPosition(function (position) {
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
 
             map.setView([lat, lng], 15);
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
 
             marker = L.marker([lat, lng])
                 .addTo(map)
@@ -348,82 +345,10 @@ if (navigator.geolocation) {
             document.getElementById("lng").value = lng;
 
             document.getElementById("selectedLocation").innerText =`
-            الموقع الحالي: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                الموقع الحالي: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
-        },
-
-        function(error){
-
-            console.log(error);
-
-        }
-
-    );
-
+        }, function () {
+            alert("لم يتم السماح بالوصول إلى الموقع");
+        });
+    };
 }
-
-map.on('click', function(e) {
-    const lat = e.latlng.lat;
-    const lng = e.latlng.lng;
-
-    if (marker) map.removeLayer(marker);
-
-    marker = L.marker([lat, lng]).addTo(map);
-
-    document.getElementById("selectedLocation").innerText =`
-        الموقع المحدد: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-
-    document.getElementById("lat").value = lat;
-    document.getElementById("lng").value = lng;
-});
-
-// ==========================
-// البحث بالخريطة
-// ==========================
-let searchInput = document.getElementById("searchInput");
-let searchMarker;
-
-searchInput.addEventListener("keypress", function(e) {
-   
-    if (e.key === "Enter") {
-        let query = searchInput.value;
-
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.length > 0) {
-                    let lat = data[0].lat;
-                    let lon = data[0].lon;
-
-                    map.setView([lat, lon], 14);
-
-                    if (searchMarker) map.removeLayer(searchMarker);
-
-                    searchMarker = L.marker([lat, lon]).addTo(map);
-
-                    document.getElementById("lat").value = lat;
-                    document.getElementById("lng").value = lon;
-
-                    document.getElementById("selectedLocation").innerText =`
-                        الموقع: ${parseFloat(lat).toFixed(6)}, ${parseFloat(lon).toFixed(6)}`;
-                } else {
-                    alert('لم يتم العثور على الموقع');
-                }
-            })
-            .catch(() => alert('خطأ في البحث'));
-    }
-});
-
-// ==========================
-// تأثير التمرير
-// ==========================
-let reveals = document.querySelectorAll(".reveal");
-window.addEventListener("scroll", function() {
-    reveals.forEach(function(card) {
-        let windowHeight = window.innerHeight;
-        let cardTop = card.getBoundingClientRect().top;
-        if (cardTop < windowHeight - 100) {
-            card.classList.add("active");
-        }
-    });
-});

@@ -19,7 +19,7 @@ class StoreRealEstateRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string|max:255',
             'size' => 'required|numeric|min:1',
-            'direction' => 'required|in:north,south,east,west,northeast,northwest,southeast,southwest',
+            'direction' => 'required|in:north,south,east,west,northeast,northwest,southeast,southwest,north-east-west,north-east-south,north-west-south,east-west-south,east-west-north,east-south-west',
             'bedrooms' => 'nullable|integer|min:0',
             'bathrooms' => 'nullable|integer|min:0',
             'address' => 'required|string|max:255',
