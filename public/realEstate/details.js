@@ -51,7 +51,7 @@ if (property) {
 
     const currencySymbols = {
         USD: "$",
-        SYP: "ل.س"
+        SYP: "SYP"
     };
 
     let symbol = currencySymbols[property.currency] || property.currency;

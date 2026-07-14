@@ -62,7 +62,7 @@ function goToAddProperty(e) {
 async function loadProperties(filters = {}) {
     try {
         // بناء URL مع الفلاتر
-        let url =`${API}/real-estates?`;
+        let url =`${API}/real-estate?`;
         if (filters.search) url += search=`${filters.search}&`;
         if (filters.contract_type) url += `contract_type=${filters.contract_type}&`;
         if (filters.type_real_estate) url += `type_real_estate=${filters.type_real_estate}&`;
