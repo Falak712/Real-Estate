@@ -96,7 +96,7 @@ Route::get('/real-estates', [RealEstateController::class, 'myrealestate']);
     Route::get('rental_bookings/{id}', [RentalBookingController::class, 'show']);
     Route::put('rental_bookings/{id}', [RentalBookingController::class, 'update']);
     Route::delete('rental_bookings/{id}', [RentalBookingController::class, 'destroy']);
-    Route::post('rental_bookings/{id}', [RentalBookingController::class, 'bookedDates']);
+    Route::get('rental_bookings/{id}/dates', [RentalBookingController::class, 'bookedDates']);
     Route::put('profile/update', [ProfileController::class, 'update']);
 
 

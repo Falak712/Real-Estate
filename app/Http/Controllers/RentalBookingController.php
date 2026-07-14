@@ -26,7 +26,7 @@ class RentalBookingController extends Controller
      */
     public function store(StoreRentalBookingRequest $request)
     {
-        $property =RealEstate::findOrFail($request->real_estate_id);
+        $property =RealEstate::findOrFail($request->real_estates_id);
 if ($property->order_status != 'approved') {
 
     return response()->json([

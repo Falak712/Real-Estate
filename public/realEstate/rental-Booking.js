@@ -1,15 +1,38 @@
+
+
 let params = new URLSearchParams(window.location.search);
 
 let id = Number(params.get("id"));
 
 let type = params.get("type");
+//////////////////////////////////////////////////////
+let property = null;
 
-let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+async function getProperty(){
+
+    let response = await fetch(`/api/real-estates/${id}`);
+
+    let data = await response.json();
+
+    property = data.real_estate;
+
+    document.getElementById("name").value = property.title || "";
+
+    document.getElementById("price").value = property.price || "";
+
+    document.getElementById("city").value = property.address || "";
+
+}
+
+getProperty();
+/////////////////////////////////////////////////////////
+/*let properties = JSON.parse(localStorage.getItem("properties")) || [];
 
 //البحث عن العقار المطلوب
 let property = properties.find(function(item) {
     return item.id == id;
-});
+});*/
 
 let bookingInfo = document.getElementById("bookingInfo");
 
@@ -68,7 +91,7 @@ let backBtn = document.getElementById("backBtn");
 let propertyId = params.get("id");
 
 backBtn.onclick = function () {
-    window.location.href = `details.html?id=${propertyId}`;
+    window.location.href = `/realEstate/details.html?id=${propertyId}`;
 };
 
 if (property) {
@@ -103,8 +126,8 @@ publishBtn.onclick = function () {
 
     // التأكد من تعبئة جميع الحقول
     if ( !phone ||
-         !name ||
-         !email
+        !name ||
+        !email
     ) {
         alert("يرجى تعبئة جميع الحقول");
         return;
@@ -123,18 +146,38 @@ publishBtn.onclick = function () {
         return;
     }
     }
+      //////////////////////////////////////
+    fetch("/api/rental_bookings", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
 
+        // إذا تستخدم Sanctum:
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    },
 
-    // إنشاء الطلب
-    let request = {
-        id: Date.now(),
-        propertyId: property.id,
-        type: type,
-        startDate: startDate,
-        endDate: endDate,
-        status: "pending"
-    };
+    body: JSON.stringify({
+        real_estates_id: property.id,
+        start_date: startDate,
+        end_date: endDate
+    })
 
+})
+
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+    alert("تم إرسال طلب الحجز بنجاح");
+    window.location.href = "index.html";
+})
+
+.catch(error => {
+    console.error(error);
+    alert("حدث خطأ أثناء إرسال الطلب");
+});
+////////////////////////////////////////////////////////////////
+/* 
     // تخزين الطلب
     let requests = JSON.parse(localStorage.getItem("requests")) || [];
     requests.push(request);
@@ -142,8 +185,9 @@ publishBtn.onclick = function () {
 
     alert("تم إرسال الطلب بنجاح ");
     window.location.href = "index.html";
+*/
+////////////////////////////////////////////////////////////////////
 };
-
 
 let request = {
     id: Date.now(),
