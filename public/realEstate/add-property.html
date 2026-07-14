@@ -818,7 +818,6 @@ textarea{
 
         </div>
         <nav class="nav-links" id="navlinks">
-
         <a href="profile.html" class="profile-btn"><i class="fa-solid fa-user"></i><span class="profile-text">الملف الشخصي</span></a>
         <a href="index.html">الرئيسية</a>
         <a href="index.html#properties">العقارات</a>
@@ -875,6 +874,7 @@ textarea{
           <label>نوع العقار</label>
           <select class="select" id="typeSelect">
             <option value="apartment">شقة</option>
+                <option value="villa">فيلا</option>
                 <option value="house">منزل</option>
                 <option value="land">أرض</option>
           </select>
@@ -933,12 +933,15 @@ textarea{
 
       <div class="grid-2">
 
-<div class="input-group">
-    <label>المنطقة</label>
+        <div class="input-group">
+         <label>المنطقة</label>
     <select id="areaSelect">
         <option value="">جاري تحميل المناطق...</option>
     </select>
-</div>
+
+
+
+
         <div class="input-group">
           <label>العنوان بالتفصيل</label>
           <input type="text" placeholder="اسم الشارع، رقم المبنى">
@@ -947,7 +950,6 @@ textarea{
         <div class="input-group">
           <label>الجهة</label>
           <select id="direction">
-    <option value="">اختر الاتجاه</option>
     <option value="north">شمالي</option>
     <option value="south">جنوبي</option>
     <option value="east">شرقي</option>
@@ -956,9 +958,14 @@ textarea{
     <option value="northwest">شمالي غربي</option>
     <option value="southeast">جنوبي شرقي</option>
     <option value="southwest">جنوبي غربي</option>
-</select>
-        </div>
+    <option value="north-east-west">شمالي شرقي غربي</option>
+    <option value="north-east-south">شمالي شرقي جنوبي</option>
+    <option value="north-west-south">شمالي غربي جنوبي</option>
+    <option value="east-west-south">شرقي غربي جنوبي</option>
+    <option value="east-west-north">شرقي غربي شمالي</option>
+    <option value="east-south-west">شرقي جنوبي غربي</option>
 
+</select>
       </div>
 
     </div>
@@ -1062,8 +1069,11 @@ onclick="document.getElementById('ownershipImage').click()">
           <div class="icon">📍</div>
           <h3>تحديد الموقع على الخريطة</h3>
         </div>
-        <input type="text" id="searchInput" placeholder="ابحث عن مدينة أو منطقة..."
-         style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px;">
+
+        <button id="locationBtn" type="button" class="upload-btn" style="margin-bottom:15px;">
+            <i class="fa-solid fa-location-crosshairs"></i>
+            موقعي الحالي
+        </button>
 
         <div id="map" style="height: 300px; border-radius: 15px;"></div>
 

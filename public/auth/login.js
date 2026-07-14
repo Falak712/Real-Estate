@@ -3,25 +3,9 @@ async function login() {
     let email = document.getElementById("email").value.trim();
     let password = document.getElementById("password").value;
 
-    // التحقق من الحقول الفارغة
+    // التحقق من الحقول الفارغة فقط
     if (email === "" || password === "") {
         alert("الرجاء إدخال البريد الإلكتروني وكلمة المرور");
-        return;
-    }
-
-    // التحقق من كلمة المرور
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-
-    if (!passwordRegex.test(password)) {
-        alert("يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتتضمن حروفًا باللغة الإنجليزية وأرقامًا");
-        return;
-    }
-
-    // التحقق من البريد الإلكتروني
-    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-    if (!emailRegex.test(email)) {
-        alert("يجب إدخال بريد إلكتروني من نوع Gmail");
         return;
     }
 
@@ -59,7 +43,7 @@ async function login() {
 
         } else {
 
-            alert(data.message);
+            alert(data.message || "بيانات الدخول غير صحيحة");
 
         }
 
@@ -70,5 +54,11 @@ async function login() {
         alert("تعذر الاتصال بالخادم");
 
     }
-
+;
 }
+window.addEventListener("pageshow", function(event) {
+    setTimeout(function() {
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+    }, 50);
+});

@@ -81,7 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('favorites', FavoriteController::class);
 //ادارة العقارات من قبل المستخدم الذي ضافها
 Route::apiResource('real-estate', RealEstateController::class);
-Route::get('/my-properties', [RealEstateController::class, 'myProperties']);
+Route::get('/my-properties', [RealEstateController::class, 'myrealEstates']);
 
 
     Route::post('/real-estates/{id}/pictures',[PictureController::class, 'store']);
@@ -102,16 +102,7 @@ Route::get('/my-properties', [RealEstateController::class, 'myProperties']);
 
 });
 
-Route::get('/test-mail', function () {
 
-    Mail::raw('Hello Magic Estate', function ($message) {
-
-        $message->to('themagic792@gmail.com')
-                ->subject('Laravel Test');
-    });
-
-    return "Done";
-});
 
 
 

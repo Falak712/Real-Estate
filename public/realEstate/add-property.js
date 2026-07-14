@@ -31,7 +31,7 @@ async function loadAreas() {
         let areas = data.data || data;
 
         let areaSelect = document.getElementById('areaSelect');
-        areaSelect.innerHTML = '<option value="">اختر المنطقة</option>';
+        areaSelect.innerHTML = '<option value="">دمشق</option>';
 
         areas.forEach(area => {
             let option = document.createElement('option');
@@ -327,6 +327,40 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let marker;
+// تحديد الموقع تلقائياً عند فتح الصفحة
+if (navigator.geolocation) {
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position){
+
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+
+            map.setView([lat, lng], 15);
+
+            marker = L.marker([lat, lng])
+                .addTo(map)
+                .bindPopup("موقعك الحالي")
+                .openPopup();
+
+            document.getElementById("lat").value = lat;
+            document.getElementById("lng").value = lng;
+
+            document.getElementById("selectedLocation").innerText =`
+            الموقع الحالي: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+        },
+
+        function(error){
+
+            console.log(error);
+
+        }
+
+    );
+
+}
 
 map.on('click', function(e) {
     const lat = e.latlng.lat;
@@ -350,6 +384,7 @@ let searchInput = document.getElementById("searchInput");
 let searchMarker;
 
 searchInput.addEventListener("keypress", function(e) {
+   
     if (e.key === "Enter") {
         let query = searchInput.value;
 

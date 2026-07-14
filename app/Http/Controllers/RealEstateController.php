@@ -30,8 +30,8 @@ class RealEstateController extends Controller
 
     public function index(Request $request)
     {
-        $query = RealEstate::with(['pictures', 'area'])
-            ->where('order_status', 'approved');
+        $query = RealEstate::with(['pictures', 'area']);
+           // ->where('order_status', 'approved');
 
         // فلترة حسب المنطقة
         if ($request->area_id) {
@@ -182,7 +182,7 @@ return response()->json(['message' => 'تم تعديل العقار بنجاح',
 
     return response()->json(['message' => 'تم حذف العقار بنجاح']);
 }
-public function myProperties()
+public function myrealEstates()
 {
     $properties = RealEstate::where('user_id', Auth::id())
         ->with(['pictures', 'area'])

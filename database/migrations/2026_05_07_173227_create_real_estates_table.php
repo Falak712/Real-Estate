@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('size');
             $table->integer('bedrooms')->nullable();
             $table->integer('bathrooms')->nullable();
-            $table->enum('direction', ['north','south','east','west','northeast','northwest','southeast','southwest']);
+            $table->enum('direction', ['north','south','east','west','northeast','northwest','southeast','southwest','north-east-west','north-east-south','north-west-south','east-west-south','east-west-north','east-south-west']);
             $table->string('address',255);
             $table->double('point_of_length');
             $table->double('point_of_width');

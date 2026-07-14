@@ -1,0 +1,247 @@
+ body{
+    background-image: linear-gradient( rgba(0,0,0,1), rgba(0,0,0,0.3), rgba(0,0,0,1)),
+    url("../images/backgraund02.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 2;
+} 
+/* لون الهيدر مع الخلفية */
+header{
+    justify-content:space-between ;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    z-index: 10;
+    display: flex;
+    top: 0;
+}
+.logo{
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0;
+padding: 0;
+margin-left: 60px;
+}
+header .logo img{
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+nav a{
+    margin: 0 20px;
+    color: #c8962e;
+    transition: 0.3s;
+    font-weight: 500;
+}
+nav a:hover {
+    color: #FFFFFF;
+}
+a{
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.container{
+    width: 850px;
+    margin: auto;
+    margin-top: 80px;
+}
+/* شريط التنقل */
+.navbar {
+    background-color: #0b0b0b;
+    border-bottom: 1px solid rgba(200,150,46,0.35);
+    box-shadow: 0 5px 20px rgba(200,150,46,0.08);
+    padding: 7px 0;
+    position: fixed;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.navbar .container{
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.navlinks{
+    align-items: center;
+    gap: 20px;
+}
+@media(max-width:768px){
+    .navbar .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navlinks { 
+        display:none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 15px;
+        gap: 15px;
+    }
+    .navlinks{ 
+        display: block;
+        font-size: 28px;
+        color: #c8962e;
+        cursor: pointer;
+        display: none;
+    }
+    .logo img{
+        height: 50px;
+    }
+}
+.header-logout, .header-add {
+    padding: 8px 12px;
+    border: 1px solid #c8962e;
+    border-radius: 13px;
+    background: black;
+    color: #c8962e;
+    text-align: center;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.header-add:hover , .header-logout:hover{
+    color: #c8962e;
+    transform: scale(1.05);
+    transform: translate(-4px);
+    box-shadow: 0 15px 35px rgba(234, 197,93, 0.25);
+}
+.title{
+    text-align: center;
+    color: #c88b11;
+    margin-top: 50px;
+    padding: 70px;
+    font-size: 40px;
+    cursor:default;
+}
+.title::after{
+    content: "";
+    width: 100px;
+    height: 3px;
+    background: #D4AF37;
+    margin: 12px auto;
+    border-radius: 10px;
+    cursor:default;
+}
+/* القسم الرئيسي للمفضلة */
+.favorites-section{
+    width:85%;
+    max-width:1200px;
+    margin:80px auto;
+    padding:30px;
+    background:rgba(2,0,20,0.5);
+    border:1px solid #D4AF37;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px black;
+}
+/* مكان عرض العقارات */
+.favorites-container{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:35px;
+    flex-wrap:wrap;
+}
+/* بطاقة العقار */
+.realestate-card{
+    width:300px;
+    background:#1b1b1b;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    transition:0.35s;
+    cursor:pointer;
+    position:relative;
+}
+.realestate-card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.7);
+}
+/* صورة العقار */
+.realestate-image{
+    position:relative;
+}
+.realestate-image img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    display:block;
+}
+/* حالة العقار للبيع / للإيجار */
+.realestate-status{
+    position:absolute;
+    top:15px;
+    left:15px;
+    background:#D4AF37;
+    color:white;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+}
+/* زر حذف من المفضلة */
+.remove-favorite{
+    position:absolute;
+    top:15px;
+    right:15px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:none;
+    background:#111;
+    color:red;
+    font-size:23px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.remove-favorite:hover{
+    transform:scale(1.15);
+    box-shadow:0 0 15px red;
+}
+/* محتوى البطاقة */
+.realestate-content{
+    padding:20px;
+}
+.realestate-title{
+    color:white;
+    font-size:23px;
+    margin-bottom:12px;
+}
+.realestate-location{
+    color:#bdbdbd;
+    font-size:16px;
+    margin-bottom:18px;
+}
+.realestate-price{
+    color:#D4AF37;
+    font-size:30px;
+}
+/* حالة عدم وجود عقارات */
+.empty-favorites{
+    width:100%;
+    text-align:center;
+    color:#D4AF37;
+    font-size:25px;
+    padding:50px;
+}
+/* الموبايل */
+@media(max-width:768px){
+    .favorites-section{
+        width:90%;
+        padding:15px;
+    }
+    .realestate-card{
+        width:90%;
+    }
+}
