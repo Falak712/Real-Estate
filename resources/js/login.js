@@ -31,13 +31,13 @@ function login() {
 
       alert("تم التسجيل بنجاح");
 
-    {
-
-}
 let formData = new FormData();
 
 formData.append("email", email);
 formData.append("password", password);
+
+//حفظ حالة تسجيل الدخول
+localStorage.setItem("isLoggedIn", "true");
 
  // إذا كانت الحقول ممتلئة ينتقل للرئيسية
    window.location.href = "../views/index.html";

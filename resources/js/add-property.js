@@ -21,7 +21,7 @@ let rooms = document.getElementById("rooms");
 let baths = document.getElementById("baths");
 let direction = document.getElementById("direction");
 let currency = document.getElementById("currency");
-//let currency = localStorage.getItem("currency") || "SYP";
+
 
 
 
@@ -52,7 +52,9 @@ publishButton.onclick = function (e) {
         rooms.value === "" ||
         baths.value === "" ||
         direction.value === "" ||
-        currency.value === ""
+        currency.value === "" ||
+        document.getElementById("lat").value === "" ||
+        document.getElementById("lng").value === ""
     ) {
         alert("الرجاء ملء جميع الحقول المطلوبة");
         return;
@@ -120,7 +122,33 @@ if(ownershipFile){
 }
 console.log([...formData]);
 
-window.location.href = "../views/index.html";
+//تخزين العقار
+
+let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+let newProperty = {
+    id: Date.now(),
+    title: title.value,
+    price: Number(price.value),
+    currency: currency.value,
+    location: city.value,
+    description: description.value,
+    space: space.value,
+    rooms: rooms.value,
+    baths: baths.value,
+    direction: direction.value,
+    type: type,
+    state: state,
+    status: "pending",
+    latitude: document.getElementById("lat").value,
+    longitude: document.getElementById("lng").value,
+    images: imagesArray.map(img => URL.createObjectURL(img))
+};
+
+
+properties.push(newProperty);
+
+localStorage.setItem("properties", JSON.stringify(properties));
 
 alert("تم إرسال العقار للمراجعة");
 
