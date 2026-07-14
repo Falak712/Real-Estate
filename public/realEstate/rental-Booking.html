@@ -21,48 +21,148 @@
       color:#fff;
       padding: 40px 0;
       overflow-x: hidden;
-    }
-    .header{
-      width:100%;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-bottom:40px;
-  padding:10px 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #111111 35%,#1a1a1a 60%,#c8962e 120%);
+    background-size: 200% 200%;
+    animation: bgMove 8s ease-in-out infinite;
+        }
+
+
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
     .container{
       width:850px;
       margin:auto;
     }
 
+ /* الهيدر */
+ header {
+            /*لون الهيدر مع الخلفية ممكن غيره للابيض*/
 
-    /* BACK BUTTON */
 
-.back-home{
-  position:absolute;
-  right:0;
-  text-decoration:none;
-  color:#000;
-  background:linear-gradient(145deg,#f3d57e,#c8962e);
-  padding:14px 28px;
-  border-radius:16px;
-  font-size:17px;
-  font-weight:700;
-  transition:.3s;
-  box-shadow:0 10px 20px rgba(212,168,79,.18);
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            z-index: 10;
+            display: flex;
+            top: 0;
+        }
+          .logo{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin: 0;
+            padding: 0;
+            margin-left: 60px;
+
+        }
+        header .logo img{
+            height:80px;
+            width:auto;
+            object-fit:contain;
+        }
+
+        nav a {
+            margin:0 20px;
+            color:#c8962e;
+            transition: .3s;
+            font-weight: 500;
+        }
+        nav a:hover {
+
+        color: #ffffff;
+        }
+
+        a{
+            text-decoration: none;
+
+        }
+
+        nav{
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .container{
+            width:850px;
+            margin:auto;
+            margin-top: 80px;
+        }
+
+        /* شريط التنقل */
+
+
+        .navbar
+        {
+            background-color: #0b0b0b;
+            border-bottom:1px solid rgba(200,150,46,.3);
+            box-shadow:0 5px 20px rgba(200,150,46,.08);
+            padding: 7px 0;
+            position: fixed;
+            display: flex;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar .container
+        {
+            max-width: 1400px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links{
+
+        align-items: center;
+        gap: 20px;
+        }
+
+        .menu-btn{
+    display:none;
+    font-size:28px;
+    color:#c8962e;
+    cursor:pointer;
 }
 
-.back-home:hover{
-  transform:translateY(-2px);
-  box-shadow:0 14px 25px rgba(212,168,79,.28);
-}
+        .header-logout, .header-add {
+            padding: 8px 12px;
+            border:1px solid #c8962e;
+            border-radius:13px;
+
+            background:black;
+            color:#c8962e;
+            text-align: center;
+            font-size:17px;
+
+            cursor:pointer;
+            transition:.3s;
+         }
+            .header-add:hover,
+            .header-logout:hover {
+                color: #c8962e;
+
+                transform:scale(1.05);
+                transform: translateY(-4px);
+                box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
+            }
 
     /* CARD */
 
     .card{
       background:#161616;
-      border:2px solid #d4a84f;
+      border:2px solid #c8962e;
       border-radius:28px;
       padding:28px;
       margin-bottom:30px;
@@ -78,25 +178,23 @@
       margin-bottom:25px;
       border-bottom:1px solid rgba(212,168,79,.25);
       padding-bottom:18px;
+      box-shadow:
+    0 0 20px rgba(212,168,79,.06),
+    inset 0 0 10px rgba(212,168,79,.03);
+    }
+
+    .card:hover{
+        transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow:0 15px 35px rgba(201,168,76,.25);
     }
 
     .card-header h3{
       font-size:20px;
-      color:#e7c16b;
+      color:#c8962e;
       font-weight:700;
     }
 
-    .reveal{
-opacity:0;
-transform:translateY(80px);
-transition:1s;
-}
-
-.reveal.active{
-opacity:1;
-transform:translateY(0);
-
-}
 
     .icon{
       width:45px;
@@ -120,7 +218,7 @@ transform:translateY(0);
     label{
       display:block;
       margin-bottom:10px;
-      color:#e7c16b;
+      color:#c8962e;
       font-size:15px;
       font-weight:600;
     }
@@ -145,11 +243,16 @@ transform:translateY(0);
       padding-top:18px;
       resize:none;
     }
+    /* لون أيقونة التاريخ */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
 
     input:focus,
     textarea:focus,
     select:focus{
-      border-color:#d4a84f;
+      border-color:#c8962e;
       box-shadow:0 0 15px rgba(212,168,79,.18);
     }
 
@@ -190,7 +293,7 @@ transform:translateY(0);
     .cancel{
       background:transparent;
       border:none;
-      color:#d4a84f;
+      color:#c8962e;
       font-size:20px;
       cursor:pointer;
       font-weight:700;
@@ -201,12 +304,72 @@ transform:translateY(0);
       align-items:center;
       gap:12px;
       margin-bottom:30px;
-      color:#f0c96c;
-      font-size:35px;
+      color:#c8962e;
+      font-size : 20px;;
       font-weight:700;
     }
+    @media (max-width: 768px) {
 
+.menu-btn {
+    display: block;
+    font-size: 30px;
+    color: #c8962e;
+    cursor: pointer;
+}
 
+.nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 0;
+    background: #111;
+    padding: 10px 0;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-links a {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    width: 70%;
+    margin: auto;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    background: #d4a24c;
+    color: black;
+}
+
+.search-box {
+    flex-direction: column;
+    width: 70%;
+}
+
+.search-box select,
+.search-box input,
+.search-box button {
+    width: 100%;
+}
+
+.navbar .container{
+        flex-wrap:wrap;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+}
 
     @media(max-width:900px){
 
@@ -230,24 +393,38 @@ transform:translateY(0);
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- الهيدر -->
+  <header class="navbar">
+    <div class="container">
+        <span class="logo">
+            <img src="/public/images/logo.png" class="img">
+        </span>
 
-  <header class="header">
+        <div class="menu-btn" id="menubtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
 
-    <div class="loader"></div>
-    <!-- زر الرجوع -->
-    <a href="index.html" class="back-home">
-      ← الرئيسية
-    </a>
+        <div class="center-nav">
 
-  </header>
+        </div>
+        <nav class="nav-links" id="navlinks">
+        <a href="index.html">الرئيسية</a>
+        <a href="index.html#properties">العقارات</a>
+        <a href="index.html#about">من نحن</a>
+        <a href="#">إدارة النظام</a>
+        <a href="index.html" class="header-logout" id="logoutBtn"> <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج </a>
+
+        </nav>
+    </div>
+</header>
+
     <div class="container">
 
   <div class="title-page" id="pageTitle">طلب حجز عقار</div>
 
     <!-- المعلومات الأساسية -->
     <div class="card">
-      <div class="card reveal">
+      <div class="card">
       <div class="card-header">
         <div class="icon">i</div>
         <h3>معلومات العقار</h3>
@@ -275,10 +452,6 @@ transform:translateY(0);
       </div>
 
       </div>
-    </div>
-
-
-
     <!--بيانات المستخدم-->
 
     <div class="card">
@@ -308,8 +481,6 @@ transform:translateY(0);
         </div>
 
       </div>
-
-
 
     <!--معلومات الحجز-->
     <div class="card" id="bookingInfo">
@@ -343,6 +514,7 @@ transform:translateY(0);
                 </div>
 
             </div>
+        </div>
 
     </div>
 

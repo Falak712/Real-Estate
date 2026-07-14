@@ -1,4 +1,4 @@
- 
+
  body{
     background-image: linear-gradient( rgba(0,0,0,1), rgba(0,0,0,0.5), rgba(0,0,0,1)),
     url("images/background02.jpg");
@@ -9,27 +9,29 @@
     z-index: 2;
 } 
 /* لون الهيدر مع الخلفية */
-header{
-    justify-content:space-between ;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    position: sticky;
-    z-index: 10;
+header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    direction: rtl;
+    position: sticky;
     top: 0;
+    z-index: 10;
+}
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 .logo{
-display: flex;
-justify-content: center;
-align-items: center;
-margin: 0;
-padding: 0;
-margin-left: 60px;
+    display:flex;
+    align-items:center;
+    margin:0;
 }
 header .logo img{
-    height: 80px;
-    width: auto;
-    object-fit: contain;
+    height:80px;
+    width:auto;
+    object-fit:contain;
 }
 nav a{
     margin: 0 20px;
@@ -43,15 +45,17 @@ nav a:hover {
 a{
     text-decoration: none;
 }
-nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+nav{
+    display:flex;
+    align-items:center;
+    gap:25px;
 }
 .container{
-    width: 850px;
+    width: 90%;
     margin: auto;
-    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 /* شريط التنقل */
 .navbar {
@@ -108,6 +112,9 @@ nav {
     color: #c8962e;
     text-align: center;
     font-size: 17px;
+    align-items:center;        
+    justify-content:center;
+    gap:8px;
     cursor: pointer;
     transition: 0.3s;
 }
@@ -168,16 +175,18 @@ background:rgba(2,0,23,0.8);
 width:40%;
 cursor:default;
 }
-.value{
-color:#FFFFFF;
-font-size:18px;
-font-weight:400;
-background:#2A2A2A;
-padding:10px 16px;
-border-radius:8px;
-width:60%;
-text-align:center;
-cursor:default;
+.value {
+    width: 100%;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 400;
+    background: #2A2A2A !important; /* تأكيد اللون الغامق الافتراضي للحقل */
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: .3s;
 }
 /* الاعدادات*/
 .settings{
@@ -257,10 +266,13 @@ font-weight:600;
     box-shadow: 0 10px 20px rgba(225, 43, 19, 0.5);
 }
 .editing {
-    background-color: rgb(232, 195, 30);
+    background-color: rgba(223, 192, 100, 0.851);
     color: black;
     border: 2px solid #D4AF37;
     outline: none;
+    cursor:text;
+    transform:scale(1.03);
+    box-shadow:0 0 18px rgba(255,215,0,.8);
 }
 /* قسم عقاراتي */
 .realestates-info{
@@ -414,7 +426,25 @@ font-weight:600;
     background:#FFD700;
     color:#000;
     cursor:pointer;
-    box-shadow:0 0 20px rgba(212,175,55,0.8);
+    box-shadow:0 0 20px rgba(212,175,55,0.8)
+     0 0 10px #FFD700,
+    0 0 20px #FFD700,
+    0 0 40px #FFD700,
+    0 0 70px #FFD700;
+    animation: glow 1s infinite alternate;
+}
+@keyframes glow{
+    from{
+        box-shadow:
+        0 0 10px #FFD700,
+        0 0 20px #FFD700;
+    }
+    to{
+        box-shadow:
+        0 0 20px #FFD700,
+        0 0 40px #FFD700,
+        0 0 70px #FFD700;
+    }
 }
 #closePassword{
     background:#3A0D0D;
@@ -446,4 +476,46 @@ font-weight:600;
     background:#f0c96c;
     transform:scale(1.08);
     box-shadow:0 10px 25px rgba(212,175,55,0.5);
+}
+.password-hint{
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #666;
+}
+.password-hint.valid{
+    color: green;
+}
+.password-hint.invalid{
+    color: red;
+}
+.input-container{
+    width:60%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.input-container{
+    width:60%;
+    display:flex;
+    flex-direction:column;
+}
+.input-hint{
+    display:none;
+    margin-top:6px;
+    color:#ff4d4d;
+    font-size:12px;
+    text-align:right;
+}
+.input-hint.error{
+    display:block;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  /* جعل الخلفية شفافة تماماً عند الإكمال التلقائي */
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+ transition: background-color 5000s ease-in-out 0s;
 }

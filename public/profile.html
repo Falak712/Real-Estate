@@ -6,26 +6,29 @@
     <title> الملف الشخصي </title>
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
  <header class="navbar">
     <div class="container"> 
-        <span class="logo"> 
-           <img src="/public/images/logo.png" class="img">
-        </span>
-        <div class="menu-btn" id="menubtn"> 
-        <i class="fa-solid fa-bars"></i> 
-    </div>
-
-   <div class="center-nav"> </div>
-   <nav class="nav-links" id="navlinks"> 
-        <a href="index.html"> الرئيسية </a>
-        <a href="#proprties"> العقارات</a>
-        <a href="#about"> من نحن </a>
-        <a href="#"> إدارة النظام</a>
-        <a href="index.html" class="header-logout" id="logoutbtn"> <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج </a>
-       </nav>
-    </div> 
+     <div class="logo">
+    <img src="/public/images/logo.png">
+</div>
+<nav>
+    <a href="#">الرئيسية</a>
+    <a href="#properties">العقارات</a>
+    <a href="#about">من نحن</a>
+</nav>
+    <a href="profile.html" class="profile-btn">
+        <i class="fa-solid fa-user"></i>
+    </a>
+</div>
+  <div class="header-actions">
+            <a href="index.html" class="header-logout" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                تسجيل خروج
+            </a>
+        </div>
  </header>
 
     <h1 class="title"> الملف الشّخصي </h1>
@@ -36,50 +39,58 @@
         معلومات الحساب </h1>
 
     <div class="account-card">
-
 <div class="info-row">
-<span class="label"> <i class="fa-solid fa-user"></i>
-    الاسم الكامل</span>
-<input
-type="text"
-class="value"
-id="fullName"
-value="نادر عبدالمجيد" readonly>
+    <span class="label">
+        <i class="fa-solid fa-user"></i>
+        الاسم الكامل
+    </span>
+    <div class="input-container">
+        <input
+        type="text"
+        class="value"
+        id="fullName"
+        readonly>
+        <small id="nameHint" class="input-hint"></small>
+    </div>
+</div>
+<div class="info-row">
+    <span class="label">
+        <i class="fa-solid fa-phone"></i>
+        رقم الهاتف
+    </span>
+    <div class="input-container">
+        <input
+        type="text"
+        class="value"
+        id="phone"
+        readonly>
+        <small id="phoneHint" class="input-hint"></small>
+    </div>
 </div>
 
 <div class="info-row">
-<span class="label"> <i class="fa-solid fa-phone"></i>
-    رقم الهاتف</span>
-<input
-type="text"
-class="value"
-id="phone"
-value="+963988777999"
-readonly>
-</div>
-
-<div class="info-row">
-<span class="label"> <i class="fa-solid fa-envelope"></i>
-    البريد الإلكتروني</span>
-<input
-type="email"
-class="value"
-id="email"
-value="nader23@gmail.com"
-readonly>
+    <span class="label">
+        <i class="fa-solid fa-envelope"></i>
+        البريد الإلكتروني
+    </span>
+    <div class="input-container">
+        <input
+        type="email"
+        class="value"
+        id="email"
+        readonly>
+        <small id="emailHint" class="input-hint"></small>
+    </div>
 </div>
 
 <div class="info-row">
 <span class="label"> <i class="fa-solid fa-calendar-days"></i>
     تاريخ إنشاء الحساب </span>
-<span class="value"> 12 / 04 / 2025 </span>
 </div>
-
 </div>
 </section>
 
    <section class="settings"> 
-
     <h1 class="section-title"><i class="fa-solid fa-gear"></i>
       الإعدادات
     </h1>
@@ -109,48 +120,21 @@ readonly>
      <div class="realestates-container">
 
     <div class="realestate-card"> 
+        
     <div class="realestate-image">
-    <img src="images/apartment.jpg" alt="صورة العقار">
-    <span class="realestate-status"> للبيع </span>
-    </div>
-    <div class="realestate-content">
-        <h3 class="realestate-title">  <i class="fa-solid fa-hotel"></i>
-             شقة فاخرة في دمشق </h3>
-        <p class="realestate-location"> <i class="fa-solid fa-location-dot"></i>
-            دمشق، المزة </p>
-        <h2 class="realestate-price"> <i class="fa-solid fa-sack-dollar"></i>
-            $250,000 </h2>
+
     </div>
     </div>
 
     <div class="realestate-card"> 
     <div class="realestate-image">
-    <img src="images/background.jpg" alt="صورة العقار">
-    <span class="realestate-status"> للبيع </span>
-    </div>
-    <div class="realestate-content">
-        <h3 class="realestate-title">  <i class="fa-solid fa-hotel"></i>
-            فيلا مودرن في اللاذقية </h3>
-        <p class="realestate-location">  <i class="fa-solid fa-location-dot"></i>
-            اللاذقية، الرمل الجنوبي </p>
-        <h2 class="realestate-price"> <i class="fa-solid fa-sack-dollar"></i>
-            $750,000 </h2>
+
     </div>
     </div>
 
      <div class="realestate-card"> 
     <div class="realestate-image">
-    <img src="images/villa.jpg" alt="صورة العقار">
-    <span class="realestate-status">للإيجار</span>
-    </div>
-    <div class="realestate-content">
-        <h3 class="realestate-title"> <i class="fa-solid fa-hotel"></i>
-             شاليه مطل على البحر </h3>
-        <p class="realestate-location">  <i class="fa-solid fa-location-dot"></i>
-            طرطوس، منزلة </p>
-        <h2 class="realestate-price"> <i class="fa-solid fa-sack-dollar"></i>
-             $1200 / شهرياً </h2>
-    </div>
+   </div>
     </div>
     <div class="more-realestate">
     <button class="more-btn"> <i class="fa-solid fa-arrow-left"></i>
@@ -176,7 +160,10 @@ readonly>
         type="password" 
         id="newPassword"
         placeholder="كلمة المرور الجديدة">
-
+        <small id="passwordHint" class="password-hint">
+         يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وتتضمن حرفًا ورقمًا ورمزًا خاصًا.
+         nader@123
+        </small>
         <input 
         type="password" 
         id="confirmPassword"
@@ -193,7 +180,7 @@ readonly>
         </div>
 
     </div> 
-    <script src="js/script.js"> </script>
-</div>
+</div> 
+<script src="profile.js"></script>
 </body>
 </html>

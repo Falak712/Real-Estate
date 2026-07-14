@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Magic Estate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../admin/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="../images/logo.png" alt="Logo">
+            <span>Magic Estate</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="#" class="nav-item" data-section="properties">
+                <i class="fa-solid fa-building"></i>
+                <span>العقارات</span>
+            </a>
+            <a href="#" class="nav-item" data-section="bookings">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>الحجوزات</span>
+            </a>
+            <a href="#" class="nav-item" data-section="users">
+                <i class="fa-solid fa-users"></i>
+                <span>المستخدمين</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل خروج</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <header class="dashboard-header">
+            <button class="toggle-btn" id="toggleSidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <h1 class="page-title" id="pageTitle">لوحة التحكم</h1>
+            <div class="header-admin">
+                <i class="fa-solid fa-user-shield"></i>
+                <span id="adminName">Admin</span>
+            </div>
+        </header>
+
+        <!-- Sections -->
+
+        <!-- ===== Dashboard Section ===== -->
+        <section class="section active" id="section-dashboard">
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                    <div class="stat-info">
+                        <h3 id="totalProperties">0</h3>
+                        <p>إجمالي العقارات</p>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h3 id="pendingProperties">0</h3>
+                        <p>عقارات قيد المراجعة</p>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3 id="totalUsers">0</h3>
+                        <p>إجمالي المستخدمين</p>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <h3 id="totalBookings">0</h3>
+                        <p>إجمالي الحجوزات</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest Tables -->
+            <div class="tables-grid">
+
+                <!-- Latest Properties -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3><i class="fa-solid fa-building"></i> أحدث العقارات</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>العنوان</th>
+                                <th>السعر</th>
+                                <th>الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="latestPropertiesBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Latest Bookings -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3><i class="fa-solid fa-calendar"></i> أحدث الحجوزات</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>المستخدم</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="latestBookingsBody"></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== Properties Section ===== -->
+        <section class="section" id="section-properties">
+            <div class="section-header">
+                <h2>إدارة العقارات</h2>
+                <div class="filter-btns">
+                    <button class="filter-btn active" onclick="filterProperties('all')">الكل</button>
+                    <button class="filter-btn" onclick="filterProperties('pending')">قيد المراجعة</button>
+                    <button class="filter-btn" onclick="filterProperties('approved')">مقبول</button>
+                    <button class="filter-btn" onclick="filterProperties('rejected')">مرفوض</button>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>العنوان</th>
+                            <th>السعر</th>
+                            <th>النوع</th>
+                            <th>العقد</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="propertiesBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== Bookings Section ===== -->
+        <section class="section" id="section-bookings">
+            <div class="section-header">
+                <h2>إدارة الحجوزات</h2>
+            </div>
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>المستخدم</th>
+                            <th>تاريخ البداية</th>
+                            <th>تاريخ النهاية</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== Users Section ===== -->
+        <section class="section" id="section-users">
+            <div class="section-header">
+                <h2>إدارة المستخدمين</h2>
+            </div>
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                            <th>البريد</th>
+                            <th>الهاتف</th>
+                            <th>النوع</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="../admin/dashboard.js"></script>
+</body>
+</html>
+
+
+

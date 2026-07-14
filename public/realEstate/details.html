@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل العقار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Times New Roman', serif;
+}
+/*
+body{
+    background:#000000;
+    color:#fff;
+    padding:10px 0;
+}*/
+
+body {
+  margin: 0;
+  color: #c8962e;
+  padding-top:200px;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #111111 35%,
+    #1a1a1a 60%,
+    #b38b2d 120%
+  );
+  background-size: 200% 200%;
+  animation: bgMove 8s ease-in-out infinite;
+}
+
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* HEADER */
+
+ /* الهيدر */
+
+ header {
+            /*لون الهيدر مع الخلفية ممكن غيره للابيض*/
+
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            z-index: 10;
+            display: flex;
+            top: 0;
+        }
+          .logo{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin: 0;
+            padding: 0;
+            margin-left: 60px;
+
+        }
+        header .logo img{
+            height:80px;
+            width:auto;
+            object-fit:contain;
+        }
+
+        nav a {
+            margin:0 20px;
+            color: #c8962e;
+            transition: .3s;
+            font-weight: 500;
+        }
+        nav a:hover {
+
+        color: #ffffff;
+        }
+
+        a{
+            text-decoration: none;
+
+        }
+
+        nav{
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .container{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px ;
+        }
+
+        /* شريط التنقل */
+
+
+        .navbar
+        {
+            background-color: #0b0b0b;
+            border-bottom:1px solid rgba(200,150,46,.3);
+            box-shadow:0 5px 20px rgba(200,150,46,.08);
+            padding: 7px 0;
+            position: fixed;
+            display: flex;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar .container
+        {/*
+            max-width: 1400px;
+         margin: auto;
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         padding-right: 10px;
+*/
+         max-width: 1400px;
+
+         margin: auto;
+         display: flex;
+         align-items: center;
+           }
+
+        .nav-links{
+
+        align-items: center;
+        gap: 20px;
+        }
+
+
+        .header-login, .header-add {
+            padding: 8px 12px;
+            border:1px solid #c8962e;
+            border-radius:13px;
+
+            background:black;
+            color:#c8962e;
+            text-align: center;
+            font-size:17px;
+
+            cursor:pointer;
+            transition:.3s;
+         }
+            .header-add:hover,
+            .header-login:hover {
+                color: #c8962e;
+
+                transform:scale(1.05);
+                transform: translateY(-4px);
+                box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
+            }
+
+/* CONTAINER */
+.page-container{
+
+    width:80%;
+    max-width:1000px;
+    margin:auto;
+}
+
+.container p{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:30px;
+    color:#c8962e;
+    font-size:15px;
+}
+
+/* القسم العلوي */
+.top-section{
+
+    width:90%;
+    margin:auto;
+
+    display:flex;
+    flex-direction:row-reverse;
+    gap:50px;
+
+    align-items:flex-start;
+}
+
+.gallery{
+
+    width:55%;
+    flex:1.5;
+}
+
+.main-image{
+
+    width:100%;
+    aspect-ratio: 4 / 3;
+    object-fit:cover;
+
+    border-radius:15px;
+    border:1px solid #c8962e;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;   /* 👈 هذا أهم شي */
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+.thumbnails img {
+    min-width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #c8962e;
+    cursor: pointer;
+    scroll-snap-align: start;
+}
+
+
+
+/* بطاقة المعلومات */
+
+.info-card{
+
+    width:40%;
+    display: grid;
+    padding:0;
+
+    background:none;
+
+    text-align:center;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    flex:1;
+}
+
+.info-card h1{
+    font-size:20px;
+    margin-top:20px;
+    line-height:1.8;
+}
+
+
+.location{
+    margin-top:15px;
+    margin-bottom: 15px;
+
+    color:#c8962e;
+
+    font-size:15px;
+}
+
+.price{
+    margin-top:25px;
+
+    color:#c8962e;
+
+    font-size:30px;
+}
+
+
+
+/* الأزرار */
+
+.buy-btn,
+.rent-btn{
+
+    width:100%;
+    height:56px;
+
+    margin-top:18px;
+    border:1px solid #c8962e;
+    border-radius:13px;
+
+    background:black;
+    color:#c8962e;
+
+    font-size:17px;
+    font-weight:700;
+
+    cursor:pointer;
+    transition:.3s;
+}
+
+
+.buy-btn:hover,
+.rent-btn:hover{
+    transform:scale(1.03);
+    transform: translateY(-6px);
+    box-shadow:0 15px 35px rgba(201,168,76,.25);
+}
+
+.btn-status{
+
+    width:100%;
+
+    background-color: #141414;
+
+    border:1px solid #c8962e;
+
+    height:56px;
+
+    margin-top:18px;
+
+    border-radius:13px;
+
+    color:#c8962e;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.hr{
+    width:85%;
+    margin:25px auto;
+    border:0;
+    border-top:1px solid rgba(200,150,46,.7);
+}
+
+
+/* أيقونات القلب*/
+
+.icons{
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.icons div{
+
+    width:50px;
+
+    height:50px;
+
+    border:1px solid #c8962e;
+
+    border-radius:15px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+}
+
+
+
+/* وصف العقار */
+
+.description{
+
+    border-radius:15px;
+    width:90%;
+    margin:50px auto;
+    border:1px solid #c8962e;
+
+    padding:30px;
+
+    box-shadow:
+       0 0 20px rgba(212,168,79,.08),
+       inset 0 0 10px rgba(212,168,79,.03);
+
+    background:#121212;
+
+    border:1px solid #c8962e
+   }
+
+.description:hover{
+
+    box-shadow:0 15px 35px rgba(201,168,76,.25);
+}
+
+.description h2{
+
+    color:#c8962e;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+}
+
+.description p{
+
+    color:#ddd;
+
+    line-height:2;
+
+    font-size:15px;
+}
+
+
+/* التفاصيل */
+
+.features{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+}
+
+.feature{
+
+    background:#121212;
+
+    border:2px solid #c8962e;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:
+    0 0 20px rgba(212,168,79,.06),
+    inset 0 0 10px rgba(212,168,79,.03);
+}
+
+.feature:hover{
+    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow:0 15px 35px rgba(201,168,76,.25);
+}
+
+.feature i{
+
+    color:#c8962e;
+
+    font-size:30px;
+
+    margin-bottom:15px;
+}
+
+.feature h3{
+
+    font-size:24px;
+
+    margin-bottom:10px;
+}
+
+.feature p{
+
+    color:#aaa;
+
+    font-size:14px;
+}
+
+.menu-btn{
+    display:none;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .navbar .container{
+        flex-wrap:wrap;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .nav-links{
+        display:none;
+        width:100%;
+        flex-direction:column;
+        margin-top:15px;
+        gap:15px;
+    }
+
+    .nav-links.active{
+        display:flex;
+    }
+
+    .menu-btn{
+        display:block;
+        font-size:28px;
+        color:#c8962e;
+        cursor:pointer;
+    }
+
+    .logo img{
+        height:80px;
+    }
+
+}
+/*<!--خريطة-->*/
+#map{
+    width:100%;
+    height:350px;
+    border-radius:15px;
+}
+
+.map-section h2{
+    color:#c8962e;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+}
+
+.type-tag {
+    background: #c8962e;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #000;
+}
+/* ===== Mobile Responsive ===== */
+@media(max-width:600px){
+
+body{
+    padding-top:100px;
+    overflow-x:hidden;
+}
+
+
+/* الكونتينر الرئيسي */
+.page-container{
+     padding-top: 80px;
+    width:100%;
+    padding:0 15px;
+}
+
+
+/* القسم العلوي */
+.top-section{
+    width:100%;
+    flex-direction:column;
+    gap:25px;
+    align-items:center;
+}
+
+
+/* الصور */
+.gallery{
+    width:100%;
+}
+
+
+.main-image{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+
+.thumbnails{
+    width:100%;
+    gap:8px;
+}
+
+
+.thumbnails img{
+    min-width:80px;
+    height:80px;
+}
+
+/* بطاقة المعلومات */
+.info-card{
+
+    width:100%;
+    text-align:center;
+    align-items:center;
+
+}
+.info-card h1{
+
+    font-size:22px;
+    margin-top:10px;
+
+}
+
+
+.location{
+
+    font-size:14px;
+
+}
+.price{
+
+    font-size:25px;
+    margin-top:15px;
+
+}
+
+/* الأزرار */
+.buy-btn,
+.rent-btn,
+.btn-status{
+
+    width:100%;
+    height:50px;
+    font-size:15px;
+
+}
+
+/* الوصف */
+.description{
+
+    width:100%;
+    margin:30px auto;
+    padding:20px;
+
+}
+
+.description h2{
+
+    font-size:20px;
+
+}
+.description p{
+
+    font-size:14px;
+    line-height:1.8;
+
+}
+/* التفاصيل */
+.features{
+
+    grid-template-columns:1fr;
+    gap:15px;
+
+}
+
+
+.feature{
+
+    padding:20px;
+    border-radius:18px;
+}
+
+.feature h3{
+
+    font-size:20px;
+
+}
+/* الخريطة */
+#map{
+
+    height:250px;
+
+}
+.map-section h2{
+
+    font-size:20px;
+
+}
+}
+@media (max-width: 768px) {
+
+.menu-btn {
+    display: block;
+    font-size: 30px;
+    color: #c8962e;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 0;
+    background: #111;
+    padding: 10px 0;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-links a {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    width: 70%;
+    margin: auto;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    background: #d4a24c;
+    color: black;
+}
+}
+
+    </style>
+</head>
+<body>
+
+
+   <!-- الهيدر -->
+   <header class="navbar">
+    <div class="container">
+        <span class="logo">
+            <img src="/public/images/logo.png" class="img">
+        </span>
+
+        <div class="menu-btn" id="menubtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="center-nav">
+
+        </div>
+        <nav class="nav-links" id="navlinks">
+        <a href="index.html">الرئيسية</a>
+        <a href="index.html#properties">العقارات</a>
+        <a href="index.html#about">من نحن</a>
+        <a href="#">إدارة النظام</a>
+        <a href="../views/login.html" class="header-login" id="authBtn"> <i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+        <a href="add-property.html" class="header-add"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
+        </nav>
+    </div>
+</header>
+
+
+    <div class="page-container">
+
+        <!--المحتوى-->
+
+
+
+        <div class="top-section">
+
+           <!-- الصور -->
+             <div class="gallery">
+
+                 <img class="main-image" id="mainImage" src="">
+
+                 <div class="thumbnails"></div>
+
+              </div>
+
+
+               <!-- المعلومات -->
+              <div class="info-card">
+
+                  <h2 id="title">عنوان العقار</h2>
+
+                 <p class="location" id="location">
+                    <i class="fa-solid fa-location-dot"></i>
+                     الموقع
+                  </p>
+
+                  <span class="type-tag" id="type">نوع العقار</span>
+
+                  <h2 class="price" id="price">$0</h2>
+
+                   <hr class="hr">
+
+                   <button class="btn-status">
+                    حالة العقار :
+                    <span id="status"></span>
+                </button>
+
+                  <button class="buy-btn">
+                     شراء العقار
+
+                      <i class="fa-solid fa-cart-shopping"></i>
+
+                   </button>
+
+                  <button class="rent-btn">
+
+                      استئجار العقار
+                      <i class="fa-solid fa-key"></i>
+                  </button>
+
+                  <div class="icons">
+
+
+                    <div>
+                         <i class="fa-regular fa-heart"></i>
+                     </div>
+
+              </div>
+
+          </div>
+
+      </div>
+
+  <!-- وصف العقار -->
+
+  <div class="description">
+
+      <h2>وصف العقار</h2>
+
+      <p id="description">
+          وصف العقار يظهر هنا...
+      </p>
+
+
+      <!-- التفاصيل -->
+      <div class="features">
+
+      <div class="feature">
+          <i class="fa-solid fa-expand"></i>
+          <p>المساحة</p>
+          <h3 id="space">--</h3>م²
+      </div>
+
+      <div class="feature">
+          <i class="fa-solid fa-bed"></i>
+          <p>غرف </p>
+          <h3 id="rooms">--</h3>
+      </div>
+
+      <div class="feature">
+          <i class="fa-solid fa-bath"></i>
+          <p>الحمامات</p>
+          <h3 id="baths">--</h3>
+      </div>
+
+      <div class="feature">
+          <i class="fa-regular fa-compass"></i>
+          <p>الجهة</p>
+          <h3 id="direction">--</h3>
+      </div>
+
+  </div>
+  <br>
+
+     <!--الخريطة-->
+     <div class="map-section">
+
+      <h2>موقع العقار</h2>
+
+      <iframe
+      id="map"
+      width="100%"
+      height="350"
+      style="border:0; border-radius:15px;"
+      loading="lazy"
+      allowfullscreen>
+      </iframe>
+
+  </div>
+  </div>
+
+   <!--خريطة-->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="../js/details.js"></script>
+
+
+    </div>
+
+    <!-- وصف العقار -->
+
+    <div class="description">
+
+        <h2>وصف العقار</h2>
+
+        <p id="description">
+            وصف العقار يظهر هنا...
+        </p>
+
+    </div>
+
+
+    <!-- التفاصيل -->
+    <div class="features">
+
+        <div class="feature">
+            <i class="fa-solid fa-expand"></i>
+            <p>المساحة</p>
+            <h3 id="space">--</h3>م²
+        </div>
+
+        <div class="feature">
+            <i class="fa-solid fa-bed"></i>
+            <p>غرف </p>
+            <h3 id="rooms">--</h3>
+        </div>
+
+        <div class="feature">
+            <i class="fa-solid fa-bath"></i>
+            <p>الحمامات</p>
+            <h3 id="baths">--</h3>
+        </div>
+
+        <div class="feature">
+            <i class="fa-regular fa-compass"></i>
+            <p>الجهة</p>
+            <h3 id="direction">--</h3>
+        </div>
+
+
+
+    </div>
+    <br>
+       <!--الخريطة-->
+       <div class="map-section">
+
+        <h2>موقع العقار</h2>
+
+        <iframe
+        id="map"
+        width="100%"
+        height="350"
+        style="border:0; border-radius:15px;"
+        loading="lazy"
+        allowfullscreen>
+        </iframe>
+
+    </div>
+
+
+     <!--خريطة-->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/details.js"></script>
+
+    </body>
+</html>

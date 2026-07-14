@@ -107,6 +107,9 @@ nav {
     color: #c8962e;
     text-align: center;
     font-size: 17px;
+    align-items:center;        
+    justify-content:center;
+    gap:8px;
     cursor: pointer;
     transition: 0.3s;
 }

@@ -5,64 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magic-Estate</title>
     <link href="/public/images/p.png" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
     <style>
         /* عام */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'arial', sans-serif;
+            font-family: 'Times New Roman', serif;
         }
+
+
         body {
+
             direction: rtl;
-            background-color: #050505;
+            background-color: #141414;
             color: #ffffff;
             padding-top: 70px;
+
+            margin: 0;
+            min-height: 100vh;
+           background: linear-gradient(135deg, #0a0a0a 0%, #111111 35%,#1a1a1a 60%,#c8962e 120%);
+             background-size: 200% 200%;
+            animation: bgMove 8s ease-in-out infinite;
         }
+
+
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
         /* الهيدر */
         header {
             /*لون الهيدر مع الخلفية ممكن غيره للابيض*/
-            background-color: white;
-            padding: 0px 0px;
-            display: flex;
+
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             position: sticky;
-            margin-top: 0;
             z-index: 10;
+            display: flex;
+            top: 0;
         }
           .logo{
-           font-size: 22px;
-           font-weight: bold;
-           color: #d4af37;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin: 0;
+            padding: 0;
+            margin-left: 60px;
+
         }
-        header .logo {
-            font-weight: bold;
-            font-size: 22px;
-            color: #d4af37;
+        header .logo img{
+            height:80px;
+            width:auto;
+            object-fit:contain;
         }
 
         nav a {
-            margin:0 15px;
-            text-decoration:none;
-            color: #f3d57e;
+            margin:0 20px;
+            color: #c8962e;
             transition: .3s;
             font-weight: 500;
-
         }
         nav a:hover {
+
         color: #ffffff;
         }
 
         a{
             text-decoration: none;
-            color: inherit;
+
         }
+
         nav{
             display: flex;
             align-items: center;
-            gap: 35px;
+            gap: 25px;
         }
         .container{
             max-width: 1200px;
@@ -76,51 +108,84 @@
         .navbar
         {
             background-color: #0b0b0b;
-            border-bottom: 1px solid rgba(201,168,76,.25);
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-bottom:1px solid rgba(200,150,46,.3);
+            box-shadow:0 5px 20px rgba(200,150,46,.08);
+            padding: 7px 0;
             position: fixed;
+            display: flex;
             top: 0;
             right: 0;
             width: 100%;
             z-index: 1000;
-            flex-wrap: wrap;
         }
         .navbar .container
         {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+         max-width: 1400px;
 
+          margin: auto;
+         display: flex;
+         align-items: center;
         }
-        nav a.nav-links {
-            color: #d4af37;
+
+        .nav-links{
+
+        align-items: center;
+        gap: 20px;
         }
+
+        @media(max-width:768px){
+
+.navbar .container{
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.nav-links{
+    display:none;
+    width:100%;
+    flex-direction:column;
+    margin-top:15px;
+    gap:15px;
+}
+
+.nav-links.active{
+    display:flex;
+}
+
+.menu-btn{
+    display:block;
+    font-size:28px;
+    color:#c8962e;
+    cursor:pointer;
+    display:none;
+}
+
+.logo img{
+    height:80px;
+}
+}
+
         .header-login, .header-add {
-            background-color: #d4af37;
-            color: #040404;
-            padding: 8px 20px;
-            border-radius: 14px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 8px 12px;
+            border:1px solid #c8962e;
+            border-radius:13px;
+
+            background:black;
+            color:#c8962e;
+            text-align: center;
+            font-size:17px;
+
+            cursor:pointer;
+            transition:.3s;
          }
+            .header-add:hover,
             .header-login:hover {
-                background-color: #ffffff;
-                color: #040404;
+                color: #c8962e;
+
                 transform:scale(1.05);
                 transform: translateY(-4px);
                 box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
-            }
-
-            .header-add:hover{
-                background-color: #ffffff;
-                color: #040404;
-                transform:scale(1.05);
-                transform: translateY(-4px);
-                box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
-
             }
 
 
@@ -134,7 +199,7 @@
             padding: 80px 20px;
         }
         .hero h1 {
-            color: #f3d57e;
+            color: #c8962e;
             text-shadow:
             0 0 15px rgba(201,168,76,.3);
            font-size: 36px;
@@ -145,11 +210,11 @@
             margin-bottom: 30px;
         }
         .hero button {
-            border: 2px solid #d4af37;
+            border: 2px solid #c8962e;
             padding: 8px 20px;
             border-radius: 50px;
             transition: all 0.3s;
-            background-color: #d4af37;
+            background-color: #c8962e;
             color: #160808;
             padding: 12px 30px;
             font-size: 16px;
@@ -162,8 +227,8 @@
         /* القسم 1 مع الصورة */
         .search-section {
             position: relative;
-            background: linear-gradient(rgba(15, 42, 68, 0.7), rgba(15, 42, 68, 0.7)),  url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
-            height: 500px;
+            background:  url('/public/images/p.png') center center / cover no-repeat;
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -173,16 +238,16 @@
 
         }
         .search-section h2 {
-            color: #f3d57e;
+            color: #c8962e;
             text-shadow:
             0 0 15px rgba(201,168,76,.3);
             font-size: 28px;
             margin-bottom: 15px;
         }
         .search-section h1 {
-            color: #f3d57e;
+            color: #c8962e;
             text-shadow:
-            0 0 15px rgba(201,168,76,.3);
+            0 0 15px #c8962e;
             font-size: 28px;
             margin-bottom: 15px;
             font-family: 'Courier New', Courier, monospace;
@@ -192,19 +257,32 @@
             margin-bottom: 30px;
             text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
-        .search-box {
-            background:  #0f0f0f;
-            border: 1px solid rgba(201,168,76,.2);
-            box-shadow:
-            0 10px 25px rgba(0,0,0,.4);
-            padding: 20px;
-            border-radius: 12px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            max-width: 900px;
 
+        .search-box {
+
+            background: rgba(15, 15, 15, 0.55); /*  شفافية */
+            border: 1px solid rgba(200, 150, 46, 0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+
+             padding: 20px;
+             border-radius: 12px;
+
+             display:flex;
+             gap: 20px;
+             flex-wrap: wrap;
+
+             max-width: 900px;
+             margin-top: 10%;
+
+    align-items:center;
         }
+        .search-box:hover {
+          background: rgba(15, 15, 15, 0.7);
+          border-color: rgba(200, 150, 46, 0.7);
+          transform: translateY(-2px);
+          transition: 0.3s;
+        }
+
         .search-box input, .search-box select {
             background: #161616;
             border: 1px solid rgba(201,168,76,.2);
@@ -213,12 +291,12 @@
             padding: 10px;
             font-size: 16px;
             border-radius: 8px;
-            border: 1px solid #d4af37;
+            border: 1px solid #c8962e;
             flex: 1;
 
         }
         .search-box button {
-            background-color: #d4af37;
+            background-color: #c8962e;
             color: #080808;
             border: none;
             padding: 10px 25px;
@@ -228,12 +306,45 @@
             font-size: 16px;
         }
         .search-box button:hover {
-            background-color: #d4af37;
+            background-color: #c8962e;
         }
+
+        @media (max-width: 768px) {
+
+.search-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.search-box input,
+.search-box select {
+    width: 100%;
+    height: 48px;
+    font-size: 15px;
+}
+
+.search-box button {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+}
+}
+
 
         /* قسم العروض */
         .properties {
             padding: 60px 50px;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        /*بطاقات للموبايل*/
+        @media(max-width:768px){
+
+        .properties{
+         grid-template-columns:1fr;
+        }
         }
         .properties h3 {
             font-size: 28px;
@@ -256,7 +367,8 @@
         }
 
         .property-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow:0 15px 35px rgba(201,168,76,.25);
         }
         .property-card img {
             width: 100%;
@@ -279,7 +391,7 @@
             font-weight: bold;
             font-size: 18px;
             margin-bottom: 5px;
-            color: #f3d57e;
+            color: #c8962e
         }
         .property-card .content .details {
             font-size: 12px;
@@ -288,25 +400,39 @@
             justify-content: space-between;
             margin-top: 10px;
         }
-        .property-card:hover {
+        .details span{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-        transform: translateY(-8px);
-        box-shadow:0 15px 35px rgba(201,168,76,.25);
-        }
+.details i{
+    color: #c8962e;
+    font-size: 15px;
+}
+
         /* خصائص مخفية لعرض المزيد*/
         .hidden-property{
-        display:none;
+            display: none;
         }
 
         .show-more{
+          color:#c8962e ;
           width:100px;
           height:40px;
-          background:#d4af37;
-          border-radius: 20PX;
-          animation: spin 1s linear infinite;
-          margin:auto;
+          background:black;
+          border:1px solid #c8962e;
+          border-radius: 12px;
+          direction:rtl;
           font-weight:bold;
-    }
+        }
+        .show-more:hover{
+
+            color: #c8962e;
+            transform:scale(1.05);
+            transform: translateY(-4px);
+            box-shadow:0 15px 35px rgba(234, 197, 93, 0.25);
+        }
 
     button
     {
@@ -316,6 +442,9 @@
 
       transform:scale(1.05);
 
+    }
+    .showmorebtn{
+        border:1px solid #c8962e;
     }
 
     .show-more span{
@@ -330,7 +459,7 @@
         /* الفوتر */
         footer {
 
-            background: #0b0b0b;
+            background: #0f0f0f;
             border-top:
             1px solid rgba(201,168,76,.15);
             padding: 40px 50px;
@@ -371,11 +500,87 @@
             padding: 5px 10px;
             font-size: 12px;
             border-radius: 5px;
-            background: #d4af37;
+            background: #c8962e;
         }
         html{
            scroll-behavior: smooth;
         }
+        .currency-select{
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 15px;
+            width: 50%;
+            border:1px solid #c8962e;
+            border-radius:13px;
+            background:black;
+            color:#c8962e;
+            text-align: center;
+            cursor:pointer;
+            transition:.3s;
+        }
+        /*للموبايل*/
+        /* زر القائمة افتراضياً (للكمبيوتر) */
+.menu-btn {
+    display: none;
+}
+
+/* الموبايل فقط */
+@media (max-width: 768px) {
+
+    .menu-btn {
+        display: block;
+        font-size: 30px;
+        color: #c8962e;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        left: 0;
+        background: #111;
+        padding: 10px 0;
+        gap: 10px;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav-links a {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        width: 70%;
+        margin: auto;
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-links a:hover {
+        background: #d4a24c;
+        color: black;
+    }
+
+    .search-box {
+        flex-direction: column;
+        width: 70%;
+    }
+
+    .search-box select,
+    .search-box input,
+    .search-box button {
+        width: 100%;
+    }
+}
+
 
     </style>
 </head>
@@ -383,16 +588,25 @@
     <!-- الهيدر -->
     <header class="navbar">
         <div class="container">
-            <div class="logo">
+            <span class="logo">
+                <img src="/public/images/logo.png" class="img">
+            </span>
+
+            <div class="menu-btn" id="menubtn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="center-nav">
 
             </div>
-            <nav class="nav-links">
+            <nav class="nav-links" id="navlinks">
             <a href="#">الرئيسية</a>
             <a href="#properties">العقارات</a>
             <a href="#about">من نحن</a>
             <a href="#">إدارة النظام</a>
-            <a href="/login.html" class="header-login">تسجيل الدخول</a>
-            <a href="add-property.html" class="header-add"> أضف عقارك</a>
+
+            <a href="/auth/login.html" class="header-login" id="authBtn"> <i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+            <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
             </nav>
         </div>
     </header>
@@ -400,9 +614,7 @@
     <!-- قسم البحث -->
      <button id="searchBtn">بحث</button>
     <section class="search-section">
-        <H1> The MAGIC </H1>
-        <h2>وجهتك الذكية لعالم العقارات في سوريا</h2>
-        <p>نوفر لك تشكيلة واسعة من أرقى العقارات التي تلبي جميع تطلعاتك</p>
+
         <div class="search-box">
             <input type="text" placeholder="المدينة أو المنطقة..." id="city">
             <select id="type">
@@ -412,18 +624,22 @@
                 <option value="land">أرض</option>
                 <option value="office">مكتب</option>
             </select>
+            <select id="currencyFilter">
+                <option value="USD">$</option>
+                <option value="SYP">ل.س</option>
+            </select>
             <select id="price">
-                <option value="any">$ أي سعر</option>
-                <option value="low">أقل من$ 500,000</option>
-                <option value="medium">500,000$ - 2,000,000$</option>
-                <option value="high">أعلى من$ 2,000,000</option>
+                <option value="any">أي سعر</option>
+                <option value="low">أقل من 500,000</option>
+                <option value="medium">500,000 - 2,000,000</option>
+                <option value="high">أعلى من 2,000,000</option>
             </select>
             <select id="state">
                 <option value="">الكل</option>
                 <option value="sale">بيع</option>
                 <option value="rent">ايجار</option>
             </select>
-            <button onclick="searchProperties()">بحث</button>
+            <button onclick="searchProperties()" id="searchBtn">بحث <i class="fa-solid fa-magnifying-glass"></i></button>
             <p id="result"></p>
         </div>
     </section>
@@ -529,9 +745,6 @@
           </div>
          </div>
 
-
-
-
         <!-- زر السهم-->
         <button id="showMoreBtn" class="show-more">
             عرض المزيد←
@@ -543,7 +756,7 @@
     <section class="hero">
         <h1>هل تبحث عن بيع أو تأجير عقارك؟</h1>
         <p>انضم إلى آلاف الملاك الذين يثقون بمنصتنا لعرض عقاراتهم. تواصل مع مشترين محتملين بكل سهولة وموثوقية.</p>
-        <a href="add-property.html"><button>أضف عقارك الآن</button></a>
+        <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
     </section>
 
     <!-- الفوتر -->
@@ -555,14 +768,6 @@
             <p>+963 937 874 215</p>
         </div>
 
-        <div class="links">
-            <h2>روابط سريعة</h2>
-
-            <a href="#" onclick="showSale()">العقارات للبيع</a>
-            <a href="#" onclick="showRent()">العقارات للإيجار</a>
-            <a href="#" onclick="showAll()">جميع العقارات</a>
-
-        </div>
         <div class="about">
 
               <h4>Magic-Estate</h4>

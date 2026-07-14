@@ -1,59 +1,23 @@
-// رابط الـ API
-const API_URL = "http://localhost:5000/api";
-// جلب التوكين
-const token = localStorage.getItem("token");
-// عناصر الصفحة
+// ================= عناصر الصفحة =================
 const realestatesContainer = document.getElementById("realestatesContainer");
 const realestatesCount = document.getElementById("realestatesCount");
-// التأكد من تسجيل الدخول
-if (!token) {
-    alert("يجب تسجيل الدخول أولاً");
-    window.location.href = "login.html";
-}
-// تشغيل الصفحة
-if (realestatesContainer) {
-    getMyRealEstates();
-}
-// جلب عقارات المستخدم
-async function getMyRealEstates() {
-    try {
-        const response = await fetch(`${API_URL}/my-realestates`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-        if (!response.ok) {
-            throw new Error("Failed");
-        }
-        const realestates = await response.json();
-        displayRealEstates(realestates);
-    }
-    catch (error) {
-        console.log(error);
-        realestatesContainer.innerHTML = 
-            <div class="empty-realestates">
-                حدث خطأ أثناء تحميل العقارات
-            </div>
-        ;
-    }
-}
-// عرض العقارات
-
+// ================= عرض العقارات =================
 function displayRealEstates(realestates) {
+    // تنظيف المحتوى القديم
     realestatesContainer.innerHTML = "";
+    // عرض عدد العقارات
     realestatesCount.textContent = realestates.length;
+    // في حال لم يوجد عقارات
     if (realestates.length === 0) {
-        realestatesContainer.innerHTML = 
+        realestatesContainer.innerHTML = `
             <div class="empty-realestates">
                 <i class="fa-solid fa-house-circle-xmark"></i>
                 <p>لا يوجد لديك أي عقارات</p>
             </div>
-        ;
+        `;
         return;
     }
-}
+    // إنشاء بطاقة لكل عقار
     realestates.forEach(realestate => {
         const card = document.createElement("div");
         card.className = "realestate-card";
@@ -82,18 +46,23 @@ function displayRealEstates(realestates) {
                     data-id="${realestate.id}">
                     عرض التفاصيل
                 </button>
-            </div>`
-        ;
+            </div>
+        `;
         realestatesContainer.appendChild(card);
     });
+    // تفعيل أزرار التفاصيل
     detailsButtons();
- /*أزرار التفاصيل*/
+}
+// ================= أزرار التفاصيل =================
 function detailsButtons() {
     const buttons = document.querySelectorAll(".details-btn");
     buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const id = button.dataset.id;
-            window.location.href = `details.html?id=${id}`;
+        button.addEventListener("click", function () {
+            const realestateId = this.dataset.id;
+            console.log("Real Estate ID :", realestateId);
+            // Backend يربط الانتقال لصفحة التفاصيل من هنا
+            // مثال بعد الربط:
+            // window.location.href = `details.html?id=${realestateId}`;
         });
     });
 }
