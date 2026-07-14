@@ -41,6 +41,8 @@ if ($property->status_real_estate != 'available') {
     ], 400);
 
 }
+
+
         //فحص تعارض الحجز مع اخر 
         $conflict = RentalBooking::whereHas(
             'realEstates',

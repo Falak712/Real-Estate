@@ -102,6 +102,17 @@ Route::get('/my-properties', [RealEstateController::class, 'myProperties']);
 
 });
 
+Route::get('/test-mail', function () {
+
+    Mail::raw('Hello Magic Estate', function ($message) {
+
+        $message->to('themagic792@gmail.com')
+                ->subject('Laravel Test');
+    });
+
+    return "Done";
+});
+
 
 
 

@@ -53,7 +53,7 @@ class PunishmentController extends Controller
             return response()->json(['message' => 'المستخدم غير موجود'], 404);
 
         } catch (\Exception $e) {
-            \Log::error('Ban user error: ' . $e->getMessage());
+            Log::error('Ban user error: ' . $e->getMessage());
             return response()->json(['message' => 'حدث خطأ أثناء حظر المستخدم'], 500);
         }
     }
@@ -90,7 +90,7 @@ class PunishmentController extends Controller
             return response()->json(['message' => 'المستخدم غير موجود'], 404);
 
         } catch (\Exception $e) {
-            \Log::error('Unban user error: ' . $e->getMessage());
+            Log::error('Unban user error: ' . $e->getMessage());
             return response()->json(['message' => 'حدث خطأ أثناء فك الحظر'], 500);
         }
     }

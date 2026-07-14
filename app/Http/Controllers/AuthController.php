@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+
+
 
 class AuthController extends Controller
 {
@@ -56,7 +59,8 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
         Mail::to($user->email)->send(new LoginNotificationMail($user));
-        return response()->json([
+     
+       return response()->json([
             'message' => 'تم تسجيل الدخول بنجاح',
             'user' => $user,
             'token' => $token,

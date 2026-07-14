@@ -33,12 +33,7 @@ class RegisterRequest extends FormRequest
                 'regex:/[0-9]/',      // رقم
                 'regex:/[@_\-\$\#\!\%\*\?\&]/', // محرف خاص
             ],
-            'phone_number'=>'nullable'
-
-            /*'phone_number' => [
-                'nullable',
-                'regex:/^\+963[0-9]{9}$/'
-            ],*/
+            'phone_number' => 'nullable',
         ];
     }
 
@@ -56,8 +51,7 @@ class RegisterRequest extends FormRequest
             'password.min' => 'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
             'password.regex' => 'كلمة المرور يجب أن تحتوي على حرف كبير، حرف صغير، رقم، ومحرف خاص (@ _ - $ # ! % * ? &)',
 
-            'phone_number.regex' => 'رقم الهاتف يجب أن يبدأ بـ +963 ويتكون من 9 
-            أرقام بعدها (المجموع 13 رمز)',
+        
         ];
     }
 }

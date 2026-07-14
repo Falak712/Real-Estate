@@ -136,11 +136,11 @@ let buyBtn = document.querySelector(".buy-btn");
 let rentBtn = document.querySelector(".rent-btn");
 
 buyBtn.onclick = function () {
-    window.location.href = `../views/rental-Booking.html?type=buy&id=${property.id}`;
+    window.location.href = `../realEstate/rental-Booking.html?type=buy&id=${property.id}`;
 }
 
 rentBtn.onclick = function () {
-    window.location.href = `../views/rental-Booking.html?type=rent&id=${property.id}`;
+    window.location.href = `../realEstate/rental-Booking.html?type=rent&id=${property.id}`;
 }
 
 //حالة العقار

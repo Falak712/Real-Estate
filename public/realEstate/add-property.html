@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<style>
-  #map {
-    z-index: 1;
-  }
-</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>إضافة عقار جديد</title>
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<<<<<<< HEAD:public/realEstate/add-property.html
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-=======
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
->>>>>>> frontend-shahed:resources/views/add-property.html
 
   <style>
 
@@ -716,7 +707,7 @@ textarea{
   <header class="navbar">
     <div class="container">
         <span class="logo">
-            <img src="/public/images/logo.png" class="img">
+            <img src="../images/logo.png" class="img">
         </span>
 
         <div class="menu-btn" id="menubtn">
@@ -727,11 +718,11 @@ textarea{
 
         </div>
         <nav class="nav-links" id="navlinks">
-        <a href="index.html">الرئيسية</a>
+        <a href="../main/index.html">الرئيسية</a>
         <a href="index.html#properties">العقارات</a>
         <a href="index.html#about">من نحن</a>
         <a href="#">إدارة النظام</a>
-        <a href="index.html" class="header-logout" id="logoutBtn"> <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج </a>
+        <a href="../main/index.html" class="header-logout" id="logoutBtn"> <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج </a>
 
         </nav>
     </div>
@@ -772,7 +763,6 @@ textarea{
           <label>نوع العقار</label>
           <select class="select" id="typeSelect">
             <option value="apartment">شقة</option>
-                <option value="villa">فيلا</option>
                 <option value="house">منزل</option>
                 <option value="land">أرض</option>
           </select>
@@ -822,63 +812,44 @@ textarea{
     </div>
 
     <!-- الموقع -->
-<div class="card">
+    <div class="card">
 
-  <div class="card-header">
-    <div class="icon">📍</div>
-    <h3>الموقع</h3>
-  </div>
+      <div class="card-header">
+        <div class="icon">📍</div>
+        <h3>الموقع</h3>
+      </div>
 
-  <div class="grid-2">
+      <div class="grid-2">
 
-    <div class="input-group">
-      <label>المدينة / المنطقة</label>
-      <input type="text" id="city" placeholder="مثال:....">
-    </div>
-
-    <div class="input-group">
-      <label>العنوان بالتفصيل</label>
-      <input type="text" placeholder="اسم الشارع، رقم المبنى">
-    </div>
-
-    <div class="input-group">
-      <label>الجهة</label>
-      <select id="direction">
-        <option value="">اختر الاتجاه</option>
-        <option value="north">شمالي</option>
-        <option value="south">جنوبي</option>
-        <option value="east">شرقي</option>
-        <option value="west">غربي</option>
-        <option value="northeast">شمالي شرقي</option>
-        <option value="northwest">شمالي غربي</option>
-        <option value="southeast">جنوبي شرقي</option>
-        <option value="southwest">جنوبي غربي</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>المنطقة</label>
-      <select id="areaSelect">
+<div class="input-group">
+    <label>المنطقة</label>
+    <select id="areaSelect">
         <option value="">جاري تحميل المناطق...</option>
-      </select>
-    </div>
-
-  </div>
-
-  <!-- الخريطة التفاعلية -->
-  <div class="input-group">
-    <label>حددي موقع العقار على الخريطة (اضغطي على المكان المناسب)</label>
-    <div id="map" style="height: 350px; border-radius: 18px; border: 1.5px solid rgba(212,168,79,.25);"></div>
-    <p style="margin-top:10px; color:#aaa; font-size:14px;">
-      الموقع المحدد: <span id="selectedCoords">لم يتم التحديد بعد</span>
-    </p>
-  </div>
-
-  <!-- حقول مخفية تخزن القيم الحقيقية -->
-  <input type="hidden" id="pointLength">
-  <input type="hidden" id="pointWidth">
-
+    </select>
 </div>
+        <div class="input-group">
+          <label>العنوان بالتفصيل</label>
+          <input type="text" placeholder="اسم الشارع، رقم المبنى">
+        </div>
+
+        <div class="input-group">
+          <label>الجهة</label>
+          <select id="direction">
+    <option value="">اختر الاتجاه</option>
+    <option value="north">شمالي</option>
+    <option value="south">جنوبي</option>
+    <option value="east">شرقي</option>
+    <option value="west">غربي</option>
+    <option value="northeast">شمالي شرقي</option>
+    <option value="northwest">شمالي غربي</option>
+    <option value="southeast">جنوبي شرقي</option>
+    <option value="southwest">جنوبي غربي</option>
+</select>
+        </div>
+
+      </div>
+
+    </div>
 
 
     <!-- وصف العقار -->
@@ -1005,9 +976,8 @@ onclick="document.getElementById('ownershipImage').click()">
 
     </div>
 
-
   </div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="../js/add-property.js"></script>
+  <script src="../realEstate/add-property.js"></script>
 </body>
 </html>

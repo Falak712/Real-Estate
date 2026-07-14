@@ -733,7 +733,7 @@ body{
    <header class="navbar">
     <div class="container">
         <span class="logo">
-            <img src="/public/images/logo.png" class="img">
+            <img src="../images/logo.png" class="img">
         </span>
 
         <div class="menu-btn" id="menubtn">
@@ -748,8 +748,8 @@ body{
         <a href="index.html#properties">العقارات</a>
         <a href="index.html#about">من نحن</a>
         <a href="#">إدارة النظام</a>
-        <a href="../views/login.html" class="header-login" id="authBtn"> <i class="fa-solid fa-user"></i> تسجيل الدخول</a>
-        <a href="add-property.html" class="header-add"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
+        <a href="../auth/login.html" class="header-login" id="authBtn"> <i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+        <a href="../realEstate/add-property.html" class="header-add"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
         </nav>
     </div>
 </header>
@@ -880,75 +880,11 @@ body{
 
    <!--خريطة-->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="../js/details.js"></script>
+  <script src="../realEstate/details.js"></script>
 
 
     </div>
 
-    <!-- وصف العقار -->
-
-    <div class="description">
-
-        <h2>وصف العقار</h2>
-
-        <p id="description">
-            وصف العقار يظهر هنا...
-        </p>
-
-    </div>
-
-
-    <!-- التفاصيل -->
-    <div class="features">
-
-        <div class="feature">
-            <i class="fa-solid fa-expand"></i>
-            <p>المساحة</p>
-            <h3 id="space">--</h3>م²
-        </div>
-
-        <div class="feature">
-            <i class="fa-solid fa-bed"></i>
-            <p>غرف </p>
-            <h3 id="rooms">--</h3>
-        </div>
-
-        <div class="feature">
-            <i class="fa-solid fa-bath"></i>
-            <p>الحمامات</p>
-            <h3 id="baths">--</h3>
-        </div>
-
-        <div class="feature">
-            <i class="fa-regular fa-compass"></i>
-            <p>الجهة</p>
-            <h3 id="direction">--</h3>
-        </div>
-
-
-
-    </div>
-    <br>
-       <!--الخريطة-->
-       <div class="map-section">
-
-        <h2>موقع العقار</h2>
-
-        <iframe
-        id="map"
-        width="100%"
-        height="350"
-        style="border:0; border-radius:15px;"
-        loading="lazy"
-        allowfullscreen>
-        </iframe>
-
-    </div>
-
-
-     <!--خريطة-->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="/details.js"></script>
 
     </body>
 </html>

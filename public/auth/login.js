@@ -1,44 +1,74 @@
+async function login() {
 
-let email = document.querySelector("#email");
-let password = document.querySelector("#password");
-
-function login() {
-
-    let email = document.getElementById("email").value;
+    let email = document.getElementById("email").value.trim();
     let password = document.getElementById("password").value;
 
+    // التحقق من الحقول الفارغة
     if (email === "" || password === "") {
-
         alert("الرجاء إدخال البريد الإلكتروني وكلمة المرور");
-
         return;
     }
 
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;  //(?=.*[A-Za-z]) لازم يكون عندي حرف واحد اقل شي
-                                                          //(?=.*\d) لازم رقم  واحد عالاقل
-                                                          //.{8,} الطول 8 محارف و واكتر
-    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    // التحقق من كلمة المرور
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
     if (!passwordRegex.test(password)) {
-        alert("يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتتضمن حروفًا باللغة الانكليزية وأرقامًا");  // التحقق من أن البريد ينتهي @gmail.com
+        alert("يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وتتضمن حروفًا باللغة الإنجليزية وأرقامًا");
         return;
     }
 
+    // التحقق من البريد الإلكتروني
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
     if (!emailRegex.test(email)) {
-       alert("يجب إدخال بريد إلكتروني من نوع Gmail");
-       return;
+        alert("يجب إدخال بريد إلكتروني من نوع Gmail");
+        return;
     }
 
-      alert("تم التسجيل بنجاح");
+    try {
 
-    {
+        const response = await fetch("http://127.0.0.1:8000/api/login", {
 
-}
-let formData = new FormData();
+            method: "POST",
 
-formData.append("email", email);
-formData.append("password", password);
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
 
- // إذا كانت الحقول ممتلئة ينتقل للرئيسية
-   window.location.href = "../views/index.html";
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            // تخزين التوكن
+            localStorage.setItem("token", data.token);
+
+            // تخزين بيانات المستخدم
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            alert(data.message);
+
+            window.location.href = "../main/index.html";
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("تعذر الاتصال بالخادم");
+
+    }
+
 }
