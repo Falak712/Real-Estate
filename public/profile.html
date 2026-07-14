@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main/ai.css">
 </head>
 <body>
  <header class="navbar">
@@ -182,5 +183,55 @@
     </div> 
 </div> 
 <script src="profile.js"></script>
+<!-- AI Assistant -->
+<button id="aiButton" class="ai-button">
+<i class="fa-solid fa-robot"></i>
+</button>
+<div id="aiChat" class="ai-chat">
+<div class="chat-header">
+<span>
+<i class="fa-solid fa-robot"></i>
+مساعد العقارات الذكي
+</span>
+<button id="closeChat">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+ <div id="messages" class="messages">
+        <div class="bot-message">
+            مرحبا 👋
+            <br><br>
+            أنا مساعدك العقاري الذكي.
+            <br><br>
+            أستطيع مساعدتك في:
+            <br>
+            🏠 البحث عن العقارات
+            <br>
+            💰 الأسعار والميزانية
+            <br>
+            📍 المناطق
+            <br>
+            🛏 عدد الغرف
+            <br>
+            📐 المساحات
+            <br>
+            ✨ المميزات
+            <br><br>
+            مثال:
+            <br>
+            "أريد شقة غرفتين بالمزة مع موقف سيارة"
+        </div>
+    </div>
+<div class="chat-input">
+<input 
+id="userInput"
+placeholder="اكتب طلبك..."
+>
+<button id="sendButton">
+إرسال
+</button>
+</div>
+</div>
+<script src="main/ai.js"></script>
 </body>
 </html>
