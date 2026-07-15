@@ -66,11 +66,9 @@
             align-items:center;
             margin: 0;
             padding: 0;
-
-
         }
         header .logo img{
-            height:80px;
+            height:90px;
             width:auto;
             object-fit:contain;
             margin-left: 100%;
@@ -276,10 +274,18 @@
             background-color: #ffffff;
         }
         .hero-stats{
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    flex-wrap: wrap;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .stats-section{
+
+    position: relative;
+    background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7))
+    , url("/public/images/b.png") center center/cover no-repeat;
+    padding: 90px 20px;
+    overflow: hidden;
 }
 
 .stat-box{
@@ -952,7 +958,7 @@
         <p>انضم إلى آلاف الملاك الذين يثقون بمنصتنا لعرض عقاراتهم. تواصل مع مشترين محتملين بكل سهولة وموثوقية.</p>
         <a href="add-property.html" class="header-add" id="addPropertyBtn"> <i class="fa-solid fa-plus"></i> أضف عقارك</a>
     </section>
-    <section class="hero">
+    <section class="hero stats-section">
         <h2 class="section-title">احصائيات في موقعنا</h2>
         <div class="hero-stats">
             <div class="stat-box">

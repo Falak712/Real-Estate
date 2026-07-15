@@ -131,17 +131,6 @@ else {
         "<h2 style='text-align:center;color:red'>العقار غير موجود</h2>";
 }
 
-//زر الشراء والاستئجار
-let buyBtn = document.querySelector(".buy-btn");
-let rentBtn = document.querySelector(".rent-btn");
-
-buyBtn.onclick = function () {
-    window.location.href = `../views/rental-Booking.html?type=buy&id=${property.id}`;
-}
-
-rentBtn.onclick = function () {
-    window.location.href = `../views/rental-Booking.html?type=rent&id=${property.id}`;
-}
 
 //حالة العقار
 let statusText = "";
@@ -178,4 +167,41 @@ menuBtn.onclick = function () {
         navLinks.style.display = "flex";
         navLinks.style.flexDirection = "column";
     }
+};
+
+const buyBtn = document.querySelector(".buy-btn");
+const rentBtn = document.querySelector(".rent-btn");
+
+buyBtn.onclick = function () {
+
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // المستخدم مسجل دخول
+    window.location.href = "rental-Booking.html?type=buy";
+};
+
+//زر الشراء والاستئجار
+
+
+buyBtn.onclick = function () {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html";
+        return;
+    }
+
+    window.location.href = `../views/rental-Booking.html?type=buy&id=${property.id}`;
+}
+
+rentBtn.onclick = function () {
+
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // المستخدم مسجل دخول
+    window.location.href = `../views/rental-Booking.html?type=rent&id=${property.id}`;
 };
